@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Represents account settings
+// This entity is designed to store account information with only one record
+model AccountSettingsEntity {
+  id       String  @id @default("default")
+  username String  @unique
+  password String
+  avatar   String?
+  name     String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("account_settings")
+}
+
+// Represents site settings 
+// This entity is designed to store site information with only one record
+model SiteSettingsEntity {
+  id          String  @id @default("default")
+  title       String?
+  description String?
+  keywords    String?
+  logo        String?
+  darkLogo    String?
+
+  googleAnalyticsId String? @map("google_analytics_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
+// Represents an image in the system
+model ImageEntity {
+  id        Int      @id @default(autoincrement())
+  url       String
+  hash      String   @unique
+  width     Int
+  height    Int
+  mimeType  String   @map("mime_type")
+  size      Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("images")
+}
+
+// Represents a book in the system
+model BookEntity {
+  id   Int    @id @default(autoincrement())
+  name String
+  slug String @unique @default(cuid())
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  DocEntity         DocEntity[]
+  NavNodeEntity     NavNodeEntity[]
+  CatalogNodeEntity CatalogNodeEntity[]
+
+  @@map("books")
+}
+
+// Represents a document in the system
+model DocEntity {
+  id    Int    @id @default(autoincrement())
+  title String
+  slug  String @unique @default(cuid())
+
+  blockJson Json? @map("block_json")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId        Int                @map("book_id")
+  book          BookEntity         @relation(fields: [bookId], references: [id])
+  catalogNode   CatalogNodeEntity?
+  NavNodeEntity NavNodeEntity[]
+
+  @@map("docs")
+}
+
+// Represents the type of a catalog node
+enum CatalogNodeType {
+  LINK
+  STACK
+  DOC
+}
+
+// Represents a catalog node in the system
+model CatalogNodeEntity {
+  id         Int             @id @default(autoincrement())
+  parentId   Int?            @map("parent_id")
+  prevId     Int?            @map("prev_id")
+  siblingId  Int?            @map("sibling_id")
+  childId    Int?            @map("child_id")
+  title      String
+  type       CatalogNodeType
+  url        String?
+  openWindow Boolean         @default(false) @map("open_window")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId    Int        @map("book_id")
+  book      BookEntity @relation(fields: [bookId], references: [id])
+  docId     Int?       @unique @map("doc_id")
+  DocEntity DocEntity? @relation(fields: [docId], references: [id])
+
+  @@map("catalog_nodes")
+}
+
+// Represents the type of a navigation node
+enum NavNodeType {
+  LINK
+  BOOK
+  DOC
+}
+
+// Represents a navigation node in the system
+model NavNodeEntity {
+  id         Int         @id @default(autoincrement())
+  parentId   Int?        @map("parent_id")
+  prevId     Int?        @map("prev_id")
+  siblingId  Int?        @map("sibling_id")
+  childId    Int?        @map("child_id")
+  level      Int
+  title      String
+  type       NavNodeType
+  url        String?
+  openWindow Boolean     @default(false) @map("open_window")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId    Int?        @map("book_id")
+  book      BookEntity? @relation(fields: [bookId], references: [id])
+  docId     Int?        @map("doc_id")
+  DocEntity DocEntity?  @relation(fields: [docId], references: [id])
+
+  @@map("nav_nodes")
+}
