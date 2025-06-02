@@ -15,7 +15,6 @@ import CreateBookForm from './_components/create-book-form';
 import DashboardSidebarHeader from './_components/dashboard-sidebar-header';
 import { NavBooks } from './_components/nav-books';
 import NavMain from './_components/nav-main';
-import RecentEditsTable from './_components/recent-edits-table';
 
 export const generateMetadata = async (): Promise<Metadata> => {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
@@ -63,10 +62,6 @@ export default async function Page() {
 							</Button>
 						</CreateBookForm>
 					</div>
-
-					<div className="mb-3 font-medium">{t('recent_edits')}</div>
-
-					<RecentEditsTable />
 				</div>
 			</NotraInset>
 		</>
