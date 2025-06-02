@@ -1,5 +1,5 @@
-import ProgressProvider from '@/components/progress-provider';
-import { ThemeProvider } from '@/components/theme-provider';
+import ProgressProvider from '@/app/_components/progress-provider';
+import { ThemeProvider } from '@/app/_components/theme-provider';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
 	return (

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+import { WrappedResponse } from '@/types/common';
+
 /**
  * ServiceResult is a class that represents the result of a service call
  * @template T - The type of the data
@@ -34,7 +36,7 @@ export class ServiceResult<T = unknown> {
 		);
 	}
 
-	toPlainObject() {
+	toPlainObject(): WrappedResponse<T> {
 		return {
 			success: this.success,
 			message: this.message,

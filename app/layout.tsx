@@ -2,7 +2,7 @@ import './globals.css';
 
 import { Inter } from 'next/font/google';
 
-import GoogleAnalytics from '@/components/google-analytics';
+import GoogleAnalytics from '@/app/_components/google-analytics';
 import { Toaster } from '@/components/ui/sonner';
 import {
 	DEFAULT_SITE_LOGO,

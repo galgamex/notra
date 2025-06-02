@@ -2,7 +2,7 @@ import { compare } from 'bcrypt-ts';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
-import AccountSettingsService from '@/services/account-settings.service';
+import AccountSettingsService from '@/services/account-settings';
 
 import { authConfig } from './auth.config';
 

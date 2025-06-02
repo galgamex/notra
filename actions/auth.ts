@@ -1,6 +1,6 @@
 'use server';
 
-import AccountSettingsService from '@/services/account-settings.service';
+import AccountSettingsService from '@/services/account-settings';
 import { LoginFormValues } from '@/types/auth';
 
 export const login = async (values: LoginFormValues) => {
