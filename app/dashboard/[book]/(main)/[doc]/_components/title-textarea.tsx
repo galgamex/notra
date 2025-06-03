@@ -31,7 +31,6 @@ export default function TitleTextarea() {
 			className="min-h-12.5 resize-none rounded-none border-none p-0 !text-4xl leading-12.5 font-bold shadow-none outline-none focus-visible:border-none focus-visible:shadow-none focus-visible:ring-0 focus-visible:outline-none"
 			rows={1}
 			spellCheck={false}
-			tabIndex={1}
 			defaultValue={data?.title}
 			onBlur={handleBlur}
 			onKeyDown={handleKeyDown}

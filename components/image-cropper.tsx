@@ -105,6 +105,7 @@ export function ImageCropper({
 				{croppedImage ? (
 					<div
 						role="button"
+						tabIndex={0}
 						className={cn(
 							'size-full rounded-md border border-input p-2 relative group/cropper',
 							!disabled && 'cursor-pointer'
@@ -115,7 +116,7 @@ export function ImageCropper({
 							<picture>
 								<img
 									src={croppedImage}
-									alt="Image preview"
+									alt="preview"
 									className="size-full object-cover"
 								/>
 							</picture>
@@ -134,6 +135,7 @@ export function ImageCropper({
 				) : (
 					<div
 						role="button"
+						tabIndex={0}
 						className={cn(
 							'size-full flex items-center justify-center rounded-md border border-dashed border-input transition-colors duration-300 select-none',
 							!disabled && 'cursor-pointer hover:border-primary'

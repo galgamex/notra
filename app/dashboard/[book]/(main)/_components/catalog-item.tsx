@@ -157,6 +157,7 @@ const CatalogItem = ({
 						<div
 							className="chevron-container flex h-full w-full items-center justify-center rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
 							role="button"
+							tabIndex={0}
 							data-prevent-progress
 							onClick={(e) => {
 								e.preventDefault();

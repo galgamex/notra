@@ -62,6 +62,7 @@ export default function HeaderEditableTitle() {
 
 	return (
 		<div
+			role="button"
 			className="max-w-[400px] min-w-[100px] cursor-pointer truncate text-sm text-secondary-foreground"
 			onClick={handleClick}
 		>
