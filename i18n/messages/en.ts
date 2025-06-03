@@ -1,6 +1,9 @@
 export const en = {
-	api_files_upload: {
-		upload_error: 'Failed to upload file!'
+	actions_files: {
+		upload_error: 'Failed to upload file!',
+		no_file_uploaded: 'No file uploaded',
+		size_error: 'File size should be less than 5MB',
+		type_error: 'File type should be JPEG, PNG, or SVG'
 	},
 	app_auth_login_page: {
 		metadata_title: 'Login',
@@ -16,12 +19,6 @@ export const en = {
 	app_api_common: {
 		unauthorized: 'Unauthorized',
 		request_body_empty: 'Request body is empty'
-	},
-	app_api_files_upload: {
-		no_file_uploaded: 'No file uploaded',
-		size_error: 'File size should be less than 5MB',
-		type_error: 'File type should be JPEG, PNG, or SVG',
-		unsupported_file_type: 'Unsupported file type'
 	},
 	app_dashboard_page: {
 		metadata_title: 'Dashboard',

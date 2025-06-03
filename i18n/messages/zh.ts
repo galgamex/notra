@@ -1,6 +1,9 @@
 export const zh = {
-	api_files_upload: {
-		upload_error: '上传文件失败！'
+	actions_files: {
+		upload_error: '上传文件失败！',
+		no_file_uploaded: '未上传文件',
+		size_error: '文件大小不能超过5MB',
+		type_error: '文件类型应为JPEG、PNG或SVG'
 	},
 	app_auth_login_page: {
 		metadata_title: '登录',
@@ -16,12 +19,6 @@ export const zh = {
 	app_api_common: {
 		unauthorized: '未登录',
 		request_body_empty: '请求体为空'
-	},
-	app_api_files_upload: {
-		no_file_uploaded: '未上传文件',
-		size_error: '文件大小不能超过5MB',
-		type_error: '文件类型应为JPEG、PNG或SVG',
-		unsupported_file_type: '不支持的文件类型'
 	},
 	app_dashboard_page: {
 		metadata_title: '工作台',
