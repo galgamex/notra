@@ -12,17 +12,17 @@ export const authConfig = {
 		authorized({ auth, request: { nextUrl } }) {
 			const pathname = nextUrl.pathname;
 
-			const isOnDashboard = pathname.startsWith('/dashboard');
+			const isOnNotra = pathname.startsWith('/notra');
 			const isOnLogin = pathname.startsWith('/login');
 			const isLoggedIn = !!auth?.user;
 
 			if (isOnLogin && isLoggedIn) {
 				const callbackUrl = nextUrl.searchParams.get('callbackUrl');
 
-				return Response.redirect(new URL(callbackUrl || '/dashboard', nextUrl));
+				return Response.redirect(new URL(callbackUrl || '/notra', nextUrl));
 			}
 
-			if (isOnDashboard && !isLoggedIn) {
+			if (isOnNotra && !isLoggedIn) {
 				let callbackUrl = pathname;
 
 				if (nextUrl.search) {
