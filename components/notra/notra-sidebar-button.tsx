@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { MouseEventHandler, PropsWithChildren } from 'react';
 
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useNotraSidebar } from '@/hooks/use-notra-sidebar';
 import { cn } from '@/lib/utils';
+import { useNotraSidebar } from '@/stores/use-notra-sidebar';
 
 export interface NotraSidebarButtonProps extends PropsWithChildren {
 	href?: string;

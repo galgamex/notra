@@ -1,7 +1,7 @@
 'use client';
 
-import { useNotraSidebar } from '@/hooks/use-notra-sidebar';
 import { cn } from '@/lib/utils';
+import { useNotraSidebar } from '@/stores/use-notra-sidebar';
 
 export default function NotraBackdrop() {
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);

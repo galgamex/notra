@@ -17,8 +17,7 @@ export const en = {
 		login_error: 'Login failed!'
 	},
 	app_api_common: {
-		unauthorized: 'Unauthorized',
-		request_body_empty: 'Request body is empty'
+		unauthorized: 'Unauthorized'
 	},
 	app_dashboard_page: {
 		metadata_title: 'Dashboard',

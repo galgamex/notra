@@ -3,8 +3,8 @@
 import { PanelLeftIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { useNotraSidebar } from '@/hooks/use-notra-sidebar';
 import { cn } from '@/lib/utils';
+import { useNotraSidebar } from '@/stores/use-notra-sidebar';
 
 export interface NotraSidebarTriggerProps {
 	className?: string;

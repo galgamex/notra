@@ -11,7 +11,7 @@ export const useDocMetaQuery = ({
 	slug,
 	fallbackData
 }: {
-	slug: Nullable<DocEntity['slug']>;
+	slug?: DocEntity['slug'];
 	fallbackData?: DocMetaVo;
 }) =>
 	useFetcher<DocMetaVo>(slug ? `/api/docs/${slug}/meta` : void 0, {

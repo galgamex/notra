@@ -2,8 +2,8 @@
 
 import { MouseEventHandler, PropsWithChildren, useRef } from 'react';
 
-import { useNotraSidebar } from '@/hooks/use-notra-sidebar';
 import { cn } from '@/lib/utils';
+import { useNotraSidebar } from '@/stores/use-notra-sidebar';
 
 export interface NotraSidebarProps extends PropsWithChildren {
 	resizeable?: boolean;

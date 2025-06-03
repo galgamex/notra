@@ -1,6 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
 
-import DashboardLogo from '@/app/notra/_components/dashboard-logo';
+import DashboardLogo from '@/app/dashboard/_components/dashboard-logo';
 import NotraBackButton from '@/components/notra/notra-back-button';
 import { getTranslations } from '@/i18n';
 

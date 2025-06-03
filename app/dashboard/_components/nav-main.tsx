@@ -7,12 +7,13 @@ import NotraSidebarButton from '@/components/notra/notra-sidebar-button';
 import NotraSidebarMenu from '@/components/notra/notra-sidebar-menu';
 import NotraSidebarMenuItem from '@/components/notra/notra-sidebar-menu-item';
 import { useTranslations } from '@/i18n';
+import { SidebarNavItem } from '@/types/sidebar-nav';
 
 export default function NavMain() {
 	const t = useTranslations('app_dashboard_sidebar');
 	const pathname = usePathname();
 
-	const navItems = [
+	const navItems: SidebarNavItem[] = [
 		{
 			title: t('home'),
 			url: '/dashboard',

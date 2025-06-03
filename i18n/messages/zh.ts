@@ -17,8 +17,7 @@ export const zh = {
 		login_error: '登录失败！'
 	},
 	app_api_common: {
-		unauthorized: '未登录',
-		request_body_empty: '请求体为空'
+		unauthorized: '未登录'
 	},
 	app_dashboard_page: {
 		metadata_title: '工作台',

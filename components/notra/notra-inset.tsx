@@ -2,8 +2,8 @@
 
 import { PropsWithChildren } from 'react';
 
-import { useNotraSidebar } from '@/hooks/use-notra-sidebar';
 import { cn } from '@/lib/utils';
+import { useNotraSidebar } from '@/stores/use-notra-sidebar';
 
 export type NotraInsetProps = PropsWithChildren;
 

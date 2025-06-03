@@ -1,7 +1,7 @@
 'use client';
 
-import { useNotraSidebar } from '@/hooks/use-notra-sidebar';
 import { cn } from '@/lib/utils';
+import { useNotraSidebar } from '@/stores/use-notra-sidebar';
 
 import NotraSidebarTrigger from './notra-sidebar-trigger';
 
