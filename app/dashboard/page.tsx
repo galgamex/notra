@@ -2,8 +2,8 @@ import { BookPlus } from 'lucide-react';
 import { Metadata } from 'next';
 
 import AccountAvatar from '@/components/account-avatar';
-import NotraHeader from '@/components/notra/notra-header';
 import NotraInset from '@/components/notra/notra-inset';
+import NotraInsetHeader from '@/components/notra/notra-inset-header';
 import NotraSidebar from '@/components/notra/notra-sidebar';
 import NotraSidebarContent from '@/components/notra/notra-sidebar-content';
 import { Button } from '@/components/ui/button';
@@ -39,7 +39,7 @@ export default async function Page() {
 				</NotraSidebarContent>
 			</NotraSidebar>
 			<NotraInset>
-				<NotraHeader rightActions={<AccountAvatar />} />
+				<NotraInsetHeader rightActions={<AccountAvatar />} />
 
 				<div className="px-9 py-6">
 					<div className="mb-5 text-lg font-medium">{t('start')}</div>

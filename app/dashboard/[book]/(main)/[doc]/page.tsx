@@ -1,5 +1,5 @@
 import AccountAvatar from '@/components/account-avatar';
-import NotraHeader from '@/components/notra/notra-header';
+import NotraInsetHeader from '@/components/notra/notra-inset-header';
 
 import Editor from './_components/editor';
 import HeaderEditableTitle from './_components/header-editable-title';
@@ -14,7 +14,7 @@ export default async function Page({
 
 	return (
 		<>
-			<NotraHeader
+			<NotraInsetHeader
 				leftActions={<HeaderEditableTitle />}
 				rightActions={<AccountAvatar />}
 			/>

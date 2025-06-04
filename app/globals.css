@@ -43,6 +43,7 @@
 	--sidebar-ring: oklch(70.8% 0 0deg);
 	--icon-hover: oklch(88.65% 0.0026 165.07deg);
 	--icon-hover-foreground: var(--foreground);
+	--nav-height: 64px;
 }
 
 .dark {
@@ -129,6 +130,7 @@
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-icon-hover: var(--icon-hover);
 	--color-icon-hover-foreground: var(--icon-hover-foreground);
+	--spacing-nav-height: var(--nav-height);
 }
 
 @layer base {
@@ -144,7 +146,6 @@
 		-moz-osx-font-smoothing: grayscale;
 		scroll-behavior: smooth;
 		overflow-x: hidden;
-		overscroll-behavior: none;
 	}
 }
 

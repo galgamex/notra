@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 import AccountAvatar from '@/components/account-avatar';
-import NotraHeader from '@/components/notra/notra-header';
 import NotraInset from '@/components/notra/notra-inset';
+import NotraInsetHeader from '@/components/notra/notra-inset-header';
 import NotraSidebar from '@/components/notra/notra-sidebar';
 import NotraSidebarContent from '@/components/notra/notra-sidebar-content';
 import NotraSidebarHeader from '@/components/notra/notra-sidebar-header';
@@ -39,7 +39,7 @@ export default async function Layout({
 				</NotraSidebarContent>
 			</NotraSidebar>
 			<NotraInset>
-				<NotraHeader rightActions={<AccountAvatar />} />
+				<NotraInsetHeader rightActions={<AccountAvatar />} />
 
 				<div className="px-6 pt-6 pb-16">
 					<div className="mx-auto max-w-5xl">

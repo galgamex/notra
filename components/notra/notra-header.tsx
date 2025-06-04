@@ -1,37 +1,39 @@
-'use client';
+import Link from 'next/link';
 
-import { cn } from '@/lib/utils';
-import { useNotraSidebar } from '@/stores/use-notra-sidebar';
+import {
+	DEFAULT_SITE_LOGO,
+	DEFAULT_SITE_LOGO_DARK,
+	DEFAULT_SITE_TITLE
+} from '@/constants/default';
+import SiteSettingsService from '@/services/site-settings';
 
-import NotraSidebarTrigger from './notra-sidebar-trigger';
+import NotraLogo from './notra-logo';
 
-export interface NotraHeaderProps {
-	leftActions?: React.ReactNode;
-	rightActions?: React.ReactNode;
-}
-
-export default function NotraHeader({
-	leftActions,
-	rightActions
-}: Readonly<NotraHeaderProps>) {
-	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
-	const isResizing = useNotraSidebar((state) => state.isResizing);
+export default async function NotraHeader() {
+	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	return (
-		<header
-			className={cn(
-				'h-14 border-b border-border-light px-4 fixed top-0 right-0 left-0 z-20 bg-background text-foreground md:left-(--sidebar-width,256px)',
-				mobileOpen && 'md:left-0',
-				!isResizing && 'transition-[left] ease-[ease] duration-250'
-			)}
-		>
-			<div className="flex size-full justify-between">
-				<div className="flex items-center gap-2">
-					<NotraSidebarTrigger className="-ml-1" />
-					{leftActions}
+		<header className="z-30 w-full md:fixed">
+			<div className="h-nav-height w-full pr-2 pl-6 md:px-8">
+				<div className="mx-auto flex h-full max-w-[1376px] justify-between font-semibold">
+					<Link className="flex h-full items-center gap-2" href="/">
+						<NotraLogo
+							size={24}
+							logo={
+								siteSettings?.logo ??
+								siteSettings?.darkLogo ??
+								DEFAULT_SITE_LOGO
+							}
+							darkLogo={
+								siteSettings?.darkLogo ??
+								siteSettings?.logo ??
+								DEFAULT_SITE_LOGO_DARK
+							}
+							title={siteSettings?.title ?? DEFAULT_SITE_TITLE}
+						/>
+						<span>{siteSettings?.title ?? DEFAULT_SITE_TITLE}</span>
+					</Link>
 				</div>
-
-				<div className="flex items-center gap-2">{rightActions}</div>
 			</div>
 		</header>
 	);
