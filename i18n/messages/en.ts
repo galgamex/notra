@@ -103,6 +103,11 @@ export const en = {
 		site: 'Site',
 		site_settings: 'Site Settings'
 	},
+	components_notra_footer: {
+		copyright: 'Copyright © {copyright}',
+		powered_by:
+			'Powered by <a href="https://notra.tech" target="_blank" rel="noopener noreferrer" class="font-bold hover:text-primary">Notra</a>'
+	},
 	components_image_cropper: {
 		re_select: 'Re-select',
 		cancel: 'Cancel',

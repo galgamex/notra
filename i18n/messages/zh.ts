@@ -103,6 +103,11 @@ export const zh = {
 		site: '站点',
 		site_settings: '站点设置'
 	},
+	components_notra_footer: {
+		copyright: '版权所有 © {copyright}',
+		powered_by:
+			'本网站由 <a href="https://notra.tech" target="_blank" rel="noopener noreferrer" class="font-bold hover:text-primary">Notra</a> 提供技术支持'
+	},
 	components_image_cropper: {
 		re_select: '重新选择',
 		cancel: '取消',
