@@ -64,7 +64,7 @@ export default function HeaderEditableTitle() {
 	return (
 		<Button
 			variant="ghost"
-			className="max-w-[400px] min-w-[100px] cursor-pointer truncate text-sm font-normal text-secondary-foreground hover:bg-transparent hover:text-secondary-foreground"
+			className="inline-block max-w-[400px] min-w-[100px] cursor-pointer truncate px-0 text-start text-sm font-normal text-secondary-foreground hover:bg-transparent hover:text-secondary-foreground"
 			onClick={handleClick}
 		>
 			{data.title}

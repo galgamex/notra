@@ -19,8 +19,8 @@ export default async function Page({
 				rightActions={<AccountAvatar />}
 			/>
 
-			<div className="px-12.5 md:mr-[calc(50vw-425px)] md:ml-auto md:max-w-[850px]">
-				<div className="mt-6 pb-1">
+			<div className="px-5 md:px-17.5">
+				<div className="mt-6 pb-1 md:mr-[calc(50vw-445px)] md:ml-auto md:max-w-[750px]">
 					<TitleTextarea />
 				</div>
 
