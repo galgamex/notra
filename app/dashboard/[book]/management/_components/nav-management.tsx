@@ -14,7 +14,7 @@ interface NavManagementProps {
 	slug: string;
 }
 
-export default function NavManagement({ slug }: NavManagementProps) {
+export default function NavManagement({ slug }: Readonly<NavManagementProps>) {
 	const pathname = usePathname();
 	const t = useTranslations('app_dashboard_book_management_sidebar');
 

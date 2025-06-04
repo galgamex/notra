@@ -17,10 +17,10 @@ import DashboardSidebarHeader from '../../_components/dashboard-sidebar-header';
 export default async function Layout({
 	children,
 	params
-}: {
+}: Readonly<{
 	children: React.ReactNode;
 	params: Promise<{ book: string }>;
-}) {
+}>) {
 	const { book: slug } = await params;
 	const { data: book } = await BookService.getBook(slug);
 

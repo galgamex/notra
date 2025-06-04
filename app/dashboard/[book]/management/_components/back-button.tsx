@@ -6,7 +6,7 @@ export interface BackButtonProps {
 	bookName: string;
 }
 
-export default function BackButton({ bookName }: BackButtonProps) {
+export default function BackButton({ bookName }: Readonly<BackButtonProps>) {
 	return (
 		<NotraBackButton>
 			<ChevronLeft className="size-4" />

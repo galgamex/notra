@@ -4,7 +4,7 @@ export interface LevelIndicatorProps {
 	id: number;
 }
 
-export default function LevelIndicator({ id }: LevelIndicatorProps) {
+export default function LevelIndicator({ id }: Readonly<LevelIndicatorProps>) {
 	const isDragging = useCatalog((state) => state.isDragging);
 	const currentDropNode = useCatalog((state) => state.currentDropNode);
 	const reachLevel = useCatalog((state) => state.reachLevelMap.get(id));

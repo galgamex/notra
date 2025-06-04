@@ -35,7 +35,7 @@ export const useCatalogFetcher = (bookId: BookEntity['id']) => {
 	}, [data, setNodeMap]);
 
 	return {
-		data: data || [],
+		data: data ?? [],
 		isLoading,
 		nodeMap,
 		mutateCatalog

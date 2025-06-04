@@ -25,7 +25,7 @@ export interface CreateDropdownProps extends PropsWithChildren {
 export default function CreateDropdown({
 	parentCatalogNodeId,
 	children
-}: CreateDropdownProps) {
+}: Readonly<CreateDropdownProps>) {
 	const t = useTranslations('app_dashboard_book_main_layout');
 	const book = useBook();
 	const mutateCatalog = useMutateCatalog(book.id);
@@ -66,7 +66,7 @@ export default function CreateDropdown({
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				{children || (
+				{children ?? (
 					<Button variant="outline" size="icon" className="size-8">
 						<Plus size={16} />
 					</Button>

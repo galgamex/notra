@@ -33,7 +33,7 @@ export default function BookInfoForm({
 	id,
 	defaultName,
 	defaultSlug
-}: BookInfoFormProps) {
+}: Readonly<BookInfoFormProps>) {
 	const t = useTranslations('app_dashboard_book_management_settings_page');
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();

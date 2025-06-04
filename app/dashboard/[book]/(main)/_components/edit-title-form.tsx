@@ -10,7 +10,7 @@ export interface EditTitleFormProps {
 export default function EditTitleForm({
 	defaultTitle,
 	onSubmit
-}: EditTitleFormProps) {
+}: Readonly<EditTitleFormProps>) {
 	const [title, setTitle] = useState(defaultTitle);
 	const inputRef = useRef<HTMLInputElement>(null);
 

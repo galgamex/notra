@@ -7,9 +7,9 @@ import TitleTextarea from './_components/title-textarea';
 
 export default async function Page({
 	params
-}: {
+}: Readonly<{
 	params: Promise<{ doc: string }>;
-}) {
+}>) {
 	const { doc: slug } = await params;
 
 	return (

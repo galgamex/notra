@@ -11,7 +11,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 	const t = getTranslations('app_auth_login_page');
 
 	return {
-		title: `${t('metadata_title')} - ${siteSettings?.title || DEFAULT_SITE_TITLE}`
+		title: `${t('metadata_title')} - ${siteSettings?.title ?? DEFAULT_SITE_TITLE}`
 	};
 };
 

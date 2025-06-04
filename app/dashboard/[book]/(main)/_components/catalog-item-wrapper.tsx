@@ -21,7 +21,7 @@ export default function CatalogItemWrapper({
 	style,
 	isEditingTitle,
 	onClick
-}: CatalogItemWrapperProps) {
+}: Readonly<CatalogItemWrapperProps>) {
 	const book = useBook();
 
 	if (item.type === 'DOC' && !isEditingTitle) {

@@ -9,7 +9,7 @@ interface PageProps {
 	params: Promise<{ book: string }>;
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: Readonly<PageProps>) {
 	const { book: slug } = await params;
 
 	const { data: book } = await BookService.getBook(slug);

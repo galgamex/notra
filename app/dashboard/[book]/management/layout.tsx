@@ -16,7 +16,10 @@ interface PageProps {
 	params: Promise<{ book: string }>;
 }
 
-export default async function Layout({ children, params }: PageProps) {
+export default async function Layout({
+	children,
+	params
+}: Readonly<PageProps>) {
 	const { book: slug } = await params;
 
 	const { data: book } = await BookService.getBook(slug);

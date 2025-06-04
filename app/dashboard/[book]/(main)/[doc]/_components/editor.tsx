@@ -11,10 +11,8 @@ export interface EditorProps {
 	slug: DocEntity['slug'];
 }
 
-export default function Editor({ slug }: EditorProps) {
+export default function Editor({ slug }: Readonly<EditorProps>) {
 	const { data: doc } = useDocQuery(slug);
-
-	console.log(doc);
 
 	if (!doc) {
 		return null;

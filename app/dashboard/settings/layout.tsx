@@ -18,7 +18,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 	const t = getTranslations('app_dashboard_settings_page');
 
 	return {
-		title: `${t('metadata_title')} - ${siteSettings?.title || DEFAULT_SITE_TITLE}`
+		title: `${t('metadata_title')} - ${siteSettings?.title ?? DEFAULT_SITE_TITLE}`
 	};
 };
 

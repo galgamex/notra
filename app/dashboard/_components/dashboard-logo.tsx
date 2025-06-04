@@ -18,11 +18,11 @@ export default async function DashboardLogo({
 	return (
 		<NotraLogo
 			size={size}
-			logo={siteSettings?.logo || siteSettings?.darkLogo || DEFAULT_SITE_LOGO}
+			logo={siteSettings?.logo ?? siteSettings?.darkLogo ?? DEFAULT_SITE_LOGO}
 			darkLogo={
-				siteSettings?.darkLogo || siteSettings?.logo || DEFAULT_SITE_LOGO_DARK
+				siteSettings?.darkLogo ?? siteSettings?.logo ?? DEFAULT_SITE_LOGO_DARK
 			}
-			title={siteSettings?.title || DEFAULT_SITE_TITLE}
+			title={siteSettings?.title ?? DEFAULT_SITE_TITLE}
 		/>
 	);
 }

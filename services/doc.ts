@@ -1,5 +1,6 @@
 import { PartialBlock } from '@blocknote/core';
 import { DocEntity } from '@prisma/client';
+import { InputJsonArray } from '@prisma/client/runtime/library';
 import { cache } from 'react';
 
 import { getTranslations } from '@/i18n';
@@ -92,7 +93,7 @@ export default class DocService {
 		try {
 			const doc = await prisma.docEntity.update({
 				where: { id: docId },
-				data: { blockJson: content }
+				data: { blockJson: content as InputJsonArray }
 			});
 
 			return ServiceResult.success(doc);

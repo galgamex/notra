@@ -16,7 +16,7 @@ export interface CatalogProps {
 	book: BookVo;
 }
 
-export default function Catalog({ book }: CatalogProps) {
+export default function Catalog({ book }: Readonly<CatalogProps>) {
 	const ref = useRef<HTMLDivElement>(null);
 	const { height = 9999 } = useResizeObserver({
 		ref: ref as RefObject<HTMLElement>

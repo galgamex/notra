@@ -19,7 +19,7 @@ export const authConfig = {
 			if (isOnLogin && isLoggedIn) {
 				const callbackUrl = nextUrl.searchParams.get('callbackUrl');
 
-				return Response.redirect(new URL(callbackUrl || '/notra', nextUrl));
+				return Response.redirect(new URL(callbackUrl ?? '/notra', nextUrl));
 			}
 
 			if (isOnDashboard && !isLoggedIn) {

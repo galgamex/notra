@@ -31,7 +31,7 @@ const CloneCatalogItem = ({
 			const pattern = /translate\(([^)]+)px,/;
 			const match = dragProvided.draggableProps.style?.transform.match(pattern);
 
-			if (match && match[1]) {
+			if (match?.[1]) {
 				const x = Number(match[1]);
 
 				if (!Number.isNaN(x)) {

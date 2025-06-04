@@ -42,7 +42,7 @@ export default function DragDropZone({
 	draggableList,
 	nodeMap,
 	mutateCatalog
-}: DragDropZoneProps) {
+}: Readonly<DragDropZoneProps>) {
 	const expandedKeysBeforeDrag = useRef<Set<number>>(new Set());
 	const expandedKeys = useCatalog((state) => state.expandedKeys);
 	const reachLevelMap = useCatalog((state) => state.reachLevelMap);

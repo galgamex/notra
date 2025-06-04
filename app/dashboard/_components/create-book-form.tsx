@@ -61,7 +61,7 @@ export default function CreateBookForm({
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				{children || (
+				{children ?? (
 					<Button
 						variant="ghost"
 						size="icon"

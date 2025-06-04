@@ -19,7 +19,7 @@ export interface EditorCoreProps {
 	doc: DocVo;
 }
 
-export default function EditorCore({ doc }: EditorCoreProps) {
+export default function EditorCore({ doc }: Readonly<EditorCoreProps>) {
 	const { resolvedTheme } = useTheme();
 	const editor = useCreateBlockNote({
 		dictionary: editorLocales[ENV_LOCALE],

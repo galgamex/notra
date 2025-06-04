@@ -15,7 +15,7 @@ export const generateMetadata = async ({
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	return {
-		title: `${doc?.title} - ${siteSettings?.title || DEFAULT_SITE_TITLE}`
+		title: `${doc?.title} - ${siteSettings?.title ?? DEFAULT_SITE_TITLE}`
 	};
 };
 

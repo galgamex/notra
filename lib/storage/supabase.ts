@@ -10,9 +10,13 @@ export default class SupabaseStorage implements IStorage {
 	private bucketCreated = false;
 
 	constructor() {
+		if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+			throw new Error('SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY is not set');
+		}
+
 		this.supabase = createClient(
-			process.env.SUPABASE_URL!,
-			process.env.SUPABASE_SERVICE_ROLE_KEY!
+			process.env.SUPABASE_URL,
+			process.env.SUPABASE_SERVICE_ROLE_KEY
 		);
 	}
 
