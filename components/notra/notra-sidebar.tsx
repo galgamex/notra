@@ -14,13 +14,13 @@ export default function NotraSidebar({
 	children,
 	resizeable = false,
 	className
-}: NotraSidebarProps) {
+}: Readonly<NotraSidebarProps>) {
 	const sidebarRef = useRef<HTMLElement>(null);
 	const bodyCursor = useRef('');
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
 	const setIsResizing = useNotraSidebar((state) => state.setIsResizing);
 
-	const handleMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
+	const handleMouseDown: MouseEventHandler<HTMLButtonElement> = (e) => {
 		e.stopPropagation();
 		e.preventDefault();
 
@@ -67,7 +67,7 @@ export default function NotraSidebar({
 				className
 			)}
 		>
-			<div
+			<button
 				className={cn(
 					'invisible md:visible absolute h-full w-1.5 -right-1.5 top-0 after:transition-colors after:absolute after:top-0 after:bottom-0 after:right-1.5 after:w-px after:bg-border-light group-data-[resizing=true]/sidebar:after:bg-border',
 					resizeable && 'md:cursor-col-resize md:hover:after:bg-border'

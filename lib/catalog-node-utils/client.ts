@@ -21,34 +21,48 @@ export const checkShouldMoveNode = (
 	};
 };
 
+const removeFirstChild = (
+	nodeMap: Map<number, ExtendedCatalogNodeVo>,
+	node: ExtendedCatalogNodeVo
+) => {
+	const parentNode = node.parentId ? nodeMap.get(node.parentId) : null;
+
+	if (parentNode) {
+		parentNode.childId = node.siblingId;
+	}
+
+	const siblingNode = node.siblingId ? nodeMap.get(node.siblingId) : null;
+
+	if (siblingNode) {
+		siblingNode.prevId = node.prevId;
+	}
+};
+
+const removeNotFirstChild = (
+	nodeMap: Map<number, ExtendedCatalogNodeVo>,
+	node: ExtendedCatalogNodeVo
+) => {
+	const prevNode = node.prevId ? nodeMap.get(node.prevId) : null;
+
+	if (prevNode) {
+		prevNode.siblingId = node.siblingId;
+	}
+
+	const siblingNode = node.siblingId ? nodeMap.get(node.siblingId) : null;
+
+	if (siblingNode) {
+		siblingNode.prevId = node.prevId;
+	}
+};
+
 const removeNodeFromOldPosition = (
 	nodeMap: Map<number, ExtendedCatalogNodeVo>,
 	node: ExtendedCatalogNodeVo
 ) => {
 	if (node.parentId === node.prevId) {
-		const parentNode = node.parentId ? nodeMap.get(node.parentId) : null;
-
-		if (parentNode) {
-			parentNode.childId = node.siblingId;
-		}
-
-		const siblingNode = node.siblingId ? nodeMap.get(node.siblingId) : null;
-
-		if (siblingNode) {
-			siblingNode.prevId = node.prevId;
-		}
+		removeFirstChild(nodeMap, node);
 	} else {
-		const prevNode = node.prevId ? nodeMap.get(node.prevId) : null;
-
-		if (prevNode) {
-			prevNode.siblingId = node.siblingId;
-		}
-
-		const siblingNode = node.siblingId ? nodeMap.get(node.siblingId) : null;
-
-		if (siblingNode) {
-			siblingNode.prevId = node.prevId;
-		}
+		removeNotFirstChild(nodeMap, node);
 	}
 };
 
@@ -90,6 +104,75 @@ export const deleteNodeWithChildren = (
 	deleteChildren(nodeMap, deletedNode.id);
 };
 
+const insertNodeIntoFirstPosition = (
+	nodeMap: Map<number, ExtendedCatalogNodeVo>,
+	node: ExtendedCatalogNodeVo,
+	newParentId: ExtendedCatalogNodeVo['parentId']
+) => {
+	if (newParentId) {
+		const newParentNode = nodeMap.get(newParentId);
+
+		if (!newParentNode) {
+			return;
+		}
+
+		const newParentNodeChild = newParentNode.childId
+			? nodeMap.get(newParentNode.childId)
+			: null;
+
+		newParentNode.childId = node.id;
+
+		node.parentId = newParentId;
+		node.prevId = null;
+		node.siblingId = newParentNodeChild ? newParentNodeChild.id : null;
+		node.level = newParentNode.level + 1;
+
+		if (newParentNodeChild) {
+			newParentNodeChild.prevId = node.id;
+		}
+	} else {
+		const firstChildOfRoot = Array.from(nodeMap.values()).find(
+			(node) => node.parentId === null && node.prevId === null
+		);
+
+		node.parentId = null;
+		node.prevId = null;
+		node.siblingId = firstChildOfRoot ? firstChildOfRoot.id : null;
+		node.level = 0;
+
+		if (firstChildOfRoot) {
+			firstChildOfRoot.prevId = node.id;
+		}
+	}
+};
+
+const insertNodeIntoNotFirstPosition = (
+	nodeMap: Map<number, ExtendedCatalogNodeVo>,
+	node: ExtendedCatalogNodeVo,
+	newPrevId: ExtendedCatalogNodeVo['prevId']
+) => {
+	const newPrevNode = newPrevId ? nodeMap.get(newPrevId) : null;
+
+	if (!newPrevNode) {
+		return;
+	}
+
+	const newPrevNodeSibling = newPrevNode.siblingId
+		? nodeMap.get(newPrevNode.siblingId)
+		: null;
+
+	newPrevNode.siblingId = node.id;
+
+	node.parentId = newPrevNode.parentId;
+	node.prevId = newPrevNode.id;
+	node.siblingId = newPrevNodeSibling ? newPrevNodeSibling.id : null;
+	node.level = newPrevNode.level;
+
+	if (newPrevNodeSibling) {
+		newPrevNodeSibling.prevId = node.id;
+	}
+};
+
 const insertNodeIntoNewPosition = (
 	nodeMap: Map<number, ExtendedCatalogNodeVo>,
 	{
@@ -103,62 +186,9 @@ const insertNodeIntoNewPosition = (
 	}
 ) => {
 	if (newParentId === newPrevId) {
-		if (newParentId) {
-			const newParentNode = nodeMap.get(newParentId);
-
-			if (!newParentNode) {
-				return;
-			}
-
-			const newParentNodeChild = newParentNode.childId
-				? nodeMap.get(newParentNode.childId)
-				: null;
-
-			newParentNode.childId = node.id;
-
-			node.parentId = newParentId;
-			node.prevId = null;
-			node.siblingId = newParentNodeChild ? newParentNodeChild.id : null;
-			node.level = newParentNode.level + 1;
-
-			if (newParentNodeChild) {
-				newParentNodeChild.prevId = node.id;
-			}
-		} else {
-			const firstChildOfRoot = Array.from(nodeMap.values()).find(
-				(node) => node.parentId === null && node.prevId === null
-			);
-
-			node.parentId = null;
-			node.prevId = null;
-			node.siblingId = firstChildOfRoot ? firstChildOfRoot.id : null;
-			node.level = 0;
-
-			if (firstChildOfRoot) {
-				firstChildOfRoot.prevId = node.id;
-			}
-		}
+		insertNodeIntoFirstPosition(nodeMap, node, newParentId);
 	} else {
-		const newPrevNode = newPrevId ? nodeMap.get(newPrevId) : null;
-
-		if (!newPrevNode) {
-			return;
-		}
-
-		const newPrevNodeSibling = newPrevNode.siblingId
-			? nodeMap.get(newPrevNode.siblingId)
-			: null;
-
-		newPrevNode.siblingId = node.id;
-
-		node.parentId = newPrevNode.parentId;
-		node.prevId = newPrevNode.id;
-		node.siblingId = newPrevNodeSibling ? newPrevNodeSibling.id : null;
-		node.level = newPrevNode.level;
-
-		if (newPrevNodeSibling) {
-			newPrevNodeSibling.prevId = node.id;
-		}
+		insertNodeIntoNotFirstPosition(nodeMap, node, newPrevId);
 	}
 };
 

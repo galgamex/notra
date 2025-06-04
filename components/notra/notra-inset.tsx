@@ -7,7 +7,7 @@ import { useNotraSidebar } from '@/stores/use-notra-sidebar';
 
 export type NotraInsetProps = PropsWithChildren;
 
-export default function NotraInset({ children }: NotraInsetProps) {
+export default function NotraInset({ children }: Readonly<NotraInsetProps>) {
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
 	const isResizing = useNotraSidebar((state) => state.isResizing);
 

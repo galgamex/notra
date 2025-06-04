@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 
+import { cn } from '@/lib/utils';
 import { useBook } from '@/stores/use-book';
 import { CatalogNodeVoWithLevel } from '@/types/catalog-node';
 import { ChildrenProps } from '@/types/common';
@@ -37,12 +38,12 @@ export default function CatalogItemWrapper({
 	}
 
 	return (
-		<div
-			className={className}
+		<button
+			className={cn('text-start cursor-pointer', className)}
 			style={style}
 			onClick={isEditingTitle ? undefined : onClick}
 		>
 			{children}
-		</div>
+		</button>
 	);
 }

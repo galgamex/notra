@@ -20,7 +20,7 @@ export default function NotraSidebarButton({
 	className,
 	isActive,
 	onClick
-}: NotraSidebarButtonProps) {
+}: Readonly<NotraSidebarButtonProps>) {
 	const isMobile = useIsMobile();
 	const toggleSidebar = useNotraSidebar((state) => state.toggleMobileOpen);
 

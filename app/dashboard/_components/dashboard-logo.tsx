@@ -10,7 +10,9 @@ export interface DashboardLogoProps {
 	size: number;
 }
 
-export default async function DashboardLogo({ size }: DashboardLogoProps) {
+export default async function DashboardLogo({
+	size
+}: Readonly<DashboardLogoProps>) {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	return (

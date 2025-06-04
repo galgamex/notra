@@ -8,7 +8,7 @@ import { useMutateCatalog } from './use-mutate-catalog';
 
 export const useEditDocTitle = (slug?: DocEntity['slug']) => {
 	const { data, mutate } = useDocMetaQuery({ slug });
-	const mutateCatalog = useMutateCatalog(data?.bookId || -1);
+	const mutateCatalog = useMutateCatalog(data?.bookId ?? -1);
 	const t = useTranslations('app_dashboard_book_main_doc_page');
 
 	const handleEditDocTitle = (newTitle: string) => {

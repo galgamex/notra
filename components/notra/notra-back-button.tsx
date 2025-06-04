@@ -7,7 +7,9 @@ import NotraSidebarButton from '@/components/notra/notra-sidebar-button';
 
 export type NotraBackButtonProps = PropsWithChildren;
 
-export default function NotraBackButton({ children }: NotraBackButtonProps) {
+export default function NotraBackButton({
+	children
+}: Readonly<NotraBackButtonProps>) {
 	const router = useRouter();
 
 	const handleClick = () => {

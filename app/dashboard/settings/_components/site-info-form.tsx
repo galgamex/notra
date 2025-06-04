@@ -40,7 +40,7 @@ export default function SiteInfoForm({
 	defaultKeywords,
 	defaultLogo,
 	defaultDarkLogo
-}: SiteInfoFormProps) {
+}: Readonly<SiteInfoFormProps>) {
 	const t = useTranslations('app_dashboard_settings_page');
 	const uploadError = useTranslations('actions_files')('upload_error');
 	const [isLoading, setIsLoading] = useState(false);

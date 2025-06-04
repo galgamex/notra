@@ -13,7 +13,7 @@ export interface NotraHeaderProps {
 export default function NotraHeader({
 	leftActions,
 	rightActions
-}: NotraHeaderProps) {
+}: Readonly<NotraHeaderProps>) {
 	const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
 	const isResizing = useNotraSidebar((state) => state.isResizing);
 

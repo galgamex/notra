@@ -25,7 +25,9 @@ import { CreateBookFormValues, CreateBookFormSchema } from '@/types/book';
 
 export type CreateBookFormProps = PropsWithChildren;
 
-export default function CreateBookForm({ children }: CreateBookFormProps) {
+export default function CreateBookForm({
+	children
+}: Readonly<CreateBookFormProps>) {
 	const [open, setOpen] = useState(false);
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();

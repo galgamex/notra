@@ -18,7 +18,7 @@ export function SubmitButton({
 	isPending,
 	className,
 	disabled
-}: SubmitButtonProps) {
+}: Readonly<SubmitButtonProps>) {
 	return (
 		<Button
 			type={isPending ? 'button' : 'submit'}
@@ -28,7 +28,7 @@ export function SubmitButton({
 		>
 			{isPending && <Loader2 className="animate-spin" />}
 			{children}
-			<span aria-live="polite" className="sr-only" role="status">
+			<span aria-live="polite" className="sr-only">
 				{isPending ? 'Loading' : 'Submit form'}
 			</span>
 		</Button>

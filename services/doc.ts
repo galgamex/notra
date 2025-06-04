@@ -104,7 +104,7 @@ export default class DocService {
 		}
 	}
 
-	static getDoc = cache(async (slug: string) => {
+	static readonly getDoc = cache(async (slug: string) => {
 		try {
 			const doc = await prisma.docEntity.findUnique({
 				where: { slug },

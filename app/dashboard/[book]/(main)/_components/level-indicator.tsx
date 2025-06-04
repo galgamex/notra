@@ -28,7 +28,7 @@ export default function LevelIndicator({ id }: LevelIndicatorProps) {
 				length: reachLevel - minReachLevel
 			}).map((_, i) => (
 				<div
-					key={i}
+					key={`indicator-${id}-${i}`}
 					className="absolute top-[3px] h-[1.5px] w-[22px] bg-indicator-light before:absolute before:top-[-1.5px] before:h-1 before:w-[2px] before:bg-indicator-light"
 					style={{ left: `-${24 * (i + 1)}px` }}
 				></div>

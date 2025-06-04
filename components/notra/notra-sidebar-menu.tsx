@@ -9,6 +9,6 @@ export interface NotraSidebarMenuProps extends PropsWithChildren {
 export default function NotraSidebarMenu({
 	children,
 	className
-}: NotraSidebarMenuProps) {
+}: Readonly<NotraSidebarMenuProps>) {
 	return <ul className={cn('space-y-0.5', className)}>{children}</ul>;
 }

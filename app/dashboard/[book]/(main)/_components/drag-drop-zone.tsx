@@ -52,15 +52,12 @@ export default function DragDropZone({
 	const setReachLevelRange = useCatalog((state) => state.setReachLevelRange);
 
 	const renderItem = useCallback(
-		({
-			data,
-			index,
-			style
-		}: {
+		(props: {
 			data: CatalogNodeVoWithLevel[];
 			index: number;
 			style: CSSProperties;
 		}) => {
+			const { data, index, style } = props;
 			const item = data[index];
 
 			return (
@@ -277,23 +274,20 @@ export default function DragDropZone({
 		}
 
 		if (update.destination && update.destination.index > 0) {
+			const dropNodeIndex =
+				update.destination.index <= update.source.index
+					? update.destination.index - 1
+					: update.destination.index;
+			const nodeAfterDropNodeIndex =
+				update.destination.index <= update.source.index
+					? update.destination.index
+					: update.destination.index + 1;
+
 			updateDropNode({
-				dropNode: nodeMap.get(
-					draggableList[
-						update.destination.index <= update.source.index
-							? update.destination.index - 1
-							: update.destination.index
-					].id
-				),
+				dropNode: nodeMap.get(draggableList[dropNodeIndex].id),
 				nodeAfterDropNode:
 					update.destination.index < draggableList.length - 1
-						? nodeMap.get(
-								draggableList[
-									update.destination.index <= update.source.index
-										? update.destination.index
-										: update.destination.index + 1
-								].id
-							)
+						? nodeMap.get(draggableList[nodeAfterDropNodeIndex].id)
 						: void 0
 			});
 		}

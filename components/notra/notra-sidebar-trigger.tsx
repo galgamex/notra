@@ -12,7 +12,7 @@ export interface NotraSidebarTriggerProps {
 
 export default function NotraSidebarTrigger({
 	className
-}: NotraSidebarTriggerProps) {
+}: Readonly<NotraSidebarTriggerProps>) {
 	const toggleMobileOpen = useNotraSidebar((state) => state.toggleMobileOpen);
 
 	const handleClick = () => {

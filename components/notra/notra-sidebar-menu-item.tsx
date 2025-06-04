@@ -9,7 +9,7 @@ export interface NotraSidebarMenuItemProps extends PropsWithChildren {
 export default function NotraSidebarMenuItem({
 	children,
 	className
-}: NotraSidebarMenuItemProps) {
+}: Readonly<NotraSidebarMenuItemProps>) {
 	return (
 		<li className={cn('group/menu-item relative my-0.5', className)}>
 			{children}

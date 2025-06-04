@@ -9,7 +9,7 @@ import DashboardLogo from './dashboard-logo';
 export default async function DashboardSidebarHeader() {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
-	const title = siteSettings?.title || DEFAULT_SITE_TITLE;
+	const title = siteSettings?.title ?? DEFAULT_SITE_TITLE;
 
 	return (
 		<NotraSidebarHeader>

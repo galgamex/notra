@@ -186,8 +186,8 @@ export default class CatalogNodeService {
 				await moveNode(tx, {
 					bookId,
 					nodeId,
-					newParentId: targetId || null,
-					newPrevId: targetId || null
+					newParentId: targetId ?? null,
+					newPrevId: targetId ?? null
 				});
 			});
 
@@ -220,8 +220,8 @@ export default class CatalogNodeService {
 				await moveNode(tx, {
 					bookId,
 					nodeId,
-					newParentId: newPrevNode?.parentId || null,
-					newPrevId: targetId || null
+					newParentId: newPrevNode?.parentId ?? null,
+					newPrevId: targetId ?? null
 				});
 			});
 

@@ -143,7 +143,7 @@ const CatalogItem = ({
 		>
 			<CatalogItemWrapper
 				className={cn(
-					'h-[34px] my-px rounded-md text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex items-center border-[1.5px] border-transparent pr-1.5',
+					'w-full h-[34px] my-px rounded-md text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex items-center border-[1.5px] border-transparent pr-1.5',
 					Boolean(dragSnapshot.combineTargetFor) && 'border-indicator',
 					isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
 				)}
@@ -154,10 +154,9 @@ const CatalogItem = ({
 			>
 				<div className="mr-1 size-6">
 					{item.childId !== null && (
-						<div
-							className="chevron-container flex h-full w-full items-center justify-center rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
-							role="button"
-							tabIndex={0}
+						<Button
+							variant="ghost"
+							className="size-6 rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
 							data-prevent-progress
 							onClick={(e) => {
 								e.preventDefault();
@@ -172,7 +171,7 @@ const CatalogItem = ({
 								)}
 								size={16}
 							/>
-						</div>
+						</Button>
 					)}
 				</div>
 

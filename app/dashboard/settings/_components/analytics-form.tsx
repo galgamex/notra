@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { updateAnalytics } from '@/actions/site-settings';
+import { updateSiteInfo } from '@/actions/site-settings';
 import { SubmitButton } from '@/components/submit-button';
 import {
 	Form,
@@ -29,14 +29,14 @@ export interface AnalyticsFormProps {
 
 export default function AnalyticsForm({
 	defaultGoogleAnalyticsId
-}: AnalyticsFormProps) {
+}: Readonly<AnalyticsFormProps>) {
 	const t = useTranslations('app_dashboard_settings_page');
 	const [isLoading, setIsLoading] = useState(false);
 
 	const form = useForm<AnalyticsFormValues>({
 		resolver: zodResolver(AnalyticsFormSchema),
 		defaultValues: {
-			googleAnalyticsId: defaultGoogleAnalyticsId || ''
+			googleAnalyticsId: defaultGoogleAnalyticsId ?? ''
 		}
 	});
 
@@ -44,7 +44,7 @@ export default function AnalyticsForm({
 		setIsLoading(true);
 
 		try {
-			const result = await updateAnalytics({
+			const result = await updateSiteInfo({
 				googleAnalyticsId: values.googleAnalyticsId
 			});
 

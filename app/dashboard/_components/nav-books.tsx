@@ -114,7 +114,6 @@ export function NavBooks() {
 										<DropdownMenuSeparator />
 										<DropdownMenuItem
 											onClick={() => handleCopyLink(item.slug)}
-											role="button"
 											className="cursor-pointer"
 										>
 											<LinkIcon className="text-muted-foreground" />
@@ -133,7 +132,6 @@ export function NavBooks() {
 										<DropdownMenuSeparator />
 										<DropdownMenuItem
 											onClick={() => handleDeleteBook(item.id)}
-											role="button"
 											className="cursor-pointer"
 										>
 											<Trash2 className="text-muted-foreground" />

@@ -19,6 +19,7 @@ export type UpdateSiteInfoDto = {
 	keywords?: Nullable<SiteSettingsEntity['keywords']>;
 	logo?: Nullable<SiteSettingsEntity['logo']>;
 	darkLogo?: Nullable<SiteSettingsEntity['darkLogo']>;
+	googleAnalyticsId?: Nullable<SiteSettingsEntity['googleAnalyticsId']>;
 };
 
 export const AnalyticsFormSchema = z.object({
@@ -26,7 +27,3 @@ export const AnalyticsFormSchema = z.object({
 });
 
 export type AnalyticsFormValues = z.infer<typeof AnalyticsFormSchema>;
-
-export type UpdateAnalyticsDto = {
-	googleAnalyticsId: Nullable<SiteSettingsEntity['googleAnalyticsId']>;
-};

@@ -8,7 +8,7 @@ import { ServiceResult } from '@/lib/service-result';
 import { Nullable } from '@/types/common';
 
 export default class SiteSettingsService {
-	static getSiteSettings = cache(async () => {
+	static readonly getSiteSettings = cache(async () => {
 		try {
 			const siteSettings = await prisma.siteSettingsEntity.findUnique({
 				where: { id: 'default' },
@@ -31,7 +31,7 @@ export default class SiteSettingsService {
 		}
 	});
 
-	static updateSiteSettings = async (values: {
+	static readonly updateSiteSettings = async (values: {
 		title?: Nullable<SiteSettingsEntity['title']>;
 		description?: Nullable<SiteSettingsEntity['description']>;
 		keywords?: Nullable<SiteSettingsEntity['keywords']>;

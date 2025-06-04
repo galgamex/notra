@@ -7,7 +7,7 @@ export interface NotraSidebarGroupProps extends PropsWithChildren {
 export default function NotraSidebarGroup({
 	children,
 	group
-}: NotraSidebarGroupProps) {
+}: Readonly<NotraSidebarGroupProps>) {
 	return (
 		<div className="pt-4">
 			<p className="py-2 pl-4 text-sm text-muted-foreground">{group}</p>

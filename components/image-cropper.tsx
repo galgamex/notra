@@ -1,7 +1,7 @@
 'use client';
 
 import { Trash2, Upload } from 'lucide-react';
-import { useRef, useState, ReactNode } from 'react';
+import { useRef, useState, ReactNode, MouseEventHandler } from 'react';
 import { Cropper, ReactCropperElement } from 'react-cropper';
 import { toast } from 'sonner';
 
@@ -40,9 +40,9 @@ export function ImageCropper({
 	disabled = false,
 	maxSize = 2,
 	onCrop
-}: ImageCropperProps) {
+}: Readonly<ImageCropperProps>) {
 	const t = useTranslations('components_image_cropper');
-	const [croppedImage, setCroppedImage] = useState(defaultImage || null);
+	const [croppedImage, setCroppedImage] = useState(defaultImage ?? null);
 	const [image, setImage] = useState<string | null>(null);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const cropperRef = useRef<ReactCropperElement>(null);
@@ -69,7 +69,10 @@ export function ImageCropper({
 		onCrop(null);
 	};
 
-	const handleSelectImage = () => {
+	const handleSelectImage: MouseEventHandler<HTMLButtonElement> = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+
 		const input = document.createElement('input');
 
 		input.type = 'file';
@@ -103,9 +106,7 @@ export function ImageCropper({
 		<>
 			<AspectRatio ratio={aspectRatio} className={disabled ? 'opacity-50' : ''}>
 				{croppedImage ? (
-					<div
-						role="button"
-						tabIndex={0}
+					<button
 						className={cn(
 							'size-full rounded-md border border-input p-2 relative group/cropper',
 							!disabled && 'cursor-pointer'
@@ -131,11 +132,9 @@ export function ImageCropper({
 								</div>
 							)}
 						</div>
-					</div>
+					</button>
 				) : (
-					<div
-						role="button"
-						tabIndex={0}
+					<button
 						className={cn(
 							'size-full flex items-center justify-center rounded-md border border-dashed border-input transition-colors duration-300 select-none',
 							!disabled && 'cursor-pointer hover:border-primary'
@@ -143,7 +142,7 @@ export function ImageCropper({
 						onClick={!disabled ? handleSelectImage : void 0}
 					>
 						{placeholder}
-					</div>
+					</button>
 				)}
 			</AspectRatio>
 

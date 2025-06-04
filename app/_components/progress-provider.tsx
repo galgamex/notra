@@ -7,7 +7,9 @@ import { ChildrenProps } from '@/types/common';
 
 export type ProgressProviderProps = ChildrenProps;
 
-export default function ProgressProvider({ children }: ProgressProviderProps) {
+export default function ProgressProvider({
+	children
+}: Readonly<ProgressProviderProps>) {
 	return (
 		<ProgressProviderComponent options={{ showSpinner: false, template: null }}>
 			<Progress />

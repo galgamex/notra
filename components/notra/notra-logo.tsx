@@ -16,7 +16,7 @@ export default function NotraLogo({
 	logo,
 	darkLogo,
 	title
-}: NotraLogoProps) {
+}: Readonly<NotraLogoProps>) {
 	const isDark = useIsDark();
 
 	return (

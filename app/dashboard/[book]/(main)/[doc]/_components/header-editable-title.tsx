@@ -9,6 +9,7 @@ import {
 	useState
 } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useEditDocTitle } from '@/hooks/use-edit-doc-title';
 
@@ -61,12 +62,12 @@ export default function HeaderEditableTitle() {
 	}
 
 	return (
-		<div
-			role="button"
-			className="max-w-[400px] min-w-[100px] cursor-pointer truncate text-sm text-secondary-foreground"
+		<Button
+			variant="ghost"
+			className="max-w-[400px] min-w-[100px] cursor-pointer truncate text-sm font-normal text-secondary-foreground hover:bg-transparent hover:text-secondary-foreground"
 			onClick={handleClick}
 		>
 			{data.title}
-		</div>
+		</Button>
 	);
 }

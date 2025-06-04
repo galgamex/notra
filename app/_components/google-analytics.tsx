@@ -1,4 +1,4 @@
-import { GoogleAnalytics as _GoogleAnalytics } from '@next/third-parties/google';
+import { GoogleAnalytics as GoogleAnalyticsComponent } from '@next/third-parties/google';
 
 import SiteSettingsService from '@/services/site-settings';
 
@@ -8,7 +8,7 @@ const GoogleAnalytics = async () => {
 	return (
 		process.env.NODE_ENV === 'production' &&
 		siteSettings?.googleAnalyticsId && (
-			<_GoogleAnalytics gaId={siteSettings.googleAnalyticsId} />
+			<GoogleAnalyticsComponent gaId={siteSettings.googleAnalyticsId} />
 		)
 	);
 };

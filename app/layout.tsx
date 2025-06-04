@@ -25,20 +25,20 @@ export const generateMetadata = async (): Promise<Metadata> => {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	return {
-		title: siteSettings?.title || DEFAULT_SITE_TITLE,
+		title: siteSettings?.title ?? DEFAULT_SITE_TITLE,
 		description: siteSettings?.description,
 		keywords: siteSettings?.keywords,
 		icons: {
 			icon: [
 				{
 					media: '(prefers-color-scheme: light)',
-					url: siteSettings?.logo || siteSettings?.darkLogo || DEFAULT_SITE_LOGO
+					url: siteSettings?.logo ?? siteSettings?.darkLogo ?? DEFAULT_SITE_LOGO
 				},
 				{
 					media: '(prefers-color-scheme: dark)',
 					url:
-						siteSettings?.darkLogo ||
-						siteSettings?.logo ||
+						siteSettings?.darkLogo ??
+						siteSettings?.logo ??
 						DEFAULT_SITE_LOGO_DARK
 				}
 			]

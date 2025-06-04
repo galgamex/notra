@@ -95,6 +95,111 @@ export const deleteNodeWithChildren = async (
 	await removeNodeFromOldPosition(tx, deletedNode);
 };
 
+const insertNodeIntoFirstPosition = async (
+	tx: Tx,
+	bookId: BookEntity['id'],
+	node: CatalogNodeEntity,
+	newParentId: CatalogNodeEntity['parentId'],
+	newPrevId: CatalogNodeEntity['prevId']
+) => {
+	if (newParentId) {
+		const newParentNode = await tx.catalogNodeEntity.findUnique({
+			where: { id: newParentId }
+		});
+
+		if (!newParentNode) {
+			return;
+		}
+
+		await Promise.all([
+			newParentId
+				? tx.catalogNodeEntity.update({
+						where: { id: newParentId },
+						data: { childId: node.id }
+					})
+				: null,
+			tx.catalogNodeEntity.update({
+				where: { id: node.id },
+				data: {
+					parentId: newParentId,
+					prevId: newPrevId,
+					siblingId: newParentNode.childId
+				}
+			}),
+			newParentNode.childId
+				? tx.catalogNodeEntity.update({
+						where: { id: newParentNode.childId },
+						data: { prevId: node.id }
+					})
+				: null
+		]);
+	} else {
+		const firstChildOfRoot = await tx.catalogNodeEntity.findFirst({
+			where: {
+				bookId,
+				parentId: null,
+				prevId: null
+			}
+		});
+
+		await Promise.all([
+			tx.catalogNodeEntity.update({
+				where: { id: node.id },
+				data: {
+					parentId: null,
+					prevId: null,
+					siblingId: firstChildOfRoot?.id
+				}
+			}),
+			firstChildOfRoot?.id
+				? tx.catalogNodeEntity.update({
+						where: { id: firstChildOfRoot.id },
+						data: { prevId: node.id }
+					})
+				: null
+		]);
+	}
+};
+
+const insertNodeIntoNotFirstPosition = async (
+	tx: Tx,
+	node: CatalogNodeEntity,
+	newPrevId: CatalogNodeEntity['prevId']
+) => {
+	if (newPrevId === null) {
+		return;
+	}
+
+	const newPrevNode = await tx.catalogNodeEntity.findUnique({
+		where: { id: newPrevId }
+	});
+
+	if (!newPrevNode) {
+		return;
+	}
+
+	await Promise.all([
+		tx.catalogNodeEntity.update({
+			where: { id: newPrevId },
+			data: { siblingId: node.id }
+		}),
+		tx.catalogNodeEntity.update({
+			where: { id: node.id },
+			data: {
+				parentId: newPrevNode.parentId,
+				prevId: newPrevNode.id,
+				siblingId: newPrevNode.siblingId
+			}
+		}),
+		newPrevNode.siblingId
+			? tx.catalogNodeEntity.update({
+					where: { id: newPrevNode.siblingId },
+					data: { prevId: node.id }
+				})
+			: null
+	]);
+};
+
 const insertNodeIntoNewPosition = async (
 	tx: Tx,
 	{
@@ -110,96 +215,9 @@ const insertNodeIntoNewPosition = async (
 	}
 ) => {
 	if (newParentId === newPrevId) {
-		if (newParentId) {
-			const newParentNode = await tx.catalogNodeEntity.findUnique({
-				where: { id: newParentId }
-			});
-
-			if (!newParentNode) {
-				return;
-			}
-
-			await Promise.all([
-				newParentId
-					? tx.catalogNodeEntity.update({
-							where: { id: newParentId },
-							data: { childId: node.id }
-						})
-					: null,
-				tx.catalogNodeEntity.update({
-					where: { id: node.id },
-					data: {
-						parentId: newParentId,
-						prevId: newPrevId,
-						siblingId: newParentNode.childId
-					}
-				}),
-				newParentNode.childId
-					? tx.catalogNodeEntity.update({
-							where: { id: newParentNode.childId },
-							data: { prevId: node.id }
-						})
-					: null
-			]);
-		} else {
-			const firstChildOfRoot = await tx.catalogNodeEntity.findFirst({
-				where: {
-					bookId,
-					parentId: null,
-					prevId: null
-				}
-			});
-
-			await Promise.all([
-				tx.catalogNodeEntity.update({
-					where: { id: node.id },
-					data: {
-						parentId: null,
-						prevId: null,
-						siblingId: firstChildOfRoot?.id
-					}
-				}),
-				firstChildOfRoot?.id
-					? tx.catalogNodeEntity.update({
-							where: { id: firstChildOfRoot.id },
-							data: { prevId: node.id }
-						})
-					: null
-			]);
-		}
+		await insertNodeIntoFirstPosition(tx, bookId, node, newParentId, newPrevId);
 	} else {
-		if (newPrevId === null) {
-			return;
-		}
-
-		const newPrevNode = await tx.catalogNodeEntity.findUnique({
-			where: { id: newPrevId }
-		});
-
-		if (!newPrevNode) {
-			return;
-		}
-
-		await Promise.all([
-			tx.catalogNodeEntity.update({
-				where: { id: newPrevId },
-				data: { siblingId: node.id }
-			}),
-			tx.catalogNodeEntity.update({
-				where: { id: node.id },
-				data: {
-					parentId: newPrevNode.parentId,
-					prevId: newPrevNode.id,
-					siblingId: newPrevNode.siblingId
-				}
-			}),
-			newPrevNode.siblingId
-				? tx.catalogNodeEntity.update({
-						where: { id: newPrevNode.siblingId },
-						data: { prevId: node.id }
-					})
-				: null
-		]);
+		await insertNodeIntoNotFirstPosition(tx, node, newPrevId);
 	}
 };
 

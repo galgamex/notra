@@ -11,10 +11,10 @@ export const useMutateCatalog = (bookId: BookEntity['id']) => {
 	return (mutateFn?: () => Promise<CatalogNodeVoWithLevel[]>) => {
 		mutate(
 			`/api/catalog-nodes?book_id=${bookId}`,
-			mutateFn ? mutateFn : (state) => state,
+			mutateFn ?? ((state) => state),
 			{
 				optimisticData: flattenCatalogNodes(Array.from(nodeMap.values())),
-				revalidate: mutateFn ? false : true
+				revalidate: !mutateFn
 			}
 		);
 	};
