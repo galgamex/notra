@@ -9,7 +9,7 @@ export default function LevelIndicator({ id }: Readonly<LevelIndicatorProps>) {
 	const currentDropNode = useCatalog((state) => state.currentDropNode);
 	const reachLevel = useCatalog((state) => state.reachLevelMap.get(id));
 	const minReachLevel = useCatalog(
-		(state) => state.reachLevelRangeMap.get(id)?.[0] || 0
+		(state) => state.reachLevelRangeMap.get(id)?.[0] ?? 0
 	);
 
 	if (!isDragging || currentDropNode?.id !== id || reachLevel === undefined) {
