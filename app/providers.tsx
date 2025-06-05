@@ -8,7 +8,7 @@ export default function Providers({
 }>) {
 	return (
 		<ProgressProvider>
-			<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+			<ThemeProvider enableSystem attribute="class" defaultTheme="system">
 				{children}
 			</ThemeProvider>
 		</ProgressProvider>

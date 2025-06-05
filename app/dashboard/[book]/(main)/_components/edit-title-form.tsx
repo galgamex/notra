@@ -41,8 +41,8 @@ export default function EditTitleForm({
 				autoFocus
 				className="size-full rounded-sm bg-background px-1 text-sm !ring-0 !ring-offset-0"
 				value={title}
-				onChange={(e) => setTitle(e.target.value)}
 				onBlur={handleBlur}
+				onChange={(e) => setTitle(e.target.value)}
 				onKeyDown={handleKeyDown}
 			/>
 		</div>

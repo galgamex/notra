@@ -40,10 +40,10 @@ export default function AccountAvatar() {
 			<DropdownMenuTrigger asChild>
 				<div className="cursor-pointer rounded-sm px-1.5 py-1 hover:bg-accent">
 					<Image
-						src={isDark ? DEFAULT_ACCOUNT_AVATAR_DARK : DEFAULT_ACCOUNT_AVATAR}
 						alt="Account Avatar"
-						width={24}
 						height={24}
+						src={isDark ? DEFAULT_ACCOUNT_AVATAR_DARK : DEFAULT_ACCOUNT_AVATAR}
+						width={24}
 					/>
 				</div>
 			</DropdownMenuTrigger>

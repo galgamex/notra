@@ -57,7 +57,7 @@ const eslintConfig = [
 		'plugin:import/typescript',
 		'prettier'
 	),
-	...compat.plugins('import'),
+	...compat.plugins('import', 'react'),
 	...tailwind.configs['flat/recommended'],
 	{
 		settings: {
@@ -68,6 +68,15 @@ const eslintConfig = [
 	},
 	{
 		rules: {
+			'react/jsx-sort-props': [
+				'warn',
+				{
+					callbacksLast: true,
+					shorthandFirst: true,
+					noSortAlphabetically: false,
+					reservedFirst: true
+				}
+			],
 			'import/order': [
 				'error',
 				{

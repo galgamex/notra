@@ -21,9 +21,9 @@ export default function NotraSidebarTrigger({
 
 	return (
 		<Button
-			variant="ghost"
-			size="icon"
 			className={cn('h-7 w-7', className)}
+			size="icon"
+			variant="ghost"
 			onClick={handleClick}
 		>
 			<PanelLeftIcon />

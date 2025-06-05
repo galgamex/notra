@@ -34,6 +34,7 @@ model SiteSettingsEntity {
   keywords    String?
   logo        String?
   darkLogo    String?
+  copyright   String?
 
   googleAnalyticsId String? @map("google_analytics_id")
 

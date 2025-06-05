@@ -134,12 +134,12 @@ const CatalogItem = ({
 			{...(isEditingTitle ? void 0 : dragProvided.draggableProps)}
 			{...(isEditingTitle ? void 0 : dragProvided.dragHandleProps)}
 			ref={dragProvided.innerRef}
+			className="group/item"
 			style={{
 				...style,
 				...dragProvided.draggableProps.style,
 				cursor: 'pointer'
 			}}
-			className="group/item"
 		>
 			<CatalogItemWrapper
 				className={cn(
@@ -147,17 +147,17 @@ const CatalogItem = ({
 					Boolean(dragSnapshot.combineTargetFor) && 'border-indicator',
 					isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
 				)}
+				isEditingTitle={isEditingTitle}
+				item={item}
 				style={{ paddingLeft: 24 * item.level + 'px' }}
 				onClick={handleClick}
-				item={item}
-				isEditingTitle={isEditingTitle}
 			>
 				<div className="mr-1 size-6">
 					{item.childId !== null && (
 						<Button
-							variant="ghost"
-							className="size-6 rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
 							data-prevent-progress
+							className="size-6 rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+							variant="ghost"
 							onClick={(e) => {
 								e.preventDefault();
 								e.stopPropagation();
@@ -195,9 +195,9 @@ const CatalogItem = ({
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button
-									variant="ghost"
-									size="icon"
 									className="size-6 hover:bg-border"
+									size="icon"
+									variant="ghost"
 								>
 									<MoreVertical />
 								</Button>
@@ -219,9 +219,9 @@ const CatalogItem = ({
 
 						<CreateDropdown parentCatalogNodeId={item.id}>
 							<Button
-								variant="ghost"
-								size="icon"
 								className="size-6 hover:bg-border"
+								size="icon"
+								variant="ghost"
 							>
 								<Plus />
 							</Button>

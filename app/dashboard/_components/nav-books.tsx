@@ -70,10 +70,10 @@ export function NavBooks() {
 					(books.length === 0 && (
 						<div className="flex w-full items-center justify-center">
 							<Image
-								src="/empty-page.svg"
 								alt="Empty"
-								width={200}
 								height={150}
+								src="/empty-page.svg"
+								width={200}
 							/>
 						</div>
 					))}
@@ -81,8 +81,8 @@ export function NavBooks() {
 				{books?.map((item) => (
 					<NotraSidebarMenuItem key={item.id}>
 						<NotraSidebarButton
-							href={`/dashboard/${item.slug}`}
 							className="pr-1 pl-5"
+							href={`/dashboard/${item.slug}`}
 						>
 							<div className="flex w-full items-center justify-between">
 								<span className="text-secondary-foreground">{item.name}</span>
@@ -90,9 +90,9 @@ export function NavBooks() {
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
 										<Button
-											variant="ghost"
-											size="icon"
 											className="size-5 rounded-sm hover:bg-icon-hover hover:text-icon-hover-foreground md:opacity-0 md:group-hover/menu-item:opacity-100"
+											size="icon"
+											variant="ghost"
 										>
 											<MoreHorizontal />
 											<span className="sr-only">More</span>
@@ -104,8 +104,8 @@ export function NavBooks() {
 									>
 										<DropdownMenuItem asChild>
 											<Link
-												href={`/dashboard/${item.slug}/management/settings`}
 												className="flex items-center gap-2"
+												href={`/dashboard/${item.slug}/management/settings`}
 											>
 												<SlidersHorizontal className="text-muted-foreground" />
 												<span>{t('settings')}</span>
@@ -113,17 +113,17 @@ export function NavBooks() {
 										</DropdownMenuItem>
 										<DropdownMenuSeparator />
 										<DropdownMenuItem
-											onClick={() => handleCopyLink(item.slug)}
 											className="cursor-pointer"
+											onClick={() => handleCopyLink(item.slug)}
 										>
 											<LinkIcon className="text-muted-foreground" />
 											<span>{t('copy_link')}</span>
 										</DropdownMenuItem>
 										<DropdownMenuItem asChild>
 											<Link
+												className="flex items-center gap-2"
 												href={`/dashboard/${item.slug}`}
 												target="_blank"
-												className="flex items-center gap-2"
 											>
 												<ArrowUpRight className="text-muted-foreground" />
 												<span>{t('open_in_new_tab')}</span>
@@ -131,8 +131,8 @@ export function NavBooks() {
 										</DropdownMenuItem>
 										<DropdownMenuSeparator />
 										<DropdownMenuItem
-											onClick={() => handleDeleteBook(item.id)}
 											className="cursor-pointer"
+											onClick={() => handleDeleteBook(item.id)}
 										>
 											<Trash2 className="text-muted-foreground" />
 											<span>{t('delete')}</span>

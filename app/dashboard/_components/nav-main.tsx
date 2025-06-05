@@ -26,8 +26,8 @@ export default function NavMain() {
 			{navItems.map((item) => (
 				<NotraSidebarMenuItem key={item.url}>
 					<NotraSidebarButton
-						href={item.url}
 						className="pr-4 pl-2.5"
+						href={item.url}
 						isActive={pathname === item.url}
 					>
 						{item.icon && <item.icon size={16} />}

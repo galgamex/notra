@@ -29,9 +29,9 @@ export default function TitleTextarea() {
 			key={data?.title}
 			ref={ref}
 			className="min-h-12.5 resize-none rounded-none border-none p-0 !text-4xl leading-12.5 font-bold shadow-none outline-none focus-visible:border-none focus-visible:shadow-none focus-visible:ring-0 focus-visible:outline-none"
+			defaultValue={data?.title}
 			rows={1}
 			spellCheck={false}
-			defaultValue={data?.title}
 			onBlur={handleBlur}
 			onKeyDown={handleKeyDown}
 		/>

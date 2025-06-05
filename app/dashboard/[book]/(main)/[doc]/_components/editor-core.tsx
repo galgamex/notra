@@ -36,8 +36,8 @@ export default function EditorCore({ doc }: Readonly<EditorCoreProps>) {
 	return (
 		<BlockNoteView
 			editor={editor}
-			onChange={handleChange}
 			theme={resolvedTheme as 'light' | 'dark' | undefined}
+			onChange={handleChange}
 		/>
 	);
 }

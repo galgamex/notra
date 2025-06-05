@@ -21,10 +21,10 @@ export default function NotraLogo({
 
 	return (
 		<Image
-			src={isDark ? darkLogo : logo}
 			alt={`${title} Logo`}
-			width={size}
 			height={size}
+			src={isDark ? darkLogo : logo}
+			width={size}
 		/>
 	);
 }

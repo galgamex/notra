@@ -27,8 +27,8 @@ export default function CatalogItemWrapper({
 	if (item.type === 'DOC' && !isEditingTitle) {
 		return (
 			<Link
-				href={`/dashboard/${book.slug}/${item.url}`}
 				className={className}
+				href={`/dashboard/${book.slug}/${item.url}`}
 				style={style}
 				onClick={onClick}
 			>

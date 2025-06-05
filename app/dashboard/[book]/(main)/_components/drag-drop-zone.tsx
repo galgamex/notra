@@ -61,7 +61,7 @@ export default function DragDropZone({
 			const item = data[index];
 
 			return (
-				<Draggable draggableId={item.id.toString()} index={index} key={item.id}>
+				<Draggable key={item.id} draggableId={item.id.toString()} index={index}>
 					{(
 						dragProvided: DraggableProvided,
 						dragSnapshot: DraggableStateSnapshot
@@ -360,24 +360,24 @@ export default function DragDropZone({
 		<DragDropContext
 			onBeforeCapture={handleBeforeCapture}
 			onBeforeDragStart={handleBeforeDragStart}
+			onDragEnd={handleDragEnd}
 			onDragStart={handleDragStart}
 			onDragUpdate={handleDragUpdate}
-			onDragEnd={handleDragEnd}
 		>
 			<Droppable
-				mode="virtual"
-				droppableId="Catalog"
 				isCombineEnabled
+				droppableId="Catalog"
+				mode="virtual"
 				renderClone={renderCloneItem}
 			>
 				{(dropProvided: DroppableProvided) => (
 					<FixedSizeList
 						height={height}
 						itemCount={draggableList.length}
-						itemSize={36}
-						width="100%"
-						outerRef={dropProvided.innerRef}
 						itemData={draggableList}
+						itemSize={36}
+						outerRef={dropProvided.innerRef}
+						width="100%"
 					>
 						{renderItem}
 					</FixedSizeList>

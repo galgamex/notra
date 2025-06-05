@@ -63,17 +63,17 @@ export default function CreateBookForm({
 			<DialogTrigger asChild>
 				{children ?? (
 					<Button
-						variant="ghost"
-						size="icon"
 						className="h-7 w-7 cursor-pointer"
+						size="icon"
+						variant="ghost"
 					>
 						<Plus />
 					</Button>
 				)}
 			</DialogTrigger>
 			<DialogContent
-				className="sm:max-w-md"
 				aria-describedby={undefined}
+				className="sm:max-w-md"
 				onCloseAutoFocus={(e) => e.preventDefault()}
 			>
 				<DialogHeader>
@@ -82,7 +82,7 @@ export default function CreateBookForm({
 
 				<div className="mt-4">
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+						<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
 							<FormField
 								control={form.control}
 								name="name"
@@ -91,8 +91,8 @@ export default function CreateBookForm({
 										<FormControl>
 											<Input
 												className="h-10"
-												placeholder={t('name_placeholder')}
 												disabled={isPending}
+												placeholder={t('name_placeholder')}
 												{...field}
 											/>
 										</FormControl>
@@ -101,9 +101,9 @@ export default function CreateBookForm({
 							/>
 
 							<SubmitButton
-								isPending={isPending}
-								disabled={isDisabled}
 								className="h-10"
+								disabled={isDisabled}
+								isPending={isPending}
 							>
 								{t('create')}
 							</SubmitButton>

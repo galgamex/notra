@@ -86,6 +86,8 @@ export const en = {
 		description_placeholder: 'A brief description of your website',
 		label_keywords: 'Keywords',
 		keywords_placeholder: 'notra, blog, website',
+		label_copyright: 'Copyright',
+		copyright_placeholder: 'eg. Copyright © 2024-2025 Notra',
 		button_update_info: 'Update Info',
 		button_update_analytics: 'Update Analytics',
 		edit_logo: 'Edit Logo',
@@ -104,7 +106,6 @@ export const en = {
 		site_settings: 'Site Settings'
 	},
 	components_notra_footer: {
-		copyright: 'Copyright © {copyright}',
 		powered_by:
 			'Powered by <a href="https://notra.tech" target="_blank" rel="noopener noreferrer" class="font-bold hover:text-primary">Notra</a>'
 	},

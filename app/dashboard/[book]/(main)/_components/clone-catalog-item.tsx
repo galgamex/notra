@@ -57,6 +57,7 @@ const CloneCatalogItem = ({
 		<div
 			{...dragProvided.draggableProps}
 			{...dragProvided.dragHandleProps}
+			className="px-2"
 			style={{
 				...dragProvided.draggableProps.style,
 				cursor: 'pointer',
@@ -66,7 +67,6 @@ const CloneCatalogItem = ({
 						}
 					: void 0)
 			}}
-			className="px-2"
 		>
 			<div
 				className={cn(

@@ -67,7 +67,7 @@ export default function CreateDropdown({
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				{children ?? (
-					<Button variant="outline" size="icon" className="size-8">
+					<Button className="size-8" size="icon" variant="outline">
 						<Plus size={16} />
 					</Button>
 				)}

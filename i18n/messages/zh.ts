@@ -86,6 +86,8 @@ export const zh = {
 		description_placeholder: '网站的简短描述',
 		label_keywords: '关键词',
 		keywords_placeholder: 'notra, 博客, 网站',
+		label_copyright: '版权信息',
+		copyright_placeholder: '版权所有 © 2024-2025 Notra',
 		button_update_info: '更新信息',
 		button_update_analytics: '更新分析配置',
 		edit_logo: '编辑 Logo',
@@ -104,7 +106,6 @@ export const zh = {
 		site_settings: '站点设置'
 	},
 	components_notra_footer: {
-		copyright: '版权所有 © {copyright}',
 		powered_by:
 			'本网站由 <a href="https://notra.tech" target="_blank" rel="noopener noreferrer" class="font-bold hover:text-primary">Notra</a> 提供技术支持'
 	},

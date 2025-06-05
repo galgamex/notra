@@ -8,7 +8,8 @@ export const SiteInfoFormSchema = z.object({
 	description: z.string().nullable().optional(),
 	keywords: z.string().nullable().optional(),
 	logo: z.instanceof(File).nullable().optional(),
-	darkLogo: z.instanceof(File).nullable().optional()
+	darkLogo: z.instanceof(File).nullable().optional(),
+	copyright: z.string().nullable().optional()
 });
 
 export type SiteInfoFormValues = z.infer<typeof SiteInfoFormSchema>;
@@ -19,6 +20,7 @@ export type UpdateSiteInfoDto = {
 	keywords?: Nullable<SiteSettingsEntity['keywords']>;
 	logo?: Nullable<SiteSettingsEntity['logo']>;
 	darkLogo?: Nullable<SiteSettingsEntity['darkLogo']>;
+	copyright?: Nullable<SiteSettingsEntity['copyright']>;
 	googleAnalyticsId?: Nullable<SiteSettingsEntity['googleAnalyticsId']>;
 };
 

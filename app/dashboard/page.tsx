@@ -30,7 +30,7 @@ export default async function Page() {
 
 	return (
 		<>
-			<NotraSidebar className="bg-sidebar" resizeable>
+			<NotraSidebar resizeable className="bg-sidebar">
 				<DashboardSidebarHeader />
 
 				<NotraSidebarContent>
@@ -46,7 +46,7 @@ export default async function Page() {
 
 					<div className="mb-9 flex flex-wrap gap-3">
 						<CreateBookForm>
-							<Button variant="outline" className="h-14 min-w-56 p-0">
+							<Button className="h-14 min-w-56 p-0" variant="outline">
 								<div className="flex size-full items-center">
 									<div className="px-4">
 										<BookPlus />

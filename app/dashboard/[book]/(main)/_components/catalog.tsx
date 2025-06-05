@@ -34,7 +34,7 @@ export default function Catalog({ book }: Readonly<CatalogProps>) {
 
 	return (
 		<div className="relative size-full">
-			<div className="absolute h-full w-px" ref={ref}></div>
+			<div ref={ref} className="absolute h-full w-px"></div>
 
 			{isLoading && (
 				<div className="px-2">
@@ -52,17 +52,17 @@ export default function Catalog({ book }: Readonly<CatalogProps>) {
 
 			{!isLoading && data.length === 0 && (
 				<div className="flex h-[300px] w-full items-center justify-center">
-					<Image src="/empty-list.svg" alt="Empty" width={200} height={150} />
+					<Image alt="Empty" height={150} src="/empty-list.svg" width={200} />
 				</div>
 			)}
 
 			{!isLoading && data.length > 0 && (
 				<DragDropZone
-					height={height}
 					bookId={book.id}
 					draggableList={draggableList}
-					nodeMap={nodeMap}
+					height={height}
 					mutateCatalog={mutateCatalog}
+					nodeMap={nodeMap}
 				/>
 			)}
 		</div>

@@ -76,7 +76,7 @@ export default function BookInfoForm({
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
 				<FormField
 					control={form.control}
 					name="name"
@@ -105,7 +105,7 @@ export default function BookInfoForm({
 					)}
 				/>
 
-				<SubmitButton isPending={isLoading} className="w-auto">
+				<SubmitButton className="w-auto" isPending={isLoading}>
 					{t('button_update_info')}
 				</SubmitButton>
 			</form>

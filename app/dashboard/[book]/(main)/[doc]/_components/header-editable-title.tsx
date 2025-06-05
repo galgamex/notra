@@ -51,11 +51,11 @@ export default function HeaderEditableTitle() {
 		return (
 			<Input
 				ref={inputRef}
-				className="w-[200px]"
 				autoFocus
+				className="w-[200px]"
+				defaultValue={data.title}
 				maxLength={128}
 				onBlur={handleBlur}
-				defaultValue={data.title}
 				onKeyDown={handleKeyDown}
 			/>
 		);
@@ -63,8 +63,8 @@ export default function HeaderEditableTitle() {
 
 	return (
 		<Button
-			variant="ghost"
 			className="inline-block max-w-[400px] min-w-[100px] cursor-pointer truncate px-0 text-start text-sm font-normal text-secondary-foreground hover:bg-transparent hover:text-secondary-foreground"
+			variant="ghost"
 			onClick={handleClick}
 		>
 			{data.title}

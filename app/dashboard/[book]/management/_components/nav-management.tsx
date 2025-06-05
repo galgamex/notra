@@ -34,8 +34,8 @@ export default function NavManagement({ slug }: Readonly<NavManagementProps>) {
 					{navSite.map((item) => (
 						<NotraSidebarMenuItem key={item.url}>
 							<NotraSidebarButton
-								href={item.url}
 								className="pr-4 pl-6"
+								href={item.url}
 								isActive={pathname === item.url}
 							>
 								{item.icon && <item.icon size={16} />}

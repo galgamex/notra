@@ -104,7 +104,7 @@ export function ImageCropper({
 
 	return (
 		<>
-			<AspectRatio ratio={aspectRatio} className={disabled ? 'opacity-50' : ''}>
+			<AspectRatio className={disabled ? 'opacity-50' : ''} ratio={aspectRatio}>
 				{croppedImage ? (
 					<button
 						className={cn(
@@ -116,9 +116,9 @@ export function ImageCropper({
 						<div className="size-full overflow-hidden">
 							<picture>
 								<img
-									src={croppedImage}
 									alt="preview"
 									className="size-full object-cover"
+									src={croppedImage}
 								/>
 							</picture>
 						</div>
@@ -126,8 +126,8 @@ export function ImageCropper({
 							{!disabled && (
 								<div className="flex size-full items-center justify-center bg-black/65 text-primary-foreground opacity-0 transition-opacity group-hover/cropper:opacity-100 dark:bg-white/65">
 									<Trash2
-										onClick={handleRemoveImage}
 										className="size-4 text-white dark:text-black"
+										onClick={handleRemoveImage}
 									/>
 								</div>
 							)}
@@ -156,19 +156,19 @@ export function ImageCropper({
 						{image && (
 							<Cropper
 								ref={cropperRef}
-								className="size-full"
-								src={image}
 								aspectRatio={aspectRatio}
-								viewMode={2}
-								dragMode="move"
 								autoCropArea={1}
+								className="size-full"
+								dragMode="move"
+								src={image}
+								viewMode={2}
 							/>
 						)}
 					</AspectRatio>
 
 					<Button
-						variant="outline"
 						className="w-fit cursor-pointer"
+						variant="outline"
 						onClick={handleSelectImage}
 					>
 						<Upload />
@@ -177,13 +177,13 @@ export function ImageCropper({
 
 					<AlertDialogFooter className="mt-4">
 						<Button
+							className="cursor-pointer"
 							variant="outline"
 							onClick={() => setIsDialogOpen(false)}
-							className="cursor-pointer"
 						>
 							{t('cancel')}
 						</Button>
-						<Button onClick={handleCrop} className="cursor-pointer">
+						<Button className="cursor-pointer" onClick={handleCrop}>
 							{t('crop')}
 						</Button>
 					</AlertDialogFooter>

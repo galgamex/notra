@@ -21,10 +21,10 @@ export function SubmitButton({
 }: Readonly<SubmitButtonProps>) {
 	return (
 		<Button
-			type={isPending ? 'button' : 'submit'}
 			aria-disabled={isPending}
 			className={cn('cursor-pointer w-full h-8', className)}
 			disabled={disabled || isPending}
+			type={isPending ? 'button' : 'submit'}
 		>
 			{isPending && <Loader2 className="animate-spin" />}
 			{children}

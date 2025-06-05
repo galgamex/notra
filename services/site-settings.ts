@@ -18,6 +18,7 @@ export default class SiteSettingsService {
 					keywords: true,
 					logo: true,
 					darkLogo: true,
+					copyright: true,
 					googleAnalyticsId: true
 				}
 			});
@@ -37,6 +38,7 @@ export default class SiteSettingsService {
 		keywords?: Nullable<SiteSettingsEntity['keywords']>;
 		logo?: Nullable<SiteSettingsEntity['logo']>;
 		darkLogo?: Nullable<SiteSettingsEntity['darkLogo']>;
+		copyright?: Nullable<SiteSettingsEntity['copyright']>;
 		googleAnalyticsId?: Nullable<SiteSettingsEntity['googleAnalyticsId']>;
 	}) => {
 		try {

@@ -14,8 +14,8 @@ export default async function DashboardSidebarHeader() {
 	return (
 		<NotraSidebarHeader>
 			<Link
-				href="/dashboard"
 				className="flex h-8 items-center gap-2 transition-opacity hover:opacity-60"
+				href="/dashboard"
 			>
 				<div className="flex size-8 shrink-0 items-center justify-center">
 					<DashboardLogo size={28} />

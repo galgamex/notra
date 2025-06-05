@@ -38,7 +38,7 @@ export default async function Layout({
 						<span className="font-bold">{book.name}</span>
 
 						<Link href={`/dashboard/${book.slug}/management/settings`}>
-							<Button variant="ghost" size="icon" className="size-7">
+							<Button className="size-7" size="icon" variant="ghost">
 								<Settings2 size={16} />
 								<span className="sr-only">Settings</span>
 							</Button>

@@ -18,17 +18,17 @@ export default async function NotraHeader() {
 				<div className="mx-auto flex h-full max-w-[1376px] justify-between font-semibold">
 					<Link className="flex h-full items-center gap-2" href="/">
 						<NotraLogo
-							size={24}
-							logo={
-								siteSettings?.logo ??
-								siteSettings?.darkLogo ??
-								DEFAULT_SITE_LOGO
-							}
 							darkLogo={
 								siteSettings?.darkLogo ??
 								siteSettings?.logo ??
 								DEFAULT_SITE_LOGO_DARK
 							}
+							logo={
+								siteSettings?.logo ??
+								siteSettings?.darkLogo ??
+								DEFAULT_SITE_LOGO
+							}
+							size={24}
 							title={siteSettings?.title ?? DEFAULT_SITE_TITLE}
 						/>
 						<span>{siteSettings?.title ?? DEFAULT_SITE_TITLE}</span>

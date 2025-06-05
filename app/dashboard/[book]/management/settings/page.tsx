@@ -25,9 +25,9 @@ export default async function Page({ params }: Readonly<PageProps>) {
 			<h1 className="pb-7 text-xl font-medium">{t('title')}</h1>
 
 			<BookInfoForm
-				id={book.id}
 				defaultName={book.name}
 				defaultSlug={book.slug}
+				id={book.id}
 			/>
 		</>
 	);

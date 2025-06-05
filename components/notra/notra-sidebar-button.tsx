@@ -37,12 +37,12 @@ export default function NotraSidebarButton({
 
 	return (
 		<Link
-			href={href}
 			className={cn(
 				'h-8 w-full rounded-sm text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors duration-200 flex items-center gap-2 px-2',
 				className,
 				isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
 			)}
+			href={href}
 			onClick={handleClick}
 		>
 			{children}

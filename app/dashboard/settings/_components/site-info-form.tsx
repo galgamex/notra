@@ -32,6 +32,7 @@ export interface SiteInfoFormProps {
 	defaultKeywords?: SiteSettingsEntity['keywords'];
 	defaultLogo?: SiteSettingsEntity['logo'];
 	defaultDarkLogo?: SiteSettingsEntity['darkLogo'];
+	defaultCopyright?: SiteSettingsEntity['copyright'];
 }
 
 export default function SiteInfoForm({
@@ -39,7 +40,8 @@ export default function SiteInfoForm({
 	defaultDescription,
 	defaultKeywords,
 	defaultLogo,
-	defaultDarkLogo
+	defaultDarkLogo,
+	defaultCopyright
 }: Readonly<SiteInfoFormProps>) {
 	const t = useTranslations('app_dashboard_settings_page');
 	const uploadError = useTranslations('actions_files')('upload_error');
@@ -51,7 +53,8 @@ export default function SiteInfoForm({
 		defaultValues: {
 			title: defaultTitle,
 			description: defaultDescription,
-			keywords: defaultKeywords
+			keywords: defaultKeywords,
+			copyright: defaultCopyright
 		}
 	});
 
@@ -90,7 +93,8 @@ export default function SiteInfoForm({
 				description: values.description,
 				keywords: values.keywords,
 				logo: values.logo === null ? null : image?.url,
-				darkLogo: values.darkLogo === null ? null : darkImage?.url
+				darkLogo: values.darkLogo === null ? null : darkImage?.url,
+				copyright: values.copyright
 			});
 
 			if (result.success) {
@@ -114,7 +118,7 @@ export default function SiteInfoForm({
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
 				<FormField
 					control={form.control}
 					name="logo"
@@ -123,11 +127,11 @@ export default function SiteInfoForm({
 							<FormLabel>{t('label_logo')}</FormLabel>
 							<div className="w-28">
 								<ImageCropper
-									title={t('edit_logo')}
 									aspectRatio={1}
-									placeholder={logoPlaceholder}
 									defaultImage={defaultLogo}
 									disabled={isLoading}
+									placeholder={logoPlaceholder}
+									title={t('edit_logo')}
 									onCrop={(croppedFile) => {
 										field.onChange(croppedFile);
 									}}
@@ -146,11 +150,11 @@ export default function SiteInfoForm({
 							<FormLabel>{t('label_dark_logo')}</FormLabel>
 							<div className="w-28">
 								<ImageCropper
-									title={t('edit_dark_logo')}
 									aspectRatio={1}
-									placeholder={logoPlaceholder}
 									defaultImage={defaultDarkLogo}
 									disabled={isLoading}
+									placeholder={logoPlaceholder}
+									title={t('edit_dark_logo')}
 									onCrop={(croppedFile) => {
 										field.onChange(croppedFile);
 									}}
@@ -170,9 +174,9 @@ export default function SiteInfoForm({
 							<FormControl>
 								<Input
 									{...field}
-									value={field.value ?? ''}
-									placeholder="Notra"
 									disabled={isLoading}
+									placeholder="Notra"
+									value={field.value ?? ''}
 								/>
 							</FormControl>
 							<FormMessage />
@@ -189,9 +193,9 @@ export default function SiteInfoForm({
 							<FormControl>
 								<Textarea
 									{...field}
-									value={field.value ?? ''}
-									placeholder={t('description_placeholder')}
 									disabled={isLoading}
+									placeholder={t('description_placeholder')}
+									value={field.value ?? ''}
 								/>
 							</FormControl>
 							<FormMessage />
@@ -208,9 +212,9 @@ export default function SiteInfoForm({
 							<FormControl>
 								<Input
 									{...field}
-									value={field.value ?? ''}
-									placeholder={t('keywords_placeholder')}
 									disabled={isLoading}
+									placeholder={t('keywords_placeholder')}
+									value={field.value ?? ''}
 								/>
 							</FormControl>
 							<FormMessage />
@@ -218,7 +222,30 @@ export default function SiteInfoForm({
 					)}
 				/>
 
-				<SubmitButton isPending={isLoading} className="w-auto">
+				<FormField
+					control={form.control}
+					name="copyright"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{t('label_copyright')}</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									disabled={isLoading}
+									placeholder={t('copyright_placeholder')}
+									value={field.value ?? ''}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<SubmitButton
+					className="w-auto"
+					disabled={!form.formState.isDirty}
+					isPending={isLoading}
+				>
 					{t('button_update_info')}
 				</SubmitButton>
 			</form>

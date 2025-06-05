@@ -70,7 +70,7 @@ export function LoginForm() {
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+					<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
 						<FormField
 							control={form.control}
 							name="username"
@@ -91,7 +91,7 @@ export function LoginForm() {
 								<FormItem>
 									<FormLabel>{t('password_label')}</FormLabel>
 									<FormControl>
-										<Input type="password" disabled={isPending} {...field} />
+										<Input disabled={isPending} type="password" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

@@ -15,11 +15,11 @@ export default async function Page() {
 
 			<h2 className="mb-4 font-medium">{t('site_info')}</h2>
 			<SiteSettingsForm
-				defaultTitle={siteSettings?.title}
+				defaultDarkLogo={siteSettings?.darkLogo}
 				defaultDescription={siteSettings?.description}
 				defaultKeywords={siteSettings?.keywords}
 				defaultLogo={siteSettings?.logo}
-				defaultDarkLogo={siteSettings?.darkLogo}
+				defaultTitle={siteSettings?.title}
 			/>
 			<Separator className="my-7 bg-gray-100 dark:bg-secondary" />
 
