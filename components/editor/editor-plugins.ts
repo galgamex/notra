@@ -5,6 +5,8 @@ import { HeadingPlugin } from '@udecode/plate-heading/react';
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react';
 import { all, createLowlight } from 'lowlight';
 
+import { FixedToolbarPlugin } from './plugins/fixed-toolbar-plugin';
+
 const lowlight = createLowlight(all);
 
 export const editorPlugins = [
@@ -13,5 +15,8 @@ export const editorPlugins = [
 	BlockquotePlugin,
 	CodeBlockPlugin.configure({ options: { lowlight } }),
 	BasicMarksPlugin,
-	HorizontalRulePlugin
+	HorizontalRulePlugin,
+
+	// ui
+	FixedToolbarPlugin
 ];
