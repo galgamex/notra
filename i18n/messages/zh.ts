@@ -151,5 +151,14 @@ export const zh = {
 	services_site_settings: {
 		get_site_settings_error: '获取站点设置失败！',
 		update_site_settings_error: '更新站点设置失败！'
+	},
+	notra_editor: {
+		fixed_toolbar_redo: '重做',
+		fixed_toolbar_undo: '撤销',
+		fixed_toolbar_bold: '加粗',
+		fixed_toolbar_italic: '斜体',
+		fixed_toolbar_underline: '下划线',
+		fixed_toolbar_strikethrough: '删除线',
+		fixed_toolbar_code_inline: '行内代码'
 	}
 };

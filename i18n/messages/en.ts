@@ -151,5 +151,14 @@ export const en = {
 	services_site_settings: {
 		get_site_settings_error: 'Failed to get site settings!',
 		update_site_settings_error: 'Failed to update site settings!'
+	},
+	notra_editor: {
+		fixed_toolbar_redo: 'Redo',
+		fixed_toolbar_undo: 'Undo',
+		fixed_toolbar_bold: 'Bold',
+		fixed_toolbar_italic: 'Italic',
+		fixed_toolbar_underline: 'Underline',
+		fixed_toolbar_strikethrough: 'Strikethrough',
+		fixed_toolbar_code_inline: 'Code'
 	}
 };
