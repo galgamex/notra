@@ -95,6 +95,7 @@
 	--color-popover: var(--popover);
 	--color-popover-foreground: var(--popover-foreground);
 	--color-primary: var(--primary);
+	--color-brand: var(--primary);
 	--color-primary-foreground: var(--primary-foreground);
 	--color-secondary: var(--secondary);
 	--color-secondary-foreground: var(--secondary-foreground);
@@ -131,6 +132,11 @@
 	--color-icon-hover: var(--icon-hover);
 	--color-icon-hover-foreground: var(--icon-hover-foreground);
 	--spacing-nav-height: var(--nav-height);
+	--font-heading:
+		'var(--font-heading)', 'ui-sans-serif', '-apple-system',
+		'BlinkMacSystemFont', 'Segoe UI Variable Display', 'Segoe UI', 'Helvetica',
+		'Apple Color Emoji', 'Arial', 'sans-serif', 'Segoe UI Emoji',
+		'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 @layer base {
@@ -150,6 +156,7 @@
 }
 
 ::selection {
+	@apply bg-brand/[.13];
+
 	color: inherit;
-	background: oklch(67.58% 0.1422 237.27deg / 20%);
 }
