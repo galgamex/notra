@@ -16,6 +16,7 @@ import {
 	CodeSyntaxPlugin
 } from '@udecode/plate-code-block/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
+import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react';
 
 import { BlockquoteElement } from './ui/blockquote-element';
 import { CodeBlockElement } from './ui/code-block-element';
@@ -23,6 +24,7 @@ import { CodeLeaf } from './ui/code-leaf';
 import { CodeLineElement } from './ui/code-line-element';
 import { CodeSyntaxLeaf } from './ui/code-syntax-leaf';
 import { HeadingElement } from './ui/heading-element';
+import { HrElement } from './ui/hr-element';
 
 export const editorComponents = {
 	// basic nodes
@@ -42,5 +44,6 @@ export const editorComponents = {
 	[StrikethroughPlugin.key]: withProps(PlateLeaf, { as: 's' }),
 	[SubscriptPlugin.key]: withProps(PlateLeaf, { as: 'sub' }),
 	[SuperscriptPlugin.key]: withProps(PlateLeaf, { as: 'sup' }),
-	[CodePlugin.key]: CodeLeaf
+	[CodePlugin.key]: CodeLeaf,
+	[HorizontalRulePlugin.key]: HrElement
 };
