@@ -1,5 +1,5 @@
 import { withProps } from '@udecode/cn';
-import { PlateLeaf } from '@udecode/plate/react';
+import { ParagraphPlugin, PlateLeaf } from '@udecode/plate/react';
 import {
 	BoldPlugin,
 	CodePlugin,
@@ -16,7 +16,17 @@ import {
 	CodeSyntaxPlugin
 } from '@udecode/plate-code-block/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
+import { TocPlugin } from '@udecode/plate-heading/react';
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react';
+import { KbdPlugin } from '@udecode/plate-kbd/react';
+import { SlashInputPlugin } from '@udecode/plate-slash-command/react';
+import {
+	TableCellHeaderPlugin,
+	TableCellPlugin,
+	TablePlugin,
+	TableRowPlugin
+} from '@udecode/plate-table/react';
+import { TogglePlugin } from '@udecode/plate-toggle/react';
 
 import { BlockquoteElement } from './ui/blockquote-element';
 import { CodeBlockElement } from './ui/code-block-element';
@@ -25,9 +35,20 @@ import { CodeLineElement } from './ui/code-line-element';
 import { CodeSyntaxLeaf } from './ui/code-syntax-leaf';
 import { HeadingElement } from './ui/heading-element';
 import { HrElement } from './ui/hr-element';
+import { KbdLeaf } from './ui/kbd-leaf';
+import { ParagraphElement } from './ui/paragraph-element';
+import { SlashInputElement } from './ui/slash-input-element';
+import {
+	TableCellElement,
+	TableCellHeaderElement
+} from './ui/table-cell-element';
+import { TableElement } from './ui/table-element';
+import { TableRowElement } from './ui/table-row-element';
+import { TocElement } from './ui/toc-element';
+import { ToggleElement } from './ui/toggle-element';
 
 export const editorComponents = {
-	// basic nodes
+	// blocks
 	[HEADING_KEYS.h1]: withProps(HeadingElement, { variant: 'h1' }),
 	[HEADING_KEYS.h2]: withProps(HeadingElement, { variant: 'h2' }),
 	[HEADING_KEYS.h3]: withProps(HeadingElement, { variant: 'h3' }),
@@ -36,8 +57,19 @@ export const editorComponents = {
 	[HEADING_KEYS.h6]: withProps(HeadingElement, { variant: 'h6' }),
 	[BlockquotePlugin.key]: BlockquoteElement,
 	[CodeBlockPlugin.key]: CodeBlockElement,
-	[CodeLinePlugin.key]: CodeLineElement,
-	[CodeSyntaxPlugin.key]: CodeSyntaxLeaf,
+	[HorizontalRulePlugin.key]: HrElement,
+
+	// advanced blocks
+	[TablePlugin.key]: TableElement,
+	[TableRowPlugin.key]: TableRowElement,
+	[TableCellPlugin.key]: TableCellElement,
+	[TableCellHeaderPlugin.key]: TableCellHeaderElement,
+	[TocPlugin.key]: TocElement,
+
+	// lists
+	[TogglePlugin.key]: ToggleElement,
+
+	// marks
 	[BoldPlugin.key]: withProps(PlateLeaf, { as: 'strong' }),
 	[ItalicPlugin.key]: withProps(PlateLeaf, { as: 'em' }),
 	[UnderlinePlugin.key]: withProps(PlateLeaf, { as: 'u' }),
@@ -45,5 +77,13 @@ export const editorComponents = {
 	[SubscriptPlugin.key]: withProps(PlateLeaf, { as: 'sub' }),
 	[SuperscriptPlugin.key]: withProps(PlateLeaf, { as: 'sup' }),
 	[CodePlugin.key]: CodeLeaf,
-	[HorizontalRulePlugin.key]: HrElement
+	[KbdPlugin.key]: KbdLeaf,
+
+	// format
+	[CodeLinePlugin.key]: CodeLineElement,
+	[CodeSyntaxPlugin.key]: CodeSyntaxLeaf,
+	[ParagraphPlugin.key]: ParagraphElement,
+
+	// functionality
+	[SlashInputPlugin.key]: SlashInputElement
 };
