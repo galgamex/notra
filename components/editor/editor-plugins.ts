@@ -1,6 +1,9 @@
+import emojiMartData, { EmojiMartData } from '@emoji-mart/data';
 import { BasicMarksPlugin } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
+import { CalloutPlugin } from '@udecode/plate-callout/react';
 import { CodeBlockPlugin } from '@udecode/plate-code-block/react';
+import { EmojiPlugin } from '@udecode/plate-emoji/react';
 import {
 	FontBackgroundColorPlugin,
 	FontColorPlugin,
@@ -9,6 +12,7 @@ import {
 import { HeadingPlugin, TocPlugin } from '@udecode/plate-heading/react';
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react';
 import { KbdPlugin } from '@udecode/plate-kbd/react';
+import { ColumnPlugin } from '@udecode/plate-layout/react';
 import { NodeIdPlugin } from '@udecode/plate-node-id';
 import { SlashPlugin } from '@udecode/plate-slash-command/react';
 import { BaseSuggestionPlugin } from '@udecode/plate-suggestion';
@@ -37,14 +41,16 @@ export const editorPlugins = [
 	BlockquotePlugin,
 	CodeBlockPlugin.configure({ options: { lowlight } }),
 	HorizontalRulePlugin,
+	TablePlugin,
+	CalloutPlugin,
 
 	// advanced blocks
-	TablePlugin,
 	TocPlugin.configure({
 		options: {
 			topOffset: 80
 		}
 	}),
+	ColumnPlugin,
 
 	// lists
 	indentListPlugin,
@@ -83,6 +89,7 @@ export const editorPlugins = [
 	resetBlockTypePlugin,
 	TrailingBlockPlugin,
 	BaseSuggestionPlugin,
+	EmojiPlugin.configure({ options: { data: emojiMartData as EmojiMartData } }),
 
 	// ui
 	FixedToolbarPlugin

@@ -210,6 +210,7 @@ export const zh = {
 		fixed_toolbar_insert_column_before: '插入列前',
 		fixed_toolbar_insert_column_after: '插入列后',
 		fixed_toolbar_delete_column: '删除列',
+		fixed_toolbar_emoji: '表情',
 		drag_to_move: '可拖拽',
 		color_picker_custom_colors: '自定义颜色',
 		color_picker_default_colors: '默认颜色',

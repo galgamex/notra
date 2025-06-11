@@ -10,15 +10,18 @@ import {
 	UnderlinePlugin
 } from '@udecode/plate-basic-marks/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
+import { CalloutPlugin } from '@udecode/plate-callout/react';
 import {
 	CodeBlockPlugin,
 	CodeLinePlugin,
 	CodeSyntaxPlugin
 } from '@udecode/plate-code-block/react';
+import { EmojiInputPlugin } from '@udecode/plate-emoji/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
 import { TocPlugin } from '@udecode/plate-heading/react';
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react';
 import { KbdPlugin } from '@udecode/plate-kbd/react';
+import { ColumnItemPlugin, ColumnPlugin } from '@udecode/plate-layout/react';
 import { SlashInputPlugin } from '@udecode/plate-slash-command/react';
 import {
 	TableCellHeaderPlugin,
@@ -29,10 +32,14 @@ import {
 import { TogglePlugin } from '@udecode/plate-toggle/react';
 
 import { BlockquoteElement } from './ui/blockquote-element';
+import { CalloutElement } from './ui/callout-element';
 import { CodeBlockElement } from './ui/code-block-element';
 import { CodeLeaf } from './ui/code-leaf';
 import { CodeLineElement } from './ui/code-line-element';
 import { CodeSyntaxLeaf } from './ui/code-syntax-leaf';
+import { ColumnElement } from './ui/column-element';
+import { ColumnGroupElement } from './ui/column-group-element';
+import { EmojiInputElement } from './ui/emoji-input-element';
 import { HeadingElement } from './ui/heading-element';
 import { HrElement } from './ui/hr-element';
 import { KbdLeaf } from './ui/kbd-leaf';
@@ -48,7 +55,7 @@ import { TocElement } from './ui/toc-element';
 import { ToggleElement } from './ui/toggle-element';
 
 export const editorComponents = {
-	// blocks
+	// basic blocks
 	[HEADING_KEYS.h1]: withProps(HeadingElement, { variant: 'h1' }),
 	[HEADING_KEYS.h2]: withProps(HeadingElement, { variant: 'h2' }),
 	[HEADING_KEYS.h3]: withProps(HeadingElement, { variant: 'h3' }),
@@ -58,13 +65,16 @@ export const editorComponents = {
 	[BlockquotePlugin.key]: BlockquoteElement,
 	[CodeBlockPlugin.key]: CodeBlockElement,
 	[HorizontalRulePlugin.key]: HrElement,
-
-	// advanced blocks
 	[TablePlugin.key]: TableElement,
 	[TableRowPlugin.key]: TableRowElement,
 	[TableCellPlugin.key]: TableCellElement,
 	[TableCellHeaderPlugin.key]: TableCellHeaderElement,
+	[CalloutPlugin.key]: CalloutElement,
+
+	// advanced blocks
 	[TocPlugin.key]: TocElement,
+	[ColumnItemPlugin.key]: ColumnElement,
+	[ColumnPlugin.key]: ColumnGroupElement,
 
 	// lists
 	[TogglePlugin.key]: ToggleElement,
@@ -85,5 +95,6 @@ export const editorComponents = {
 	[ParagraphPlugin.key]: ParagraphElement,
 
 	// functionality
-	[SlashInputPlugin.key]: SlashInputElement
+	[SlashInputPlugin.key]: SlashInputElement,
+	[EmojiInputPlugin.key]: EmojiInputElement
 };

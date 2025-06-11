@@ -26,6 +26,7 @@ import { getTranslations } from '@/i18n';
 
 import { AlignDropdownMenu } from './align-dropdown-menu';
 import { ColorDropdownMenu } from './color-dropdown-menu';
+import { EmojiDropdownMenu } from './emoji-dropdown-menu';
 import { FontSizeToolbarButton } from './font-size-toolbar-button';
 import { RedoToolbarButton, UndoToolbarButton } from './history-toolbar-button';
 import {
@@ -129,6 +130,7 @@ export function FixedToolbarButtons() {
 
 					<ToolbarGroup>
 						<TableDropdownMenu />
+						<EmojiDropdownMenu />
 					</ToolbarGroup>
 
 					<ToolbarGroup>

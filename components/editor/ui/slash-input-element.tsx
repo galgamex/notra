@@ -92,7 +92,7 @@ const groups: Group[] = [
 	// 	]
 	// },
 	{
-		group: 'Basic blocks',
+		group: t('slash_input_element_basic_blocks'),
 		items: [
 			{
 				icon: <PilcrowIcon />,

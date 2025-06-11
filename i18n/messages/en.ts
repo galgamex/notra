@@ -210,6 +210,7 @@ export const en = {
 		fixed_toolbar_insert_column_before: 'Insert column before',
 		fixed_toolbar_insert_column_after: 'Insert column after',
 		fixed_toolbar_delete_column: 'Delete column',
+		fixed_toolbar_emoji: 'Emoji',
 		drag_to_move: 'Drag to move',
 		color_picker_custom_colors: 'Custom colors',
 		color_picker_default_colors: 'Default colors',

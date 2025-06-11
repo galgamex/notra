@@ -28,6 +28,8 @@ export default async function Page({
 					<Editor slug={slug} />
 				</div>
 			</div>
+
+			{/* <NotraEditor /> */}
 		</>
 	);
 }
