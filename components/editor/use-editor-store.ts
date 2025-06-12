@@ -3,6 +3,8 @@ import { create } from 'zustand';
 type EditorStore = {
 	slug: string | undefined;
 	setSlug: (slug: string | undefined) => void;
+	title: string | undefined;
+	setTitle: (title: string | undefined) => void;
 	titleToUpdate: string | undefined;
 	setTitleToUpdate: (title: string | undefined) => void;
 	isSaving: boolean;
@@ -20,6 +22,8 @@ const useEditorStore = create<EditorStore>((set, get) => ({
 				? { isFirstLoad: true, titleToUpdate: void 0, isSaving: false }
 				: void 0)
 		}),
+	title: void 0,
+	setTitle: (title) => set({ title }),
 	titleToUpdate: void 0,
 	setTitleToUpdate: (titleToUpdate) => set({ titleToUpdate }),
 	isSaving: false,
