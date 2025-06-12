@@ -11,6 +11,7 @@ import { CSSProperties, useState } from 'react';
 import { toast } from 'sonner';
 
 import { deleteWithChildren, updateTitle } from '@/actions/catalog-node';
+import useEditorStore from '@/components/editor/use-editor-store';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -19,7 +20,7 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { useMutateCatalog } from '@/hooks/use-mutate-catalog';
-import { useTranslations } from '@/i18n';
+import { getTranslations } from '@/i18n';
 import { deleteNodeWithChildren } from '@/lib/catalog-node-utils/client';
 import { cn } from '@/lib/utils';
 import { useBook } from '@/stores/use-book';
@@ -38,6 +39,8 @@ export interface CatalogItemProps {
 	style?: CSSProperties;
 }
 
+const t = getTranslations('app_dashboard_book_main_layout');
+
 const CatalogItem = ({
 	dragProvided,
 	dragSnapshot,
@@ -50,7 +53,8 @@ const CatalogItem = ({
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 	const mutateCatalog = useMutateCatalog(book.id);
 	const [isEditingTitle, setIsEditingTitle] = useState(false);
-	const t = useTranslations('app_dashboard_book_main_layout');
+	const setTitleToUpdate = useEditorStore((state) => state.setTitleToUpdate);
+
 	const pathname = usePathname();
 
 	const isActive = pathname.includes(`/${book.slug}/${item.url}`);
@@ -114,6 +118,7 @@ const CatalogItem = ({
 		node.title = title;
 
 		mutateCatalog(async () => {
+			setTitleToUpdate(title);
 			const result = await updateTitle({
 				id: item.id,
 				title

@@ -153,7 +153,7 @@ export const zh = {
 		update_site_settings_error: '更新站点设置失败！'
 	},
 	notra_editor: {
-		placeholder_paragraph: '输入 / 打开命令',
+		placeholder_paragraph: '输入 / 以使用命令',
 		placeholder_heading_1: '无标题',
 		fixed_toolbar_redo: '重做',
 		fixed_toolbar_undo: '撤销',
@@ -254,6 +254,9 @@ export const zh = {
 		slash_input_element_equation: '公式',
 		slash_input_element_inline: '行内元素',
 		slash_input_element_date: '日期',
-		slash_input_element_inline_equation: '行内公式'
+		slash_input_element_inline_equation: '行内公式',
+		auto_save_tip_saving: '保存中...',
+		auto_save_tip_last_saved: '上次保存',
+		auto_save_tip_saved: '已保存'
 	}
 };

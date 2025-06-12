@@ -32,6 +32,7 @@ import { indentPlugin } from './plugins/indent-plugin';
 import { lineHeightPlugin } from './plugins/line-height-plugin';
 import { resetBlockTypePlugin } from './plugins/reset-block-type-plugin';
 import { softBreakPlugin } from './plugins/soft-break-plugin';
+import { TitlePlugin } from './plugins/title-plugin';
 
 const lowlight = createLowlight(all);
 
@@ -92,5 +93,6 @@ export const editorPlugins = [
 	EmojiPlugin.configure({ options: { data: emojiMartData as EmojiMartData } }),
 
 	// ui
-	FixedToolbarPlugin
+	FixedToolbarPlugin,
+	TitlePlugin
 ];

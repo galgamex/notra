@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import {
 	FocusEventHandler,
 	KeyboardEventHandler,
@@ -14,9 +13,7 @@ import { Input } from '@/components/ui/input';
 import { useEditDocTitle } from '@/hooks/use-edit-doc-title';
 
 export default function HeaderEditableTitle() {
-	const pathname = usePathname();
-	const slug = pathname.split('/').pop();
-	const { data, handleEditDocTitle } = useEditDocTitle(slug);
+	const { data, handleEditDocTitle } = useEditDocTitle();
 	const [isEditing, setIsEditing] = useState(false);
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -63,7 +60,7 @@ export default function HeaderEditableTitle() {
 
 	return (
 		<Button
-			className="inline-block max-w-[400px] min-w-[100px] cursor-pointer truncate px-0 text-start text-sm font-normal text-secondary-foreground hover:bg-transparent hover:text-secondary-foreground"
+			className="inline-block max-w-[120px] min-w-[100px] cursor-pointer truncate px-0 text-start text-sm font-normal text-secondary-foreground hover:bg-transparent hover:text-secondary-foreground md:max-w-[400px]"
 			variant="ghost"
 			onClick={handleClick}
 		>

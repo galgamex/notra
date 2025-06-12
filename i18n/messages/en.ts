@@ -254,6 +254,9 @@ export const en = {
 		slash_input_element_equation: 'Equation',
 		slash_input_element_inline: 'Inline',
 		slash_input_element_date: 'Date',
-		slash_input_element_inline_equation: 'Inline equation'
+		slash_input_element_inline_equation: 'Inline equation',
+		auto_save_tip_saving: 'Saving...',
+		auto_save_tip_last_saved: 'Last saved',
+		auto_save_tip_saved: 'Saved'
 	}
 };

@@ -45,7 +45,8 @@ export default class DocService {
 					id: true,
 					title: true,
 					slug: true,
-					bookId: true
+					bookId: true,
+					updatedAt: true
 				}
 			});
 

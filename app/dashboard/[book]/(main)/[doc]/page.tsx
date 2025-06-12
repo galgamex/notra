@@ -1,9 +1,9 @@
 import AccountAvatar from '@/components/account-avatar';
+import NotraEditor from '@/components/editor/notra-editor';
+import AutoSaveTip from '@/components/editor/ui/auto-save-tip';
 import NotraInsetHeader from '@/components/notra/notra-inset-header';
 
-import Editor from './_components/editor';
 import HeaderEditableTitle from './_components/header-editable-title';
-import TitleTextarea from './_components/title-textarea';
 
 export default async function Page({
 	params
@@ -15,11 +15,16 @@ export default async function Page({
 	return (
 		<>
 			<NotraInsetHeader
-				leftActions={<HeaderEditableTitle />}
+				leftActions={
+					<>
+						<HeaderEditableTitle />
+						<AutoSaveTip />
+					</>
+				}
 				rightActions={<AccountAvatar />}
 			/>
 
-			<div className="px-5 md:px-17.5">
+			{/* <div className="px-5 md:px-17.5">
 				<div className="mt-6 pb-1 md:mr-[calc(50vw-445px)] md:ml-auto md:max-w-[750px]">
 					<TitleTextarea />
 				</div>
@@ -27,9 +32,9 @@ export default async function Page({
 				<div className="pt-5">
 					<Editor slug={slug} />
 				</div>
-			</div>
+			</div> */}
 
-			{/* <NotraEditor /> */}
+			<NotraEditor slug={slug} />
 		</>
 	);
 }

@@ -13,6 +13,7 @@ export type DocMetaVo = {
 	title: DocEntity['title'];
 	slug: DocEntity['slug'];
 	bookId: DocEntity['bookId'];
+	updatedAt: DocEntity['updatedAt'];
 };
 
 export type DocVo = Omit<
