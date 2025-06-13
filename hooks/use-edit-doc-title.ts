@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { updateDocTitle } from '@/actions/doc';
 import { useDocMetaQuery } from '@/apis/doc';
@@ -7,13 +7,14 @@ import { getTranslations } from '@/i18n';
 
 import { useMutateCatalog } from './use-mutate-catalog';
 
-const t = getTranslations('app_dashboard_book_main_doc_page');
+const t = getTranslations('notra_editor');
 
 export const useEditDocTitle = () => {
 	const { data, mutate } = useDocMetaQuery();
 	const mutateCatalog = useMutateCatalog(data?.bookId ?? -1);
 	const setIsSaving = useEditorStore((state) => state.setIsSaving);
-	const titleToUpdate = useEditorStore((state) => state.titleToUpdate);
+	const setTitle = useEditorStore((state) => state.setTitle);
+	const setUpdatedAt = useEditorStore((state) => state.setUpdatedAt);
 
 	const handleEditDocTitle = useCallback(
 		(newTitle: string) => {
@@ -38,6 +39,8 @@ export const useEditDocTitle = () => {
 							throw new Error(result.message);
 						}
 
+						setTitle(result.data.title);
+						setUpdatedAt(result.data.updatedAt);
 						mutateCatalog();
 						setIsSaving(false);
 
@@ -53,14 +56,8 @@ export const useEditDocTitle = () => {
 				);
 			}
 		},
-		[data, mutate, mutateCatalog, setIsSaving]
+		[data, mutate, mutateCatalog, setIsSaving, setTitle, setUpdatedAt]
 	);
 
-	useEffect(() => {
-		if (titleToUpdate) {
-			handleEditDocTitle(titleToUpdate);
-		}
-	}, [handleEditDocTitle, titleToUpdate]);
-
-	return { data, handleEditDocTitle };
+	return handleEditDocTitle;
 };

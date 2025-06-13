@@ -53,7 +53,9 @@ const CatalogItem = ({
 	const setExpandedKeys = useCatalog((state) => state.setExpandedKeys);
 	const mutateCatalog = useMutateCatalog(book.id);
 	const [isEditingTitle, setIsEditingTitle] = useState(false);
-	const setTitleToUpdate = useEditorStore((state) => state.setTitleToUpdate);
+	const setTitle = useEditorStore((state) => state.setTitle);
+	const setUpdatedAt = useEditorStore((state) => state.setUpdatedAt);
+	const slug = useEditorStore((state) => state.slug);
 
 	const pathname = usePathname();
 
@@ -118,7 +120,11 @@ const CatalogItem = ({
 		node.title = title;
 
 		mutateCatalog(async () => {
-			setTitleToUpdate(title);
+			if (slug === item.url) {
+				setTitle(title);
+				setUpdatedAt(new Date());
+			}
+
 			const result = await updateTitle({
 				id: item.id,
 				title

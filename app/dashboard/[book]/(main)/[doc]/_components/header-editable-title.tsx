@@ -8,12 +8,14 @@ import {
 	useState
 } from 'react';
 
+import { useDocMetaQuery } from '@/apis/doc';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useEditDocTitle } from '@/hooks/use-edit-doc-title';
 
 export default function HeaderEditableTitle() {
-	const { data, handleEditDocTitle } = useEditDocTitle();
+	const { data } = useDocMetaQuery();
+	const handleEditDocTitle = useEditDocTitle();
 	const [isEditing, setIsEditing] = useState(false);
 	const inputRef = useRef<HTMLInputElement>(null);
 

@@ -6,17 +6,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { Editor, EditorContainer } from './ui/editor';
 import { useCreateEditor } from './use-create-editor';
-import useEditorStore from './use-editor-store';
 
-export interface NotraEditorProps {
-	slug: string;
-}
+// export interface NotraEditorProps {}
 
-export default function NotraEditor({ slug }: Readonly<NotraEditorProps>) {
-	const setSlug = useEditorStore((state) => state.setSlug);
+export default function NotraEditor() {
 	const editor = useCreateEditor();
-
-	setSlug(slug);
 
 	return (
 		<DndProvider backend={HTML5Backend}>

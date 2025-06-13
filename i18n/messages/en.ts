@@ -257,6 +257,7 @@ export const en = {
 		slash_input_element_inline_equation: 'Inline equation',
 		auto_save_tip_saving: 'Saving...',
 		auto_save_tip_last_saved: 'Last saved',
-		auto_save_tip_saved: 'Saved'
+		auto_save_tip_saved: 'Saved',
+		untitled: 'Untitled'
 	}
 };

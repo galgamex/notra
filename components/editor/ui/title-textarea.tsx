@@ -4,19 +4,24 @@ import { useEditorRef } from '@udecode/plate/react';
 import { FocusEventHandler, KeyboardEventHandler, useRef } from 'react';
 
 import { Textarea } from '@/components/ui/textarea';
+import { getTranslations } from '@/i18n';
 
 import useEditorStore from '../use-editor-store';
+
+const t = getTranslations('notra_editor');
 
 export default function TitleTextarea() {
 	const ref = useRef<HTMLTextAreaElement>(null);
 	const editor = useEditorRef();
 	const title = useEditorStore((state) => state.title);
 	const setTitle = useEditorStore((state) => state.setTitle);
+	const setUpdatedAt = useEditorStore((state) => state.setUpdatedAt);
 
 	const handleBlur: FocusEventHandler<HTMLTextAreaElement> = (e) => {
 		const newTitle = e.target.value;
 
-		setTitle(newTitle);
+		setTitle(newTitle.length === 0 ? t('untitled') : newTitle);
+		setUpdatedAt(new Date());
 	};
 
 	const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {

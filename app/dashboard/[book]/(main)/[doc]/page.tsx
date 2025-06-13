@@ -3,6 +3,7 @@ import NotraEditor from '@/components/editor/notra-editor';
 import NotraInsetHeader from '@/components/notra/notra-inset-header';
 
 import AutoSaveTip from './_components/auto-save-tip';
+import EditorStoreProvider from './_components/editor-store-provider';
 import HeaderEditableTitle from './_components/header-editable-title';
 
 export default async function Page({
@@ -23,8 +24,8 @@ export default async function Page({
 				}
 				rightActions={<AccountAvatar />}
 			/>
-
-			<NotraEditor slug={slug} />
+			<NotraEditor />
+			<EditorStoreProvider slug={slug} />
 		</>
 	);
 }
