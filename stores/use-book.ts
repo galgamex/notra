@@ -25,6 +25,8 @@ export const useSetBook = (book: BookVo) => {
 	const setBook = useBookStore((state) => state.setBook);
 
 	useEffect(() => {
-		setBook(book);
+		if (useBookStore.getState().book !== book) {
+			setBook(book);
+		}
 	}, [book, setBook]);
 };

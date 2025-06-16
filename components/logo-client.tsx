@@ -4,19 +4,19 @@ import Image from 'next/image';
 
 import { useIsDark } from '@/hooks/use-is-dark';
 
-export interface NotraLogoProps {
+export interface LogoClientProps {
 	size: number;
 	logo: string;
 	darkLogo: string;
 	title: string;
 }
 
-export default function NotraLogo({
+export default function LogoClient({
 	size,
 	logo,
 	darkLogo,
 	title
-}: Readonly<NotraLogoProps>) {
+}: Readonly<LogoClientProps>) {
 	const isDark = useIsDark();
 
 	return (

@@ -1,8 +1,8 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { useNotraSidebar } from '@/stores/use-notra-sidebar';
 
+import { useNotraSidebar } from './notra-sidebar';
 import NotraSidebarTrigger from './notra-sidebar-trigger';
 
 export interface NotraInsetHeaderProps {

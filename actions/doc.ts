@@ -1,7 +1,7 @@
 'use server';
 
-import { PartialBlock } from '@blocknote/core';
 import { DocEntity } from '@prisma/client';
+import { InputJsonValue } from '@prisma/client/runtime/library';
 
 import DocService from '@/services/doc';
 
@@ -13,7 +13,7 @@ export const updateDocTitle = async (docId: DocEntity['id'], title: string) => {
 
 export const updateDocContent = async (
 	docId: DocEntity['id'],
-	content: PartialBlock[]
+	content: InputJsonValue
 ) => {
 	const serviceResult = await DocService.updateDocContent(docId, content);
 

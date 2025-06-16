@@ -1,9 +1,11 @@
+import { notFound } from 'next/navigation';
+
 import AccountAvatar from '@/components/account-avatar';
-import NotraEditor from '@/components/editor/notra-editor';
 import NotraInsetHeader from '@/components/notra/notra-inset-header';
+import DocService from '@/services/doc';
 
 import AutoSaveTip from './_components/auto-save-tip';
-import EditorStoreProvider from './_components/editor-store-provider';
+import Editor from './_components/editor';
 import HeaderEditableTitle from './_components/header-editable-title';
 
 export default async function Page({
@@ -12,6 +14,12 @@ export default async function Page({
 	params: Promise<{ doc: string }>;
 }>) {
 	const { doc: slug } = await params;
+
+	const { data: doc } = await DocService.getDoc(slug);
+
+	if (!doc) {
+		notFound();
+	}
 
 	return (
 		<>
@@ -24,8 +32,7 @@ export default async function Page({
 				}
 				rightActions={<AccountAvatar />}
 			/>
-			<NotraEditor />
-			<EditorStoreProvider slug={slug} />
+			<Editor doc={doc} slug={slug} />
 		</>
 	);
 }

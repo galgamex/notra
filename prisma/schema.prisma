@@ -81,7 +81,7 @@ model DocEntity {
   title String
   slug  String @unique @default(cuid())
 
-  blockJson Json? @map("block_json")
+  content Json? @map("content")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

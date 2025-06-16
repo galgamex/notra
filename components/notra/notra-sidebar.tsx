@@ -1,9 +1,23 @@
 'use client';
 
 import { MouseEventHandler, PropsWithChildren, useRef } from 'react';
+import { create } from 'zustand';
 
 import { cn } from '@/lib/utils';
-import { useNotraSidebar } from '@/stores/use-notra-sidebar';
+
+type NotraSidebarStore = {
+	mobileOpen: boolean;
+	toggleMobileOpen: () => void;
+	isResizing: boolean;
+	setIsResizing: (isResizing: boolean) => void;
+};
+
+export const useNotraSidebar = create<NotraSidebarStore>((set) => ({
+	mobileOpen: false,
+	toggleMobileOpen: () => set((state) => ({ mobileOpen: !state.mobileOpen })),
+	isResizing: false,
+	setIsResizing: (isResizing) => set({ isResizing })
+}));
 
 export interface NotraSidebarProps extends PropsWithChildren {
 	resizeable?: boolean;

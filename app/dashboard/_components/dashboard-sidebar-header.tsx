@@ -1,10 +1,9 @@
 import Link from 'next/link';
 
+import Logo from '@/components/logo';
 import NotraSidebarHeader from '@/components/notra/notra-sidebar-header';
 import { DEFAULT_SITE_TITLE } from '@/constants/default';
 import SiteSettingsService from '@/services/site-settings';
-
-import DashboardLogo from './dashboard-logo';
 
 export default async function DashboardSidebarHeader() {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
@@ -18,7 +17,7 @@ export default async function DashboardSidebarHeader() {
 				href="/dashboard"
 			>
 				<div className="flex size-8 shrink-0 items-center justify-center">
-					<DashboardLogo size={28} />
+					<Logo size={28} />
 				</div>
 				<span className="truncate text-base font-semibold">{title}</span>
 			</Link>

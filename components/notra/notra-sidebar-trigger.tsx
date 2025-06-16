@@ -4,7 +4,8 @@ import { PanelLeftIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useNotraSidebar } from '@/stores/use-notra-sidebar';
+
+import { useNotraSidebar } from './notra-sidebar';
 
 export interface NotraSidebarTriggerProps {
 	className?: string;

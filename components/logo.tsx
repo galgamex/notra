@@ -1,4 +1,3 @@
-import NotraLogo from '@/components/notra/notra-logo';
 import {
 	DEFAULT_SITE_LOGO,
 	DEFAULT_SITE_LOGO_DARK,
@@ -6,17 +5,17 @@ import {
 } from '@/constants/default';
 import SiteSettingsService from '@/services/site-settings';
 
-export interface DashboardLogoProps {
+import LogoClient from './logo-client';
+
+export interface LogoProps {
 	size: number;
 }
 
-export default async function DashboardLogo({
-	size
-}: Readonly<DashboardLogoProps>) {
+export default async function Logo({ size }: Readonly<LogoProps>) {
 	const { data: siteSettings } = await SiteSettingsService.getSiteSettings();
 
 	return (
-		<NotraLogo
+		<LogoClient
 			darkLogo={
 				siteSettings?.darkLogo ?? siteSettings?.logo ?? DEFAULT_SITE_LOGO_DARK
 			}

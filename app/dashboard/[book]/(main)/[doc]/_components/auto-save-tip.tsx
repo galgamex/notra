@@ -11,7 +11,7 @@ const t = getTranslations('notra_editor');
 export default function AutoSaveTip() {
 	const isSaving = useEditorStore((state) => state.isSaving);
 	const isFirstLoad = useEditorStore((state) => state.isFirstLoad);
-	const { data } = useDocMetaQuery();
+	const { data, isValidating } = useDocMetaQuery();
 
 	if (!data) {
 		return null;
@@ -20,7 +20,7 @@ export default function AutoSaveTip() {
 	let tip = '';
 	const updateAt = dayjs(data.updatedAt).format('YYYY-MM-DD HH:mm:ss');
 
-	if (isSaving) {
+	if (isSaving || isValidating) {
 		tip = t('auto_save_tip_saving');
 	} else if (isFirstLoad) {
 		tip = t('auto_save_tip_last_saved') + ' ' + updateAt;
