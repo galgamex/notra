@@ -25,18 +25,24 @@ model AccountSettingsEntity {
   @@map("account_settings")
 }
 
+enum IndexPageType {
+  DOC
+  FEED
+  CARD
+  NONE
+}
+
 // Represents site settings 
 // This entity is designed to store site information with only one record
 model SiteSettingsEntity {
-  id          String  @id @default("default")
-  title       String?
-  description String?
-  keywords    String?
-  logo        String?
-  darkLogo    String?
-  copyright   String?
-
-  googleAnalyticsId String? @map("google_analytics_id")
+  id                String        @id @default("default")
+  title             String?
+  description       String?
+  logo              String?
+  darkLogo          String?
+  copyright         String?
+  indexPageType     IndexPageType @default(DOC) @map("index_page_type")
+  googleAnalyticsId String?       @map("google_analytics_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -61,9 +67,10 @@ model ImageEntity {
 
 // Represents a book in the system
 model BookEntity {
-  id   Int    @id @default(autoincrement())
-  name String
-  slug String @unique @default(cuid())
+  id            Int           @id @default(autoincrement())
+  name          String
+  slug          String        @unique @default(cuid())
+  indexPageType IndexPageType @default(DOC) @map("index_page_type")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
