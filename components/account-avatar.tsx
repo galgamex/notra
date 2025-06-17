@@ -36,7 +36,7 @@ export default function AccountAvatar() {
 	};
 
 	return (
-		<DropdownMenu>
+		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger asChild>
 				<div className="cursor-pointer rounded-sm px-1.5 py-1 hover:bg-accent">
 					<Image

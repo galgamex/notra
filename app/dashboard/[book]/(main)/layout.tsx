@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
+import AccountAvatar from '@/components/account-avatar';
 import NotraInset from '@/components/notra/notra-inset';
+import NotraInsetHeader from '@/components/notra/notra-inset-header';
 import NotraSidebar from '@/components/notra/notra-sidebar';
 import NotraSidebarContent from '@/components/notra/notra-sidebar-content';
 import { Button } from '@/components/ui/button';
@@ -52,7 +54,10 @@ export default async function Layout({
 				</NotraSidebarContent>
 			</NotraSidebar>
 
-			<NotraInset>{children}</NotraInset>
+			<NotraInset>
+				<NotraInsetHeader rightActions={<AccountAvatar />} />
+				{children}
+			</NotraInset>
 		</>
 	);
 }
