@@ -15,6 +15,10 @@ export default class SiteSettingsService {
 				select: {
 					title: true,
 					description: true,
+<<<<<<< HEAD
+=======
+					keywords: true,
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 					logo: true,
 					darkLogo: true,
 					copyright: true,
@@ -34,6 +38,10 @@ export default class SiteSettingsService {
 	static readonly updateSiteSettings = async (values: {
 		title?: Nullable<SiteSettingsEntity['title']>;
 		description?: Nullable<SiteSettingsEntity['description']>;
+<<<<<<< HEAD
+=======
+		keywords?: Nullable<SiteSettingsEntity['keywords']>;
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 		logo?: Nullable<SiteSettingsEntity['logo']>;
 		darkLogo?: Nullable<SiteSettingsEntity['darkLogo']>;
 		copyright?: Nullable<SiteSettingsEntity['copyright']>;

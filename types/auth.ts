@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export interface LoginFormValues {
 	username: string;
 	password: string;
@@ -33,3 +34,9 @@ export interface User {
 	createdAt: Date;
 	updatedAt: Date;
 }
+=======
+export type LoginFormValues = {
+	username: string;
+	password: string;
+};
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd

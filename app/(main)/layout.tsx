@@ -1,5 +1,6 @@
 import NotraFooter from '@/components/notra/notra-footer';
 import NotraHeader from '@/components/notra/notra-header';
+<<<<<<< HEAD
 import MainSidebar from '@/components/notra/main-sidebar';
 import SiteSettingsService from '@/services/site-settings';
 
@@ -31,5 +32,17 @@ export default async function Layout({
 				<NotraFooter />
 			</footer>
 		</div>
+=======
+
+export default function Layout({
+	children
+}: Readonly<{ children: React.ReactNode }>) {
+	return (
+		<>
+			<NotraHeader />
+			<div className="pt-nav-height">{children}</div>
+			<NotraFooter />
+		</>
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 	);
 }

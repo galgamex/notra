@@ -1,7 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+<<<<<<< HEAD
 import Link from 'next/link';
+=======
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,6 +12,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { login } from '@/actions/auth';
+<<<<<<< HEAD
 import LogoClient from '@/components/logo-client';
 import { SubmitButton } from '@/components/submit-button';
 import {
@@ -28,6 +32,25 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { DEFAULT_SITE_LOGO, DEFAULT_SITE_LOGO_DARK, DEFAULT_SITE_TITLE } from '@/constants/default';
+=======
+import { SubmitButton } from '@/components/submit-button';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle
+} from '@/components/ui/card';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 import { useTranslations } from '@/i18n';
 import { LoginFormValues } from '@/types/auth';
 
@@ -68,6 +91,7 @@ export function LoginForm() {
 	return (
 		<Card>
 			<CardHeader>
+<<<<<<< HEAD
 				<div className="flex justify-center mb-4">
 					<LogoClient 
 						size={48} 
@@ -76,6 +100,8 @@ export function LoginForm() {
 						title={DEFAULT_SITE_TITLE}
 					/>
 				</div>
+=======
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 				<CardTitle>{t('card_title')}</CardTitle>
 				<CardDescription>{t('card_description')}</CardDescription>
 			</CardHeader>
@@ -100,6 +126,7 @@ export function LoginForm() {
 							name="password"
 							render={({ field }) => (
 								<FormItem>
+<<<<<<< HEAD
 									<div className="flex items-center justify-between">
 										<FormLabel>{t('password_label')}</FormLabel>
 										<Link
@@ -109,6 +136,9 @@ export function LoginForm() {
 											{t('forgot_password')}
 										</Link>
 									</div>
+=======
+									<FormLabel>{t('password_label')}</FormLabel>
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 									<FormControl>
 										<Input disabled={isPending} type="password" {...field} />
 									</FormControl>
@@ -116,11 +146,16 @@ export function LoginForm() {
 								</FormItem>
 							)}
 						/>
+<<<<<<< HEAD
 						<SubmitButton isPending={isPending} className="w-full">
+=======
+						<SubmitButton isPending={isPending}>
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 							{t('login_button')}
 						</SubmitButton>
 					</form>
 				</Form>
+<<<<<<< HEAD
 				
 				<div className="mt-4 text-center text-sm">
 					{t('no_account')}{' '}
@@ -128,6 +163,8 @@ export function LoginForm() {
 						{t('register_link')}
 					</Link>
 				</div>
+=======
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 			</CardContent>
 		</Card>
 	);

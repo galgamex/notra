@@ -2,6 +2,7 @@ export const en = {
 	actions_files: {
 		upload_error: 'Failed to upload file!',
 		no_file_uploaded: 'No file uploaded',
+<<<<<<< HEAD
 		size_error: 'File size cannot exceed 5MB',
 		type_error: 'File type should be JPEG, PNG or SVG'
 	},
@@ -48,12 +49,28 @@ export const en = {
 		send_success: 'Reset link has been sent to your email',
 		send_error: 'Failed to send!',
 		back_to_login: 'Back to login'
+=======
+		size_error: 'File size should be less than 5MB',
+		type_error: 'File type should be JPEG, PNG, or SVG'
+	},
+	app_auth_login_page: {
+		metadata_title: 'Login',
+		card_title: 'Login to your account',
+		card_description: 'An account will be created on first login.',
+		username_label: 'Username',
+		password_label: 'Password',
+		login_button: 'Login',
+		username_required: 'Username is required.',
+		password_min_length: 'Password must be at least 6 characters.',
+		login_error: 'Login failed!'
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 	},
 	app_api_common: {
 		unauthorized: 'Unauthorized'
 	},
 	app_dashboard_page: {
 		metadata_title: 'Dashboard',
+<<<<<<< HEAD
 		welcome: 'Welcome to Notra',
 		dashboard_description: 'This is your personal dashboard where you can manage your content and settings.'
 	},
@@ -64,6 +81,26 @@ export const en = {
 		categories: 'Categories',
 		tags: 'Tags',
 		settings: 'More Settings'
+=======
+		start: 'Start',
+		new_book: 'New Book',
+		new_book_description: 'Structure your knowledge',
+		recent_edits: 'Recent Edits'
+	},
+	app_dashboard_sidebar: {
+		home: 'Home',
+		books: 'Books',
+		new_book: 'New Book',
+		create: 'Create',
+		name_placeholder: 'Name',
+		create_success: 'Created successfully!',
+		settings: 'Settings',
+		copy_link: 'Copy Link',
+		open_in_new_tab: 'Open in New Tab',
+		delete: 'Delete',
+		delete_success: 'Deleted successfully!',
+		delete_error: 'Failed to delete!'
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 	},
 	app_dashboard_account_avatar: {
 		settings: 'Settings',
@@ -74,6 +111,7 @@ export const en = {
 		system: 'System',
 		log_out: 'Log Out'
 	},
+<<<<<<< HEAD
 	app_dashboard_settings_page: {
 		metadata_title: 'Settings',
 		title: 'Site Settings',
@@ -93,6 +131,53 @@ export const en = {
 		edit_dark_logo: 'Edit Dark Mode Logo',
 		update_success: 'Update successful!',
 		update_error: 'Update failed!',
+=======
+	app_dashboard_book_main_doc_page: {
+		untitled: 'Untitled'
+	},
+	app_dashboard_book_main_layout: {
+		home: 'Home',
+		default_catalog_node_name: 'Untitled',
+		new_document: 'Document',
+		new_stack: 'Stack'
+	},
+	app_dashboard_book_management_sidebar: {
+		book_management: 'Book Management',
+		settings: 'Settings',
+		book_info: 'Book Information'
+	},
+	app_dashboard_book_management_settings_page: {
+		title: 'Book Information',
+		label_name: 'Name',
+		name_required: 'Please type the name of this book',
+		label_slug: 'Slug',
+		slug_required:
+			'The custom path should contain at least two characters. Only letters, numbers, hyphen, underscore and dot are allowed.',
+		slug_description: 'A short URL easy to access and spread',
+		button_update_info: 'Update Info',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!'
+	},
+	app_dashboard_settings_page: {
+		metadata_title: 'Settings',
+		title: 'Site Settings',
+		site_info: 'Site Info',
+		label_logo: 'Logo',
+		label_dark_logo: 'Dark Logo (Optional)',
+		label_site_title: 'Site Title',
+		label_site_description: 'Site Description',
+		description_placeholder: 'A brief description of your website',
+		label_keywords: 'Keywords',
+		keywords_placeholder: 'notra, blog, website',
+		label_copyright: 'Copyright',
+		copyright_placeholder: 'eg. Copyright © 2024-2025 Notra',
+		button_update_info: 'Update Info',
+		button_update_analytics: 'Update Analytics',
+		edit_logo: 'Edit Logo',
+		edit_dark_logo: 'Edit Dark Logo',
+		update_success: 'Updated successfully!',
+		update_error: 'Failed to update!',
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 		site_analytics: 'Site Analytics',
 		label_google_analytics_id: 'Google Analytics ID'
 	},
@@ -108,6 +193,7 @@ export const en = {
 		powered_by:
 			'Powered by <a href="https://notra.tech" target="_blank" rel="noopener noreferrer" class="font-bold hover:text-primary">Notra</a>'
 	},
+<<<<<<< HEAD
 	components_navbar_auth: {
 		login: 'Login',
 		user: 'User',
@@ -115,10 +201,13 @@ export const en = {
 		settings: 'Settings',
 		log_out: 'Log Out'
 	},
+=======
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 	components_image_cropper: {
 		re_select: 'Re-select',
 		cancel: 'Cancel',
 		crop: 'Crop',
+<<<<<<< HEAD
 		max_size: 'Image size cannot exceed {size}MB'
 	},
 	services_user: {
@@ -136,9 +225,156 @@ export const en = {
 	},
 	services_image: {
 		upload_error: 'Image upload failed!'
+=======
+		max_size: 'Image size should be less than {size}MB'
+	},
+	services_account_settings: {
+		get_account_error: 'Failed to get account!',
+		create_account_error: 'Failed to create account!',
+		login_error: 'Failed to login!'
+	},
+	services_book_service: {
+		update_book_info_error: 'Failed to update book info!',
+		create_book_error: 'Failed to create book!',
+		delete_book_error: 'Failed to delete book!',
+		get_books_error: 'Failed to get books!',
+		get_book_error: 'Failed to get book!'
+	},
+	services_catalog_node_service: {
+		get_catalog_nodes_error: 'Failed to get nodes!',
+		new_stack_default_name: 'Stack',
+		new_doc_default_name: 'Untitled Document',
+		create_stack_error: 'Failed to create stack!',
+		create_doc_error: 'Failed to create document!',
+		delete_with_children_error: 'Failed to delete!',
+		prepend_child_error: 'Failed to prepend child!',
+		move_after_error: 'Failed to move after!',
+		update_title_error: 'Failed to update title!'
+	},
+	services_doc_service: {
+		get_recent_edits_error: 'Failed to get recent edits!',
+		get_doc_meta_error: 'Failed to get document meta!',
+		update_doc_title_error: 'Failed to update document title!',
+		get_doc_error: 'Failed to get document!',
+		update_doc_content_error: 'Failed to update document content!'
+	},
+	services_image: {
+		upload_error: 'Failed to upload image!'
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 	},
 	services_site_settings: {
 		get_site_settings_error: 'Failed to get site settings!',
 		update_site_settings_error: 'Failed to update site settings!'
+<<<<<<< HEAD
+=======
+	},
+	notra_editor: {
+		placeholder_paragraph: 'Type / for commands',
+		placeholder_heading_1: 'Untitled',
+		fixed_toolbar_redo: 'Redo',
+		fixed_toolbar_undo: 'Undo',
+		fixed_toolbar_bold: 'Bold',
+		fixed_toolbar_italic: 'Italic',
+		fixed_toolbar_underline: 'Underline',
+		fixed_toolbar_strikethrough: 'Strikethrough',
+		fixed_toolbar_code_inline: 'Inline code',
+		fixed_toolbar_decimal: 'Decimal (1, 2, 3)',
+		fixed_toolbar_lower_alpha: 'Lower Alpha (a, b, c)',
+		fixed_toolbar_upper_alpha: 'Upper Alpha (A, B, C)',
+		fixed_toolbar_lower_roman: 'Lower Roman (i, ii, iii)',
+		fixed_toolbar_upper_roman: 'Upper Roman (I, II, III)',
+		fixed_toolbar_default: 'Default',
+		fixed_toolbar_circle: 'Circle',
+		fixed_toolbar_square: 'Square',
+		fixed_toolbar_todo: 'Todo',
+		fixed_toolbar_toggle: 'Toggle',
+		fixed_toolbar_align: 'Align',
+		fixed_toolbar_outdent: 'Outdent',
+		fixed_toolbar_indent: 'Indent',
+		fixed_toolbar_line_height: 'Line height',
+		fixed_toolbar_more_text_styles: 'More text styles',
+		fixed_toolbar_keyboard_input: 'Keyboard input',
+		fixed_toolbar_superscript: 'Superscript',
+		fixed_toolbar_subscript: 'Subscript',
+		fixed_toolbar_turn_into: 'Turn into',
+		fixed_toolbar_text: 'Text',
+		fixed_toolbar_heading_1: 'Heading 1',
+		fixed_toolbar_heading_2: 'Heading 2',
+		fixed_toolbar_heading_3: 'Heading 3',
+		fixed_toolbar_heading_4: 'Heading 4',
+		fixed_toolbar_heading_5: 'Heading 5',
+		fixed_toolbar_heading_6: 'Heading 6',
+		fixed_toolbar_bulleted_list: 'Bulleted list',
+		fixed_toolbar_numbered_list: 'Numbered list',
+		fixed_toolbar_todo_list: 'To-do list',
+		fixed_toolbar_toggle_list: 'Toggle list',
+		fixed_toolbar_code_block: 'Code block',
+		fixed_toolbar_quote: 'Quote',
+		fixed_toolbar_3_columns: '3 columns',
+		fixed_toolbar_text_color: 'Text color',
+		fixed_toolbar_background_color: 'Background color',
+		fixed_toolbar_table: 'Table',
+		fixed_toolbar_cell: 'Cell',
+		fixed_toolbar_row: 'Row',
+		fixed_toolbar_column: 'Column',
+		fixed_toolbar_delete_table: 'Delete table',
+		fixed_toolbar_merge_cells: 'Merge cells',
+		fixed_toolbar_split_cell: 'Split cell',
+		fixed_toolbar_insert_row_before: 'Insert row before',
+		fixed_toolbar_insert_row_after: 'Insert row after',
+		fixed_toolbar_delete_row: 'Delete row',
+		fixed_toolbar_insert_column_before: 'Insert column before',
+		fixed_toolbar_insert_column_after: 'Insert column after',
+		fixed_toolbar_delete_column: 'Delete column',
+		fixed_toolbar_emoji: 'Emoji',
+		drag_to_move: 'Drag to move',
+		color_picker_custom_colors: 'Custom colors',
+		color_picker_default_colors: 'Default colors',
+		color_picker_clear: 'Clear',
+		table_floating_toolbar_background_color: 'Background color',
+		table_floating_toolbar_merge_cells: 'Merge cells',
+		table_floating_toolbar_split_cell: 'Split cell',
+		table_floating_toolbar_cell_borders: 'Cell borders',
+		table_floating_toolbar_delete_table: 'Delete table',
+		table_floating_toolbar_insert_row_before: 'Insert row before',
+		table_floating_toolbar_insert_row_after: 'Insert row after',
+		table_floating_toolbar_delete_row: 'Delete row',
+		table_floating_toolbar_insert_column_before: 'Insert column before',
+		table_floating_toolbar_insert_column_after: 'Insert column after',
+		table_floating_toolbar_delete_column: 'Delete column',
+		table_floating_toolbar_top_border: 'Top border',
+		table_floating_toolbar_right_border: 'Right border',
+		table_floating_toolbar_bottom_border: 'Bottom border',
+		table_floating_toolbar_left_border: 'Left border',
+		table_floating_toolbar_no_border: 'No border',
+		table_floating_toolbar_outside_borders: 'Outside borders',
+		slash_input_element_basic_blocks: 'Basic blocks',
+		slash_input_element_text: 'Text',
+		slash_input_element_heading_1: 'Heading 1',
+		slash_input_element_heading_2: 'Heading 2',
+		slash_input_element_heading_3: 'Heading 3',
+		slash_input_element_heading_4: 'Heading 4',
+		slash_input_element_heading_5: 'Heading 5',
+		slash_input_element_heading_6: 'Heading 6',
+		slash_input_element_bulleted_list: 'Bulleted list',
+		slash_input_element_numbered_list: 'Numbered list',
+		slash_input_element_todo_list: 'To-do list',
+		slash_input_element_toggle_list: 'Toggle',
+		slash_input_element_code_block: 'Code block',
+		slash_input_element_table: 'Table',
+		slash_input_element_quote: 'Blockquote',
+		slash_input_element_callout: 'Callout',
+		slash_input_element_advanced_blocks: 'Advanced blocks',
+		slash_input_element_table_of_contents: 'Table of contents',
+		slash_input_element_3_columns: '3 columns',
+		slash_input_element_equation: 'Equation',
+		slash_input_element_inline: 'Inline',
+		slash_input_element_date: 'Date',
+		slash_input_element_inline_equation: 'Inline equation',
+		auto_save_tip_saving: 'Saving...',
+		auto_save_tip_last_saved: 'Last saved',
+		auto_save_tip_saved: 'Saved',
+		untitled: 'Untitled'
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 	}
 };

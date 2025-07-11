@@ -10,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+<<<<<<< HEAD
 enum UserRole {
   USER
   ADMIN
@@ -30,14 +31,32 @@ model User {
   // 博客关联
   posts             Post[]
   comments          Comment[]
+=======
+// Represents account settings
+// This entity is designed to store account information with only one record
+model AccountSettingsEntity {
+  id       String  @id @default("default")
+  username String  @unique
+  password String
+  avatar   String?
+  name     String?
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+<<<<<<< HEAD
   @@map("users")
 }
 
 enum IndexPageType {
+=======
+  @@map("account_settings")
+}
+
+enum IndexPageType {
+  DOC
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
   FEED
   CARD
   NONE
@@ -52,7 +71,11 @@ model SiteSettingsEntity {
   logo              String?
   darkLogo          String?
   copyright         String?
+<<<<<<< HEAD
   indexPageType     IndexPageType @default(FEED) @map("index_page_type")
+=======
+  indexPageType     IndexPageType @default(DOC) @map("index_page_type")
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
   googleAnalyticsId String?       @map("google_analytics_id")
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -76,6 +99,7 @@ model ImageEntity {
   @@map("images")
 }
 
+<<<<<<< HEAD
 // 博客文章状态
 enum PostStatus {
   DRAFT     // 草稿
@@ -185,3 +209,101 @@ model Comment {
 
   @@map("comments")
 }
+=======
+// Represents a book in the system
+model BookEntity {
+  id            Int           @id @default(autoincrement())
+  name          String
+  slug          String        @unique @default(cuid())
+  indexPageType IndexPageType @default(DOC) @map("index_page_type")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  DocEntity         DocEntity[]
+  NavNodeEntity     NavNodeEntity[]
+  CatalogNodeEntity CatalogNodeEntity[]
+
+  @@map("books")
+}
+
+// Represents a document in the system
+model DocEntity {
+  id    Int    @id @default(autoincrement())
+  title String
+  slug  String @unique @default(cuid())
+
+  content Json? @map("content")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId        Int                @map("book_id")
+  book          BookEntity         @relation(fields: [bookId], references: [id])
+  catalogNode   CatalogNodeEntity?
+  NavNodeEntity NavNodeEntity[]
+
+  @@map("docs")
+}
+
+// Represents the type of a catalog node
+enum CatalogNodeType {
+  LINK
+  STACK
+  DOC
+}
+
+// Represents a catalog node in the system
+model CatalogNodeEntity {
+  id         Int             @id @default(autoincrement())
+  parentId   Int?            @map("parent_id")
+  prevId     Int?            @map("prev_id")
+  siblingId  Int?            @map("sibling_id")
+  childId    Int?            @map("child_id")
+  title      String
+  type       CatalogNodeType
+  url        String?
+  openWindow Boolean         @default(false) @map("open_window")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId    Int        @map("book_id")
+  book      BookEntity @relation(fields: [bookId], references: [id])
+  docId     Int?       @unique @map("doc_id")
+  DocEntity DocEntity? @relation(fields: [docId], references: [id])
+
+  @@map("catalog_nodes")
+}
+
+// Represents the type of a navigation node
+enum NavNodeType {
+  LINK
+  BOOK
+  DOC
+}
+
+// Represents a navigation node in the system
+model NavNodeEntity {
+  id         Int         @id @default(autoincrement())
+  parentId   Int?        @map("parent_id")
+  prevId     Int?        @map("prev_id")
+  siblingId  Int?        @map("sibling_id")
+  childId    Int?        @map("child_id")
+  level      Int
+  title      String
+  type       NavNodeType
+  url        String?
+  openWindow Boolean     @default(false) @map("open_window")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookId    Int?        @map("book_id")
+  book      BookEntity? @relation(fields: [bookId], references: [id])
+  docId     Int?        @map("doc_id")
+  DocEntity DocEntity?  @relation(fields: [docId], references: [id])
+
+  @@map("nav_nodes")
+}
+>>>>>>> f2962736316efd5726c61050eac23356daea6ebd
