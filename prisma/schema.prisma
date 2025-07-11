@@ -1,0 +1,187 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+// Represents user information
+model User {
+  id                String    @id @default(cuid())
+  username          String    @unique
+  email             String?   @unique
+  password          String
+  avatar            String?
+  name              String?
+  role              UserRole  @default(USER)
+  emailVerified     DateTime? @map("email_verified")
+  verificationToken String?   @map("verification_token")
+
+  // 博客关联
+  posts             Post[]
+  comments          Comment[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+enum IndexPageType {
+  FEED
+  CARD
+  NONE
+}
+
+// Represents site settings 
+// This entity is designed to store site information with only one record
+model SiteSettingsEntity {
+  id                String        @id @default("default")
+  title             String?
+  description       String?
+  logo              String?
+  darkLogo          String?
+  copyright         String?
+  indexPageType     IndexPageType @default(FEED) @map("index_page_type")
+  googleAnalyticsId String?       @map("google_analytics_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
+// Represents an image in the system
+model ImageEntity {
+  id        Int      @id @default(autoincrement())
+  url       String
+  hash      String   @unique
+  width     Int
+  height    Int
+  mimeType  String   @map("mime_type")
+  size      Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("images")
+}
+
+// 博客文章状态
+enum PostStatus {
+  DRAFT     // 草稿
+  PUBLISHED // 已发布
+  ARCHIVED  // 已归档
+}
+
+// 博客文章
+model Post {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  content     String     @db.Text
+  excerpt     String?    @db.Text
+  coverImage  String?    @map("cover_image")
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?  @map("published_at")
+  viewCount   Int        @default(0) @map("view_count")
+  
+  // 作者关联
+  authorId    String     @map("author_id")
+  author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  // 分类关联
+  categoryId  String?    @map("category_id")
+  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  
+  // 标签关联（多对多）
+  tags        PostTag[]
+  
+  // 评论关联
+  comments    Comment[]
+  
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  @@map("posts")
+}
+
+// 博客分类
+model Category {
+  id          String @id @default(cuid())
+  name        String @unique
+  slug        String @unique
+  description String?
+  color       String? // 分类颜色
+  
+  // 文章关联
+  posts       Post[]
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+// 博客标签
+model Tag {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  color       String?   // 标签颜色
+  
+  // 文章关联（多对多）
+  posts       PostTag[]
+  
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("tags")
+}
+
+// 文章标签关联表（多对多）
+model PostTag {
+  id     String @id @default(cuid())
+  postId String @map("post_id")
+  tagId  String @map("tag_id")
+  
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  @@unique([postId, tagId])
+  @@map("post_tags")
+}
+
+// 评论系统
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  
+  // 文章关联
+  postId    String   @map("post_id")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  // 作者关联
+  authorId  String   @map("author_id")
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  // 父评论关联（支持回复）
+  parentId  String?  @map("parent_id")
+  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("comments")
+}
