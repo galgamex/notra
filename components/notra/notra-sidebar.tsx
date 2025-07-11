@@ -5,12 +5,33 @@ import { usePathname } from 'next/navigation';
 import { Home, BookOpen, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { create } from 'zustand';
 
 interface SidebarItem {
   title: string;
   href: string;
   icon: React.ReactNode;
 }
+
+interface NotraSidebarProps {
+  children?: React.ReactNode;
+  resizeable?: boolean;
+  className?: string;
+}
+
+interface SidebarState {
+  mobileOpen: boolean;
+  isResizing: boolean;
+  toggleMobileOpen: () => void;
+  setResizing: (resizing: boolean) => void;
+}
+
+export const useNotraSidebar = create<SidebarState>((set) => ({
+  mobileOpen: false,
+  isResizing: false,
+  toggleMobileOpen: () => set((state) => ({ mobileOpen: !state.mobileOpen })),
+  setResizing: (resizing: boolean) => set({ isResizing: resizing }),
+}));
 
 const sidebarItems: SidebarItem[] = [
   {
@@ -25,13 +46,47 @@ const sidebarItems: SidebarItem[] = [
   }
 ];
 
-export default function NotraSidebar() {
+export default function NotraSidebar({ children, resizeable = false, className = '' }: NotraSidebarProps) {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
+  const mobileOpen = useNotraSidebar((state) => state.mobileOpen);
+  const toggleMobileOpen = useNotraSidebar((state) => state.toggleMobileOpen);
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  // 如果有children，渲染自定义内容，否则渲染默认导航
+  if (children) {
+    return (
+      <>
+        {/* 移动端菜单按钮 */}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="md:hidden fixed top-20 left-4 z-40 bg-white shadow-md"
+          onClick={toggleMobileOpen}
+        >
+          {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+        </Button>
+
+        {/* 侧边栏 */}
+        <aside className={`
+          fixed top-nav-height left-0 z-30 h-[calc(100vh-var(--nav-height))] w-64 
+          transform transition-transform duration-300 ease-in-out
+          border-r border-gray-200 shadow-sm
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
+          md:translate-x-0
+          ${className}
+        `}>
+          {children}
+        </aside>
+
+        {/* 移动端遮罩层 */}
+        {mobileOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
+            onClick={toggleMobileOpen}
+          />
+        )}
+      </>
+    );
+  }
 
   return (
     <>
@@ -40,9 +95,9 @@ export default function NotraSidebar() {
         variant="ghost"
         size="sm"
         className="md:hidden fixed top-20 left-4 z-40 bg-white shadow-md"
-        onClick={toggleSidebar}
+        onClick={toggleMobileOpen}
       >
-        {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+        {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
       </Button>
 
       {/* 侧边栏 */}
@@ -50,8 +105,9 @@ export default function NotraSidebar() {
         fixed top-nav-height left-0 z-30 h-[calc(100vh-var(--nav-height))] w-64 
         transform transition-transform duration-300 ease-in-out
         bg-white border-r border-gray-200 shadow-sm
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0
+        ${className}
       `}>
         <nav className="p-4">
           <ul className="space-y-2">
@@ -71,7 +127,7 @@ export default function NotraSidebar() {
                         : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                       }
                     `}
-                    onClick={() => setIsOpen(false)} // 移动端点击后关闭菜单
+                    onClick={() => toggleMobileOpen()} // 移动端点击后关闭菜单
                   >
                     {item.icon}
                     <span>{item.title}</span>
@@ -84,10 +140,10 @@ export default function NotraSidebar() {
       </aside>
 
       {/* 移动端遮罩层 */}
-      {isOpen && (
+      {mobileOpen && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
-          onClick={toggleSidebar}
+          onClick={toggleMobileOpen}
         />
       )}
     </>

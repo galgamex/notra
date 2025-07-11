@@ -27,13 +27,8 @@ export default function AccountAvatar() {
 	const isDark = useIsDark();
 	const router = useRouter();
 
-<<<<<<< HEAD
 	const handleSettings = () => {
 		router.push('/admin/settings');
-=======
-	const handleGoToSettings = () => {
-		router.push('/dashboard/settings');
->>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 	};
 
 	const handleLogout = () => {
@@ -54,11 +49,7 @@ export default function AccountAvatar() {
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align="end" className="w-56">
-<<<<<<< HEAD
 				<DropdownMenuItem onClick={handleSettings}>
-=======
-				<DropdownMenuItem onClick={handleGoToSettings}>
->>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 					<Settings />
 					{t('settings')}
 				</DropdownMenuItem>

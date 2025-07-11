@@ -43,11 +43,7 @@
 	--sidebar-ring: oklch(70.8% 0 0deg);
 	--icon-hover: oklch(88.65% 0.0026 165.07deg);
 	--icon-hover-foreground: var(--foreground);
-<<<<<<< HEAD
 	--nav-height: 56px;
-=======
-	--nav-height: 64px;
->>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 }
 
 .dark {
@@ -156,7 +152,6 @@
 		-moz-osx-font-smoothing: grayscale;
 		scroll-behavior: smooth;
 		overflow-x: hidden;
-<<<<<<< HEAD
 		/* 确保滚动条空间始终保留，防止CLS偏移 */
 		scrollbar-gutter: stable;
 		/* 备用方案：强制显示滚动条以保持一致的布局 */
@@ -168,8 +163,6 @@
 @layer utilities {
 	.top-nav-height {
 		top: var(--nav-height);
-=======
->>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 	}
 }
 

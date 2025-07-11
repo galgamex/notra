@@ -17,11 +17,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 export default function Page() {
 	return (
-<<<<<<< HEAD
 		<div className="flex h-full w-full items-center justify-center p-6 md:p-10">
-=======
-		<div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
->>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 			<div className="w-full max-w-sm">
 				<LoginForm />
 			</div>

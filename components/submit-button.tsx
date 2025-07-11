@@ -22,19 +22,11 @@ export function SubmitButton({
 	return (
 		<Button
 			aria-disabled={isPending}
-<<<<<<< HEAD
 			className={cn('cursor-pointer w-full h-12 px-6 py-3 !bg-black !text-white hover:!bg-black/90', className)}
 			disabled={disabled || isPending}
 			type={isPending ? 'button' : 'submit'}
 		>
 			{isPending && <Loader2 className="animate-spin !text-white" />}
-=======
-			className={cn('cursor-pointer w-full h-8', className)}
-			disabled={disabled || isPending}
-			type={isPending ? 'button' : 'submit'}
-		>
-			{isPending && <Loader2 className="animate-spin" />}
->>>>>>> f2962736316efd5726c61050eac23356daea6ebd
 			{children}
 			<span aria-live="polite" className="sr-only">
 				{isPending ? 'Loading' : 'Submit form'}
