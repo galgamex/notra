@@ -40,7 +40,8 @@ export const en = {
 	app_auth_forgot_password_page: {
 		metadata_title: 'Forgot Password',
 		card_title: 'Reset Password',
-		card_description: 'Enter your email address and we will send you a reset link',
+		card_description:
+			'Enter your email address and we will send you a reset link',
 		email_label: 'Email Address',
 		send_button: 'Send Reset Link',
 		email_required: 'Please enter email address',
@@ -55,10 +56,16 @@ export const en = {
 	app_dashboard_page: {
 		metadata_title: 'Dashboard',
 		welcome: 'Welcome to Notra',
-		dashboard_description: 'This is your personal dashboard where you can manage your content and settings.'
+		dashboard_description:
+			'This is your personal dashboard where you can manage your content and settings.'
 	},
 	app_dashboard_sidebar: {
 		home: 'Home',
+		website_management: 'Website Management',
+		websites: 'Websites',
+		website_categories: 'Website Categories',
+		website_tags: 'Website Tags',
+		website_stats: 'Website Statistics',
 		blog_management: 'Blog Management',
 		posts: 'Posts',
 		categories: 'Categories',

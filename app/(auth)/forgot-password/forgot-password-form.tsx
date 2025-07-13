@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -12,22 +11,26 @@ import { forgotPassword } from '@/actions/auth';
 import LogoClient from '@/components/logo-client';
 import { SubmitButton } from '@/components/submit-button';
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle
 } from '@/components/ui/card';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DEFAULT_SITE_LOGO, DEFAULT_SITE_LOGO_DARK, DEFAULT_SITE_TITLE } from '@/constants/default';
+import {
+	DEFAULT_SITE_LOGO,
+	DEFAULT_SITE_LOGO_DARK,
+	DEFAULT_SITE_TITLE
+} from '@/constants/default';
 import { useTranslations } from '@/i18n';
 import { ForgotPasswordFormValues } from '@/types/auth';
 
@@ -45,7 +48,6 @@ export function ForgotPasswordForm() {
 	});
 
 	const [isPending, startTransition] = useTransition();
-	const router = useRouter();
 
 	const onSubmit = (values: ForgotPasswordFormValues) => {
 		startTransition(() => {
@@ -66,11 +68,11 @@ export function ForgotPasswordForm() {
 	return (
 		<Card>
 			<CardHeader>
-				<div className="flex justify-center mb-4">
-					<LogoClient 
-						size={48} 
-						logo={DEFAULT_SITE_LOGO}
+				<div className="mb-4 flex justify-center">
+					<LogoClient
 						darkLogo={DEFAULT_SITE_LOGO_DARK}
+						logo={DEFAULT_SITE_LOGO}
+						size={48}
 						title={DEFAULT_SITE_TITLE}
 					/>
 				</div>
@@ -93,18 +95,18 @@ export function ForgotPasswordForm() {
 								</FormItem>
 							)}
 						/>
-						<SubmitButton isPending={isPending} className="w-full">
+						<SubmitButton className="w-full" isPending={isPending}>
 							{t('send_button')}
 						</SubmitButton>
 					</form>
 				</Form>
-				
+
 				<div className="mt-4 text-center text-sm">
-					<Link href="/login" className="underline">
+					<Link className="underline" href="/login">
 						{t('back_to_login')}
 					</Link>
 				</div>
 			</CardContent>
 		</Card>
 	);
-} 
+}

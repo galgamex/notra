@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
 			},
 			{
 				hostname: 'imgss.acgn.org'
+			},
+			{
+				protocol: 'https',
+				hostname: '**'
 			}
 		]
 	}

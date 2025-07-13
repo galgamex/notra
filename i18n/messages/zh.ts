@@ -55,10 +55,16 @@ export const zh = {
 	app_dashboard_page: {
 		metadata_title: '工作台',
 		welcome: '欢迎使用 Notra',
-		dashboard_description: '这是您的个人工作台，您可以在这里管理您的内容和设置。'
+		dashboard_description:
+			'这是您的个人工作台，您可以在这里管理您的内容和设置。'
 	},
 	app_dashboard_sidebar: {
 		home: '首页',
+		website_management: '网站管理',
+		websites: '网站列表',
+		website_categories: '网站分类',
+		website_tags: '网站标签',
+		website_stats: '网站统计',
 		blog_management: '文章管理',
 		posts: '文章列表',
 		categories: '分类列表',

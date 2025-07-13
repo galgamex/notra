@@ -1,161 +1,174 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CreateCategoryFormValues } from '@/types/blog';
 
 export default function CategoryForm() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<CreateCategoryFormValues>({
-    name: '',
-    slug: '',
-    description: '',
-    color: '#3b82f6'
-  });
+	const router = useRouter();
+	const [isLoading, setIsLoading] = useState(false);
+	const [formData, setFormData] = useState<CreateCategoryFormValues>({
+		name: '',
+		slug: '',
+		description: '',
+		color: '#3b82f6'
+	});
 
-  const generateSlug = (name: string) => {
-    return name
-      .toLowerCase()
-      .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  };
+	const generateSlug = (name: string) => {
+		return name
+			.toLowerCase()
+			.replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-')
+			.replace(/^-+|-+$/g, '');
+	};
 
-  const handleNameChange = (value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      name: value,
-      slug: generateSlug(value)
-    }));
-  };
+	const handleNameChange = (value: string) => {
+		setFormData((prev) => ({
+			...prev,
+			name: value,
+			slug: generateSlug(value)
+		}));
+	};
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.name.trim()) {
-      toast.error('请输入分类名称');
-      return;
-    }
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
 
-    if (!formData.slug.trim()) {
-      toast.error('请输入分类别名');
-      return;
-    }
+		if (!formData.name.trim()) {
+			toast.error('请输入分类名称');
 
-    setIsLoading(true);
+			return;
+		}
 
-    try {
-      const response = await fetch('/api/blog/categories', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+		if (!formData.slug.trim()) {
+			toast.error('请输入分类别名');
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || '创建分类失败');
-      }
+			return;
+		}
 
-      const category = await response.json();
-      toast.success('分类创建成功！');
-      router.push('/admin/blog/categories');
-    } catch (error) {
-      console.error('创建分类失败:', error);
-      toast.error(error instanceof Error ? error.message : '创建分类失败');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+		setIsLoading(true);
 
-  return (
-    <form onSubmit={handleSubmit} className="max-w-2xl">
-      <Card>
-        <CardHeader>
-          <CardTitle>分类信息</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="name">分类名称 *</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => handleNameChange(e.target.value)}
-              placeholder="请输入分类名称"
-              required
-            />
-          </div>
+		try {
+			const response = await fetch('/api/blog/categories', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			});
 
-          <div className="space-y-2">
-            <Label htmlFor="slug">分类别名 *</Label>
-            <Input
-              id="slug"
-              value={formData.slug}
-              onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
-              placeholder="分类别名（用于URL）"
-              required
-            />
-            <p className="text-sm text-muted-foreground">
-              分类别名将用于URL中，建议使用英文字母、数字和连字符
-            </p>
-          </div>
+			if (!response.ok) {
+				const error = await response.json();
 
-          <div className="space-y-2">
-            <Label htmlFor="description">分类描述</Label>
-            <Textarea
-              id="description"
-              value={formData.description || ''}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              placeholder="请输入分类描述（可选）"
-              rows={3}
-            />
-          </div>
+				throw new Error(error.error || '创建分类失败');
+			}
 
-          <div className="space-y-2">
-            <Label htmlFor="color">分类颜色</Label>
-            <div className="flex items-center gap-3">
-              <Input
-                id="color"
-                type="color"
-                value={formData.color || '#3b82f6'}
-                onChange={(e) => setFormData(prev => ({ ...prev, color: e.target.value }))}
-                className="w-16 h-10 p-1 border rounded"
-              />
-              <Input
-                value={formData.color || '#3b82f6'}
-                onChange={(e) => setFormData(prev => ({ ...prev, color: e.target.value }))}
-                placeholder="#3b82f6"
-                className="flex-1"
-              />
-            </div>
-            <p className="text-sm text-muted-foreground">
-              选择一个颜色来标识这个分类
-            </p>
-          </div>
+			toast.success('分类创建成功！');
+			router.push('/admin/blog/categories');
+		} catch (error) {
+			console.error('创建分类失败:', error);
+			toast.error(error instanceof Error ? error.message : '创建分类失败');
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-          <div className="flex gap-3 pt-4">
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? '创建中...' : '创建分类'}
-            </Button>
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={() => router.push('/admin/blog/categories')}
-              disabled={isLoading}
-            >
-              取消
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </form>
-  );
+	return (
+		<form className="max-w-2xl" onSubmit={handleSubmit}>
+			<Card>
+				<CardHeader>
+					<CardTitle>分类信息</CardTitle>
+				</CardHeader>
+				<CardContent className="space-y-6">
+					<div className="space-y-2">
+						<Label htmlFor="name">分类名称 *</Label>
+						<Input
+							required
+							id="name"
+							placeholder="请输入分类名称"
+							value={formData.name}
+							onChange={(e) => handleNameChange(e.target.value)}
+						/>
+					</div>
+
+					<div className="space-y-2">
+						<Label htmlFor="slug">分类别名 *</Label>
+						<Input
+							required
+							id="slug"
+							placeholder="分类别名（用于URL）"
+							value={formData.slug}
+							onChange={(e) =>
+								setFormData((prev) => ({ ...prev, slug: e.target.value }))
+							}
+						/>
+						<p className="text-sm text-muted-foreground">
+							分类别名将用于URL中，建议使用英文字母、数字和连字符
+						</p>
+					</div>
+
+					<div className="space-y-2">
+						<Label htmlFor="description">分类描述</Label>
+						<Textarea
+							id="description"
+							placeholder="请输入分类描述（可选）"
+							rows={3}
+							value={formData.description || ''}
+							onChange={(e) =>
+								setFormData((prev) => ({
+									...prev,
+									description: e.target.value
+								}))
+							}
+						/>
+					</div>
+
+					<div className="space-y-2">
+						<Label htmlFor="color">分类颜色</Label>
+						<div className="flex items-center gap-3">
+							<Input
+								className="h-10 w-16 rounded border p-1"
+								id="color"
+								type="color"
+								value={formData.color || '#3b82f6'}
+								onChange={(e) =>
+									setFormData((prev) => ({ ...prev, color: e.target.value }))
+								}
+							/>
+							<Input
+								className="flex-1"
+								placeholder="#3b82f6"
+								value={formData.color || '#3b82f6'}
+								onChange={(e) =>
+									setFormData((prev) => ({ ...prev, color: e.target.value }))
+								}
+							/>
+						</div>
+						<p className="text-sm text-muted-foreground">
+							选择一个颜色来标识这个分类
+						</p>
+					</div>
+
+					<div className="flex gap-3 pt-4">
+						<Button disabled={isLoading} type="submit">
+							{isLoading ? '创建中...' : '创建分类'}
+						</Button>
+						<Button
+							disabled={isLoading}
+							type="button"
+							variant="outline"
+							onClick={() => router.push('/admin/blog/categories')}
+						>
+							取消
+						</Button>
+					</div>
+				</CardContent>
+			</Card>
+		</form>
+	);
 }

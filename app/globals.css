@@ -19,7 +19,7 @@
 	--accent: oklch(95.44% 0.0011 197.14deg);
 	--accent-foreground: oklch(26.86% 0 0deg);
 	--destructive: oklch(67.32% 0.2143 24.47deg);
-	--destructive-foreground: oklch(67.32% 0.2143 24.47deg);
+	--destructive-foreground: oklch(98.5% 0 0deg);
 	--border: oklch(93.22% 0.0025 165.07deg);
 	--border-light: oklch(0% 0 0deg / 4%);
 	--border-heavy: oklch(95.44% 0.0011 197.14deg);
@@ -62,7 +62,7 @@
 	--accent: oklch(100% 0 0deg / 12%);
 	--accent-foreground: oklch(91.28% 0 0deg);
 	--destructive: oklch(67.32% 0.2143 24.47deg);
-	--destructive-foreground: oklch(67.32% 0.2143 24.47deg);
+	--destructive-foreground: oklch(98.5% 0 0deg);
 	--border: oklch(100% 0 0deg / 12%);
 	--border-light: oklch(100% 0 0deg / 8%);
 	--border-heavy: oklch(100% 0 0deg / 12%);
@@ -151,11 +151,12 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		scroll-behavior: smooth;
-		overflow-x: hidden;
+		overflow: hidden scroll;
+
 		/* 确保滚动条空间始终保留，防止CLS偏移 */
 		scrollbar-gutter: stable;
+
 		/* 备用方案：强制显示滚动条以保持一致的布局 */
-		overflow-y: scroll;
 	}
 }
 

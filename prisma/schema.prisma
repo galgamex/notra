@@ -30,6 +30,11 @@ model User {
   // 博客关联
   posts             Post[]
   comments          Comment[]
+  
+  // 网址导航站关联
+  submittedWebsites Website[] @relation("WebsiteSubmitter")
+  reviewedWebsites  Website[] @relation("WebsiteReviewer")
+  websiteClicks     WebsiteClick[] @relation("WebsiteClicks")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -184,4 +189,133 @@ model Comment {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("comments")
+}
+
+// ==================== 网址导航站系统 ====================
+
+// 网站状态枚举
+enum WebsiteStatus {
+  PENDING   // 待审核
+  APPROVED  // 已通过
+  REJECTED  // 已拒绝
+  DISABLED  // 已禁用
+}
+
+// 网站分类
+model WebsiteCategory {
+  id          String @id @default(cuid())
+  name        String
+  slug        String @unique
+  description String?
+  icon        String? // 分类图标
+  color       String? // 分类颜色
+  sortOrder   Int     @default(0) @map("sort_order") // 排序权重
+  isVisible   Boolean @default(true) @map("is_visible") // 是否显示
+  
+  // 层级结构支持
+  parentId    String? @map("parent_id")
+  parent      WebsiteCategory? @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children    WebsiteCategory[] @relation("CategoryHierarchy")
+  level       Int     @default(0) // 层级深度：0=一级，1=二级
+  
+  // 网站关联
+  websites    Website[]
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@unique([name, parentId]) // 同一父分类下名称唯一
+  @@map("website_categories")
+}
+
+// 网站信息
+model Website {
+  id          String        @id @default(cuid())
+  name        String        // 网站名称
+  url         String        // 网站链接
+  description String?       @db.Text // 网站描述
+  logo        String?       // 网站logo
+  favicon     String?       // 网站favicon
+  screenshot  String?       // 网站截图
+  status      WebsiteStatus @default(PENDING)
+  clickCount  Int           @default(0) @map("click_count") // 点击次数
+  sortOrder   Int           @default(0) @map("sort_order") // 排序权重
+  isRecommend Boolean       @default(false) @map("is_recommend") // 是否推荐
+  isFeatured  Boolean       @default(false) @map("is_featured") // 是否精选
+  
+  // 分类关联
+  categoryId  String        @map("category_id")
+  category    WebsiteCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  // 提交者关联
+  submitterId String?       @map("submitter_id")
+  submitter   User?         @relation("WebsiteSubmitter", fields: [submitterId], references: [id], onDelete: SetNull)
+  
+  // 审核者关联
+  reviewerId  String?       @map("reviewer_id")
+  reviewer    User?         @relation("WebsiteReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  
+  // 审核时间
+  reviewedAt  DateTime?     @map("reviewed_at")
+  
+  // 标签关联（多对多）
+  tags        WebsiteTag[]
+  
+  // 点击记录关联
+  clicks      WebsiteClick[]
+  
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@map("websites")
+}
+
+// 网站标签
+model WebsiteTagEntity {
+  id          String @id @default(cuid())
+  name        String @unique
+  slug        String @unique
+  description String?
+  color       String? // 标签颜色
+  
+  // 网站关联（多对多）
+  websites    WebsiteTag[]
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("website_tag_entities")
+}
+
+// 网站标签关联表（多对多）
+model WebsiteTag {
+  id        String @id @default(cuid())
+  websiteId String @map("website_id")
+  tagId     String @map("tag_id")
+  
+  website   Website           @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  tag       WebsiteTagEntity  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  @@unique([websiteId, tagId])
+  @@map("website_tags")
+}
+
+// 网站点击记录（用于统计）
+model WebsiteClick {
+  id        String   @id @default(cuid())
+  websiteId String   @map("website_id")
+  website   Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  
+  // 访问者信息
+  userId    String?  @map("user_id")
+  user      User?    @relation("WebsiteClicks", fields: [userId], references: [id], onDelete: SetNull)
+  
+  // 访问信息
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  referer   String?  // 来源页面
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("website_clicks")
 }

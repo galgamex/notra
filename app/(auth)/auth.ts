@@ -39,10 +39,7 @@ export const {
 					return null;
 				}
 
-				const passwordsMatch = await compare(
-					password as string,
-					user.password
-				);
+				const passwordsMatch = await compare(password as string, user.password);
 
 				if (passwordsMatch) {
 					return user;
@@ -56,9 +53,9 @@ export const {
 		async jwt({ token, user }) {
 			if (user) {
 				token.id = user.id;
-				token.role = (user as any).role;
-				token.username = (user as any).username;
-				token.avatar = (user as any).avatar;
+				token.role = (user as { role?: string }).role;
+				token.username = (user as { username?: string }).username;
+				token.avatar = (user as { avatar?: string }).avatar;
 			}
 
 			return token;
@@ -66,9 +63,14 @@ export const {
 		async session({ session, token }) {
 			if (session.user) {
 				session.user.id = token.id as string;
-				(session.user as any).role = token.role;
-				(session.user as any).username = token.username;
-				(session.user as any).avatar = token.avatar;
+				const user = session.user as {
+					role?: string;
+					username?: string;
+					avatar?: string;
+				};
+				user.role = token.role as string;
+				user.username = token.username as string;
+				user.avatar = token.avatar as string;
 			}
 
 			return session;

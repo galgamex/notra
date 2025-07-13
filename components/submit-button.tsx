@@ -22,7 +22,10 @@ export function SubmitButton({
 	return (
 		<Button
 			aria-disabled={isPending}
-			className={cn('cursor-pointer w-full h-12 px-6 py-3 !bg-black !text-white hover:!bg-black/90', className)}
+			className={cn(
+				'cursor-pointer w-full h-12 px-6 py-3 !bg-black !text-white hover:!bg-black/90',
+				className
+			)}
 			disabled={disabled || isPending}
 			type={isPending ? 'button' : 'submit'}
 		>

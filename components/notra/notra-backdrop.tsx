@@ -15,7 +15,7 @@ export default function NotraBackdrop() {
 	return (
 		<button
 			className={cn(
-				'fixed top-0 left-0 right-0 bottom-0 z-40 bg-black/45 transition-[visibility,opacity] ease-[ease] duration-250 opacity-0 invisible',
+				'fixed inset-0 z-20 bg-black/20 transition-[visibility,opacity] ease-[ease] duration-250 opacity-0 invisible',
 				mobileOpen && 'opacity-100 visible md:opacity-0 md:invisible'
 			)}
 			onClick={handleClick}

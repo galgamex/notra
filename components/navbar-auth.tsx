@@ -7,16 +7,16 @@ import { signOut, useSession } from 'next-auth/react';
 
 import { Button } from '@/components/ui/button';
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {
-    DEFAULT_ACCOUNT_AVATAR,
-    DEFAULT_ACCOUNT_AVATAR_DARK
+	DEFAULT_ACCOUNT_AVATAR,
+	DEFAULT_ACCOUNT_AVATAR_DARK
 } from '@/constants/default';
 import { useIsDark } from '@/hooks/use-is-dark';
 import { useTranslations } from '@/i18n';
@@ -47,38 +47,41 @@ export default function NavbarAuth() {
 
 	// 加载中状态
 	if (status === 'loading') {
-		return (
-			<div className="h-8 w-8 animate-pulse rounded-full bg-muted"></div>
-		);
+		return <div className="h-8 w-8 animate-pulse rounded-full bg-muted"></div>;
 	}
 
 	// 未登录状态 - 显示登录按钮
 	if (!session?.user) {
 		return (
-			<Button onClick={handleLogin} size="sm" variant="outline">
+			<Button size="sm" variant="outline" onClick={handleLogin}>
 				{t('login')}
 			</Button>
 		);
 	}
 
 	// 已登录状态 - 显示用户头像和下拉菜单
-	const user = session.user as any; // 临时类型断言，稍后会更新类型定义
+	const user = session.user as {
+		role?: string;
+		avatar?: string;
+		name?: string;
+		username?: string;
+	};
 	const isAdmin = user?.role === 'ADMIN';
 
 	return (
 		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger asChild>
-				<div className="cursor-pointer rounded-full p-1 hover:bg-accent transition-colors">
-					<div className="relative h-8 w-8 rounded-full overflow-hidden bg-muted">
+				<div className="cursor-pointer rounded-full p-1 transition-colors hover:bg-accent">
+					<div className="relative h-8 w-8 overflow-hidden rounded-full bg-muted">
 						<Image
-							alt="用户头像"
 							fill
+							alt="用户头像"
+							className="object-cover"
 							sizes="32px"
 							src={
 								user?.avatar ||
 								(isDark ? DEFAULT_ACCOUNT_AVATAR_DARK : DEFAULT_ACCOUNT_AVATAR)
 							}
-							className="object-cover"
 						/>
 					</div>
 				</div>
@@ -88,7 +91,7 @@ export default function NavbarAuth() {
 				<div className="px-2 py-1.5 text-sm font-medium">
 					{user?.name || user?.username || t('user')}
 				</div>
-				
+
 				<DropdownMenuSeparator />
 
 				{isAdmin && (

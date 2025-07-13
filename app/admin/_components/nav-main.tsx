@@ -1,6 +1,15 @@
 'use client';
 
-import { House, FileText, FolderOpen, Tag } from 'lucide-react';
+import {
+	House,
+	FileText,
+	FolderOpen,
+	Tag,
+	Globe,
+	Layers,
+	Hash,
+	BarChart3
+} from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -19,6 +28,33 @@ export default function NavMain() {
 			title: t('home'),
 			url: '/admin',
 			icon: House
+		},
+		{
+			title: t('website_management'),
+			url: '/admin/websites',
+			icon: Globe,
+			subItems: [
+				{
+					title: t('websites'),
+					url: '/admin/websites',
+					icon: Globe
+				},
+				{
+					title: t('website_categories'),
+					url: '/admin/websites/categories',
+					icon: Layers
+				},
+				{
+					title: t('website_tags'),
+					url: '/admin/websites/tags',
+					icon: Hash
+				},
+				{
+					title: t('website_stats'),
+					url: '/admin/websites/stats',
+					icon: BarChart3
+				}
+			]
 		},
 		{
 			title: t('blog_management'),
@@ -53,7 +89,10 @@ export default function NavMain() {
 	};
 
 	const renderNavItem = (item: SidebarNavItem, level = 0) => {
-		const isActive = pathname === item.url || (item.subItems && item.subItems.some(subItem => pathname.startsWith(subItem.url)));
+		const isActive =
+			pathname === item.url ||
+			(item.subItems &&
+				item.subItems.some((subItem) => pathname.startsWith(subItem.url)));
 		const hasSubItems = item.subItems && item.subItems.length > 0;
 		const isOpen = openItems.includes(item.url) || isActive;
 

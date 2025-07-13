@@ -1,11 +1,15 @@
 'use client';
 
-import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
-import { DEFAULT_SITE_TITLE, DEFAULT_SITE_LOGO, DEFAULT_SITE_LOGO_DARK } from '@/constants/default';
 import { Button } from '@/components/ui/button';
+import {
+	DEFAULT_SITE_TITLE,
+	DEFAULT_SITE_LOGO,
+	DEFAULT_SITE_LOGO_DARK
+} from '@/constants/default';
 
 import LogoClient from '../logo-client';
 import NavbarAuth from '../navbar-auth';
@@ -14,64 +18,79 @@ import NavbarAuth from '../navbar-auth';
 let sidebarToggleCallback: (() => void) | null = null;
 
 export function setSidebarToggleCallback(callback: () => void) {
-  sidebarToggleCallback = callback;
+	sidebarToggleCallback = callback;
 }
 
 interface NotraHeaderProps {
-  siteSettings: {
-    title: string | null;
-    description: string | null;
-    logo: string | null;
-    darkLogo: string | null;
-    copyright: string | null;
-    googleAnalyticsId: string | null;
-  } | null;
+	siteSettings: {
+		title: string | null;
+		description: string | null;
+		logo: string | null;
+		darkLogo: string | null;
+		copyright: string | null;
+		googleAnalyticsId: string | null;
+	} | null;
 }
 
 export default function NotraHeader({ siteSettings }: NotraHeaderProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    if (sidebarToggleCallback) {
-      sidebarToggleCallback();
-    }
-  };
+	const toggleMobileMenu = () => {
+		setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  return (
-    <header className="z-30 w-full bg-white border-b border-gray-200">
-      <div className="h-14 w-full px-4 md:px-8">
-        <div className="flex h-full  items-center justify-between font-semibold">
-          <div className="flex items-center gap-2">
-            {/* 移动端菜单按钮 */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden p-2 -ml-2"
-              onClick={toggleMobileMenu}
-            >
-              {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-            </Button>
-            
-            {/* Logo和标题 - 在移动端隐藏Logo */}
-            <Link className="flex h-full items-center gap-2" href="/">
-              <div className="hidden md:block">
-                <LogoClient
-                  size={24}
-                  logo={siteSettings?.logo ?? siteSettings?.darkLogo ?? DEFAULT_SITE_LOGO}
-                  darkLogo={siteSettings?.darkLogo ?? siteSettings?.logo ?? DEFAULT_SITE_LOGO_DARK}
-                  title={siteSettings?.title ?? DEFAULT_SITE_TITLE}
-                />
-              </div>
-              <span className="font-semibold">{siteSettings?.title ?? DEFAULT_SITE_TITLE}</span>
-            </Link>
-          </div>
-          
-          <div className="flex items-center ml-auto">
-            <NavbarAuth />
-          </div>
-        </div>
-      </div>
-    </header>
-  );
+		if (sidebarToggleCallback) {
+			sidebarToggleCallback();
+		}
+	};
+
+	return (
+		<header className="z-30 w-full border-b border-gray-200 bg-white">
+			<div className="h-14 w-full px-4 md:px-8">
+				<div className="flex h-full  items-center justify-between font-semibold">
+					<div className="flex items-center gap-2">
+						{/* 移动端菜单按钮 */}
+						<Button
+							className="-ml-2 p-2 md:hidden"
+							size="sm"
+							variant="ghost"
+							onClick={toggleMobileMenu}
+						>
+							{isMobileMenuOpen ? (
+								<X className="h-4 w-4" />
+							) : (
+								<Menu className="h-4 w-4" />
+							)}
+						</Button>
+
+						{/* Logo和标题 - 在移动端隐藏Logo */}
+						<Link className="flex h-full items-center gap-2" href="/">
+							<div className="hidden md:block">
+								<LogoClient
+									darkLogo={
+										siteSettings?.darkLogo ??
+										siteSettings?.logo ??
+										DEFAULT_SITE_LOGO_DARK
+									}
+									logo={
+										siteSettings?.logo ??
+										siteSettings?.darkLogo ??
+										DEFAULT_SITE_LOGO
+									}
+									size={24}
+									title={siteSettings?.title ?? DEFAULT_SITE_TITLE}
+								/>
+							</div>
+							<span className="font-semibold">
+								{siteSettings?.title ?? DEFAULT_SITE_TITLE}
+							</span>
+						</Link>
+					</div>
+
+					<div className="ml-auto flex items-center">
+						<NavbarAuth />
+					</div>
+				</div>
+			</div>
+		</header>
+	);
 }

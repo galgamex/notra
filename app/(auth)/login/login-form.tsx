@@ -12,22 +12,26 @@ import { login } from '@/actions/auth';
 import LogoClient from '@/components/logo-client';
 import { SubmitButton } from '@/components/submit-button';
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle
 } from '@/components/ui/card';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DEFAULT_SITE_LOGO, DEFAULT_SITE_LOGO_DARK, DEFAULT_SITE_TITLE } from '@/constants/default';
+import {
+	DEFAULT_SITE_LOGO,
+	DEFAULT_SITE_LOGO_DARK,
+	DEFAULT_SITE_TITLE
+} from '@/constants/default';
 import { useTranslations } from '@/i18n';
 import { LoginFormValues } from '@/types/auth';
 
@@ -68,11 +72,11 @@ export function LoginForm() {
 	return (
 		<Card>
 			<CardHeader>
-				<div className="flex justify-center mb-4">
-					<LogoClient 
-						size={48} 
-						logo={DEFAULT_SITE_LOGO}
+				<div className="mb-4 flex justify-center">
+					<LogoClient
 						darkLogo={DEFAULT_SITE_LOGO_DARK}
+						logo={DEFAULT_SITE_LOGO}
+						size={48}
 						title={DEFAULT_SITE_TITLE}
 					/>
 				</div>
@@ -103,8 +107,8 @@ export function LoginForm() {
 									<div className="flex items-center justify-between">
 										<FormLabel>{t('password_label')}</FormLabel>
 										<Link
+											className="text-sm text-muted-foreground underline hover:text-primary"
 											href="/forgot-password"
-											className="text-sm text-muted-foreground hover:text-primary underline"
 										>
 											{t('forgot_password')}
 										</Link>
@@ -116,15 +120,15 @@ export function LoginForm() {
 								</FormItem>
 							)}
 						/>
-						<SubmitButton isPending={isPending} className="w-full">
+						<SubmitButton className="w-full" isPending={isPending}>
 							{t('login_button')}
 						</SubmitButton>
 					</form>
 				</Form>
-				
+
 				<div className="mt-4 text-center text-sm">
 					{t('no_account')}{' '}
-					<Link href="/register" className="underline">
+					<Link className="underline" href="/register">
 						{t('register_link')}
 					</Link>
 				</div>

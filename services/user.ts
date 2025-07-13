@@ -1,5 +1,6 @@
-import { genSaltSync, hashSync } from 'bcrypt-ts';
 import crypto from 'crypto';
+
+import { genSaltSync, hashSync } from 'bcrypt-ts';
 
 import { signIn } from '@/app/(auth)/auth';
 import { getTranslations } from '@/i18n';
@@ -38,6 +39,7 @@ export default class UserService {
 
 			if (existingUser) {
 				const t = getTranslations('services_user');
+
 				return ServiceResult.fail(t('username_exists'));
 			}
 
@@ -49,16 +51,19 @@ export default class UserService {
 
 				if (existingEmail) {
 					const t = getTranslations('services_user');
+
 					return ServiceResult.fail(t('email_exists'));
 				}
 			}
 
 			// 生成邮箱验证令牌
-			const verificationToken = email ? crypto.randomBytes(32).toString('hex') : null;
+			const verificationToken = email
+				? crypto.randomBytes(32).toString('hex')
+				: null;
 
 			const user = await prisma.user.create({
-				data: { 
-					username, 
+				data: {
+					username,
 					password: hashedPassword,
 					email,
 					role: isFirstUser ? 'ADMIN' : 'USER', // 第一个用户设为管理员
@@ -110,18 +115,19 @@ export default class UserService {
 
 			if (!user) {
 				const t = getTranslations('services_user');
+
 				return ServiceResult.fail(t('email_not_found'));
 			}
 
 			// 生成重置令牌
 			const resetToken = crypto.randomBytes(32).toString('hex');
-			const resetTokenExpiry = new Date(Date.now() + 3600000); // 1小时后过期
+			// const resetTokenExpiry = new Date(Date.now() + 3600000); // 1小时后过期
 
 			// 更新用户的重置令牌
 			await prisma.user.update({
 				where: { email },
 				data: {
-					verificationToken: resetToken,
+					verificationToken: resetToken
 					// 这里应该有一个resetTokenExpiry字段，但当前schema没有，暂时使用verificationToken
 				}
 			});
@@ -130,6 +136,7 @@ export default class UserService {
 			await sendPasswordResetEmail(email, resetToken);
 
 			const t = getTranslations('services_user');
+
 			return ServiceResult.success(t('reset_email_sent'));
 		} catch (error) {
 			logger('UserService.sendPasswordResetEmail', error);
@@ -147,6 +154,7 @@ export default class UserService {
 
 			if (!user) {
 				const t = getTranslations('services_user');
+
 				return ServiceResult.fail(t('invalid_token'));
 			}
 
@@ -159,6 +167,7 @@ export default class UserService {
 			});
 
 			const t = getTranslations('services_user');
+
 			return ServiceResult.success(t('email_verified'));
 		} catch (error) {
 			logger('UserService.verifyEmail', error);

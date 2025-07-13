@@ -34,7 +34,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang={ENV_LOCALE} suppressHydrationWarning>
+		<html suppressHydrationWarning lang={ENV_LOCALE}>
 			<body className={`${inter.variable} font-sans`}>
 				<Providers>
 					<Toaster richColors position="top-center" />

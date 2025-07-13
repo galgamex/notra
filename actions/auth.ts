@@ -1,7 +1,11 @@
 'use server';
 
 import UserService from '@/services/user';
-import { LoginFormValues, RegisterFormValues, ForgotPasswordFormValues } from '@/types/auth';
+import {
+	LoginFormValues,
+	RegisterFormValues,
+	ForgotPasswordFormValues
+} from '@/types/auth';
 
 export const login = async (values: LoginFormValues) => {
 	const serviceResult = await UserService.login(

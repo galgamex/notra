@@ -1,19 +1,20 @@
 import 'server-only';
 import nodemailer from 'nodemailer';
+
 import { logger } from './logger';
 
 // 创建SMTP传输器
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: false, // 使用STARTTLS
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
-  },
-  tls: {
-    rejectUnauthorized: false, // 在开发环境中可能需要
-  },
+	host: process.env.SMTP_HOST,
+	port: parseInt(process.env.SMTP_PORT || '587'),
+	secure: false, // 使用STARTTLS
+	auth: {
+		user: process.env.SMTP_USER,
+		pass: process.env.SMTP_PASSWORD
+	},
+	tls: {
+		rejectUnauthorized: false // 在开发环境中可能需要
+	}
 });
 
 // 验证SMTP连接
@@ -21,9 +22,11 @@ export const verifyEmailConnection = async () => {
 	try {
 		await transporter.verify();
 		logger('Email', 'SMTP连接验证成功');
+
 		return true;
 	} catch (error) {
 		logger('Email', `SMTP连接验证失败: ${error}`);
+
 		return false;
 	}
 };
@@ -41,14 +44,17 @@ export const sendEmail = async (options: {
 			to: options.to,
 			subject: options.subject,
 			html: options.html,
-			text: options.text || options.html.replace(/<[^>]*>/g, ''), // 如果没有提供text，从html中提取
+			text: options.text || options.html.replace(/<[^>]*>/g, '') // 如果没有提供text，从html中提取
 		};
 
 		const result = await transporter.sendMail(mailOptions);
+
 		logger('Email', `邮件发送成功: ${result.messageId}`);
+
 		return { success: true, messageId: result.messageId };
 	} catch (error) {
 		logger('Email', `邮件发送失败: ${error}`);
+
 		return { success: false, error: error };
 	}
 };
@@ -56,7 +62,7 @@ export const sendEmail = async (options: {
 // 发送验证邮件
 export const sendVerificationEmail = async (email: string, token: string) => {
 	const verificationUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/verify-email?token=${token}`;
-	
+
 	const html = `
 		<div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
 			<h2 style="color: #333; text-align: center;">验证您的邮箱地址</h2>
@@ -89,7 +95,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 // 发送密码重置邮件
 export const sendPasswordResetEmail = async (email: string, token: string) => {
 	const resetUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/reset-password?token=${token}`;
-	
+
 	const html = `
 		<div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
 			<h2 style="color: #333; text-align: center;">重置您的密码</h2>
@@ -117,4 +123,4 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 		subject: '重置您的密码 - Notra',
 		html
 	});
-}; 
+};

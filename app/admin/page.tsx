@@ -26,7 +26,7 @@ export default async function Page() {
 
 	return (
 		<>
-			<NotraSidebar resizeable className="bg-sidebar">
+			<NotraSidebar className="bg-sidebar">
 				<DashboardSidebarHeader />
 
 				<NotraSidebarContent>
@@ -38,9 +38,7 @@ export default async function Page() {
 
 				<div className="px-9 py-6">
 					<div className="mb-5 text-lg font-medium">{t('welcome')}</div>
-					<p className="text-muted-foreground">
-						{t('dashboard_description')}
-					</p>
+					<p className="text-muted-foreground">{t('dashboard_description')}</p>
 				</div>
 			</NotraInset>
 		</>

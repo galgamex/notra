@@ -1,4 +1,8 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import {
+	S3Client,
+	PutObjectCommand,
+	DeleteObjectCommand
+} from '@aws-sdk/client-s3';
 
 import { logger } from '@/lib/logger';
 
@@ -28,7 +32,8 @@ export default class S3Storage implements IStorage {
 			endpoint: process.env.KUN_VISUAL_NOVEL_S3_STORAGE_ENDPOINT,
 			credentials: {
 				accessKeyId: process.env.KUN_VISUAL_NOVEL_S3_STORAGE_ACCESS_KEY_ID,
-				secretAccessKey: process.env.KUN_VISUAL_NOVEL_S3_STORAGE_SECRET_ACCESS_KEY
+				secretAccessKey:
+					process.env.KUN_VISUAL_NOVEL_S3_STORAGE_SECRET_ACCESS_KEY
 			},
 			forcePathStyle: true // 对于 Cloudflare R2 需要设置为 true
 		});
@@ -53,6 +58,7 @@ export default class S3Storage implements IStorage {
 			return `${this.publicUrl}/${path}`;
 		} catch (error) {
 			logger('S3 upload failed', error);
+
 			throw error;
 		}
 	}
@@ -67,6 +73,7 @@ export default class S3Storage implements IStorage {
 			await this.s3Client.send(command);
 		} catch (error) {
 			logger('S3 delete failed', error);
+
 			throw error;
 		}
 	}

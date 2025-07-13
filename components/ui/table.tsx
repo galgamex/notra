@@ -14,12 +14,7 @@ function Table({ className, ...props }: React.ComponentProps<'table'>) {
 				data-slot="table"
 				className={cn('w-full caption-bottom text-sm', className)}
 				{...props}
-			>
-				<tr>
-					<th scope="col">Name</th>
-					<th scope="col">Age</th>
-				</tr>
-			</table>
+			/>
 		</div>
 	);
 }
