@@ -54,11 +54,17 @@ export default function DynamicSidebar() {
 	useEffect(() => {
 		// 检查是否在分类详情页
 		const categoryMatch = pathname.match(/^\/websites\/category\/([^/]+)$/);
+		// 检查当前分类是否发生变化
+		const newCategorySlug = categoryMatch ? categoryMatch[1] : null;
+		const currentCategorySlug = currentCategory?.slug || null;
 
-		// 开始过渡动画
-		setIsTransitioning(true);
+		// 只在分类详情页之间切换时才显示过渡动画
+		if (categoryMatch && newCategorySlug !== currentCategorySlug) {
+			setIsTransitioning(true);
+		}
 
-		// 延迟执行内容更新，让淡出动画先执行
+		// 延迟执行内容更新，让淡出动画先执行（仅在分类切换时）
+		const shouldAnimate = categoryMatch && newCategorySlug !== currentCategorySlug;
 		const timer = setTimeout(() => {
 			if (categoryMatch) {
 				const slug = categoryMatch[1];
@@ -69,11 +75,13 @@ export default function DynamicSidebar() {
 				setSubCategories([]);
 			}
 
-			// 内容更新后，结束过渡动画
-			setTimeout(() => {
-				setIsTransitioning(false);
-			}, 50);
-		}, 150);
+			// 内容更新后，结束过渡动画（仅在分类切换时）
+			if (shouldAnimate) {
+				setTimeout(() => {
+					setIsTransitioning(false);
+				}, 50);
+			}
+		}, shouldAnimate ? 150 : 0);
 
 		return () => clearTimeout(timer);
 	}, [pathname]);
@@ -126,17 +134,16 @@ export default function DynamicSidebar() {
 			<aside
 				className={`
         fixed top-nav-height left-0 z-30 h-[calc(100vh-56px)] w-64 
-        transform border-r border-gray-200 bg-white
-        shadow-sm transition-transform duration-300 ease-in-out
+        transform border-r border-gray-200 bg-white shadow-sm transition-transform
+        duration-300 ease-in-out dark:border-gray-700 dark:bg-background
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0
       `}
 			>
 				<nav className="flex h-full flex-col p-4">
 					<div
-						className={`transition-opacity duration-200 ease-in-out ${
-							isTransitioning ? 'opacity-0' : 'opacity-100'
-						}`}
+						className={`transition-opacity duration-200 ease-in-out ${isTransitioning ? 'opacity-0' : 'opacity-100'
+							}`}
 					>
 						{showSubCategories ? (
 							// 显示分类详情页的子分类菜单
@@ -144,7 +151,7 @@ export default function DynamicSidebar() {
 								{/* 返回按钮 */}
 								<div className="mb-4">
 									<Link
-										className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-50 hover:text-gray-900"
+										className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
 										href="/websites"
 										onClick={closeSidebar}
 									>
@@ -154,7 +161,7 @@ export default function DynamicSidebar() {
 								</div>
 
 								{/* 当前分类信息 */}
-								<div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3">
+								<div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-900/20">
 									<div className="flex items-center gap-3">
 										{currentCategory.icon ? (
 											<div
@@ -176,22 +183,22 @@ export default function DynamicSidebar() {
 											</div>
 										)}
 										<div>
-											<h3 className="font-medium text-gray-900">
+											<h3 className="font-medium text-gray-900 dark:text-gray-100">
 												{currentCategory.name}
 											</h3>
-											<p className="text-xs text-gray-600">分类详情</p>
+											<p className="text-xs text-gray-600 dark:text-gray-400">分类详情</p>
 										</div>
 									</div>
 								</div>
 
 								{/* 子分类列表 */}
 								<div className="mb-4">
-									<h4 className="mb-2 px-3 text-sm font-medium text-gray-500">
+									<h4 className="mb-2 px-3 text-sm font-medium text-gray-500 dark:text-gray-400">
 										分类导航
 									</h4>
 									<ul className="space-y-1">
 										{loading ? (
-											<li className="px-3 py-2 text-sm text-gray-500">
+											<li className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
 												加载中...
 											</li>
 										) : (
@@ -215,7 +222,7 @@ export default function DynamicSidebar() {
 												return (
 													<li key={subCategory.id}>
 														<a
-															className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-50 hover:text-gray-900"
+															className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100"
 															href={`#category-${subCategory.slug}`}
 															onClick={handleCategoryClick}
 														>
@@ -230,10 +237,10 @@ export default function DynamicSidebar() {
 																	<span>{subCategory.icon}</span>
 																</div>
 															) : (
-																<Folder className="h-5 w-5 text-gray-400" />
+																<Folder className="h-5 w-5 text-gray-400 dark:text-gray-500" />
 															)}
 															<span>{subCategory.name}</span>
-															<span className="ml-auto text-xs text-gray-500">
+															<span className="ml-auto text-xs text-gray-500 dark:text-gray-400">
 																({subCategory._count.websites})
 															</span>
 														</a>
@@ -260,11 +267,10 @@ export default function DynamicSidebar() {
 												className={`
                         flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium
                         transition-colors duration-200
-                        ${
-													isActive
-														? 'border-l-4 border-blue-700 bg-blue-50 text-blue-700'
-														: 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-												}
+                        ${isActive
+														? 'border-l-4 border-blue-700 bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'
+														: 'text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100'
+													}
                       `}
 												href={item.href}
 												onClick={closeSidebar}
@@ -280,15 +286,14 @@ export default function DynamicSidebar() {
 					</div>
 
 					{/* 底部申请收录按钮 */}
-					<div className="mt-auto border-t border-gray-200 pt-4">
+					<div className="mt-auto border-t border-gray-200 pt-4 dark:border-gray-700">
 						<Link
 							className={`
                 flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm
                 font-medium transition-colors duration-200
-                ${
-									pathname === '/websites/submit'
-										? 'border-l-4 border-green-700 bg-green-50 text-green-700'
-										: 'border border-green-200 text-green-700 hover:border-green-300 hover:bg-green-50 hover:text-green-800'
+                ${pathname === '/websites/submit'
+									? 'border-l-4 border-green-700 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400'
+									: 'border border-green-200 text-green-700 hover:border-green-300 hover:bg-green-50 hover:text-green-800 dark:border-green-800 dark:text-green-400 dark:hover:border-green-700 dark:hover:bg-green-900/20 dark:hover:text-green-300'
 								}
               `}
 							href="/websites/submit"

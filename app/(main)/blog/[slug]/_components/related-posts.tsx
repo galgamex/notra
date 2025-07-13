@@ -26,14 +26,14 @@ function RelatedPostCard({ post }: RelatedPostCardProps) {
 			<Link href={`/blog/${post.slug}`}>
 				<div className="cursor-pointer">
 					{/* 图片 */}
-					<div className="relative h-48 overflow-hidden rounded-t-lg bg-gray-200">
+					<div className="relative h-48 overflow-hidden rounded-t-lg bg-gray-200 dark:bg-gray-700">
 						{post.coverImage ? (
 							<Image
+								fill
 								alt={post.title}
 								className="object-cover transition-transform duration-300 hover:scale-105"
-								src={post.coverImage}
-								fill
 								sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+								src={post.coverImage}
 							/>
 						) : (
 							<div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">
@@ -56,7 +56,7 @@ function RelatedPostCard({ post }: RelatedPostCardProps) {
 
 					<CardContent className="p-4">
 						{/* 标题 */}
-						<h3 className="mb-2 line-clamp-2 font-semibold text-gray-900 transition-colors hover:text-blue-600">
+						<h3 className="mb-2 line-clamp-2 font-semibold text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400">
 							{post.title}
 						</h3>
 
@@ -197,9 +197,9 @@ export default function RelatedPosts({ currentPost }: RelatedPostsProps) {
 					<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 						{[1, 2, 3].map((i) => (
 							<div key={i} className="animate-pulse">
-								<div className="mb-4 h-48 rounded-lg bg-gray-200"></div>
-								<div className="mb-2 h-4 rounded bg-gray-200"></div>
-								<div className="h-4 w-3/4 rounded bg-gray-200"></div>
+								<div className="mb-4 h-48 rounded-lg bg-gray-200 dark:bg-gray-700"></div>
+					<div className="mb-2 h-4 rounded bg-gray-200 dark:bg-gray-700"></div>
+					<div className="h-4 w-3/4 rounded bg-gray-200 dark:bg-gray-700"></div>
 							</div>
 						))}
 					</div>

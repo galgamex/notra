@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/app/(auth)/auth';
-import { WebsiteService } from '@/services/website';
+import { checkNSFWAccess } from '@/middleware/nsfw-check';
+import CacheService from '@/services/cache';
+import WebsiteService from '@/services/website';
 import type { WebsiteClickQuery } from '@/types/website';
 
 export async function GET(request: NextRequest) {
@@ -31,7 +33,7 @@ export async function GET(request: NextRequest) {
 
 		return NextResponse.json(result);
 	} catch (error) {
-		console.error('获取点击记录失败:', error);
+		console.error('Failed to get website clicks:', error);
 
 		return NextResponse.json({ error: '获取点击记录失败' }, { status: 500 });
 	}
@@ -43,6 +45,13 @@ export async function POST(request: NextRequest) {
 
 		if (!websiteId) {
 			return NextResponse.json({ error: '网站ID不能为空' }, { status: 400 });
+		}
+
+		// 检查NSFW访问权限
+		const nsfwCheckResult = await checkNSFWAccess(request, websiteId);
+
+		if (nsfwCheckResult) {
+			return nsfwCheckResult;
 		}
 
 		const session = await auth();
@@ -58,6 +67,14 @@ export async function POST(request: NextRequest) {
 			userAgent: request.headers.get('user-agent') || 'unknown',
 			referrer: request.headers.get('referer') || undefined
 		});
+
+		// 更新 Redis 缓存中的点击计数
+		await CacheService.incrementWebsiteClicks(websiteId);
+
+		// 清除相关缓存
+		await CacheService.clearWebsiteDetail(websiteId);
+		await CacheService.clearWebsiteListCache();
+		await CacheService.clearWebsiteStatsCache();
 
 		return NextResponse.json(click, { status: 201 });
 	} catch (error) {

@@ -11,9 +11,11 @@ export interface WebsiteWithDetails {
 	screenshot?: string | null;
 	status: WebsiteStatus;
 	clickCount: number;
+	likeCount: number;
 	sortOrder: number;
 	isRecommend: boolean;
 	isFeatured: boolean;
+	isNSFW: boolean;
 	reviewedAt?: Date | null;
 	createdAt: Date;
 	updatedAt: Date;
@@ -50,7 +52,9 @@ export interface WebsiteWithDetails {
 	}[];
 	_count: {
 		clicks: number;
+		likes: number;
 	};
+	userLiked?: boolean; // 当前用户是否已点赞
 }
 
 export interface WebsiteCategoryWithDetails {
@@ -122,6 +126,7 @@ export interface CreateWebsiteFormValues {
 	tagIds: string[];
 	isRecommend?: boolean;
 	isFeatured?: boolean;
+	isNSFW?: boolean;
 	sortOrder?: number;
 }
 
@@ -168,6 +173,7 @@ export interface WebsiteListQuery {
 	submitterId?: string;
 	isRecommend?: boolean;
 	isFeatured?: boolean;
+	isNSFW?: boolean;
 	sortBy?: 'createdAt' | 'updatedAt' | 'clickCount' | 'sortOrder' | 'name';
 	sortOrder?: 'asc' | 'desc';
 }
@@ -272,6 +278,7 @@ export interface WebsiteSearchSuggestion {
 	url: string;
 	description?: string | null;
 	logo?: string | null;
+	isFeatured?: boolean;
 	category: {
 		name: string;
 		color?: string | null;
@@ -285,6 +292,7 @@ export interface PopularWebsite {
 	url: string;
 	logo?: string | null;
 	clickCount: number;
+	isFeatured?: boolean;
 	category: {
 		name: string;
 		color?: string | null;
@@ -299,8 +307,40 @@ export interface RecentWebsite {
 	description?: string | null;
 	logo?: string | null;
 	createdAt: Date;
+	isFeatured?: boolean;
 	category: {
 		name: string;
 		color?: string | null;
 	};
+}
+
+// 点赞相关类型定义
+export interface WebsiteLikeWithDetails {
+	id: string;
+	websiteId: string;
+	userId?: string | null;
+	ipAddress?: string | null;
+	userAgent?: string | null;
+	createdAt: Date;
+	website: {
+		id: string;
+		name: string;
+		url: string;
+	};
+	user?: {
+		id: string;
+		username: string;
+		name?: string | null;
+	} | null;
+}
+
+export interface WebsiteLikeRequest {
+	websiteId: string;
+}
+
+export interface WebsiteLikeResponse {
+	success: boolean;
+	liked: boolean;
+	likeCount: number;
+	message?: string;
 }

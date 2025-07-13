@@ -97,11 +97,11 @@ export default function PostsList() {
 				{[...Array(3)].map((_, i) => (
 					<Card key={i} className="animate-pulse">
 						<CardContent className="p-6">
-							<div className="mb-2 h-4 w-3/4 rounded bg-gray-200"></div>
-							<div className="mb-4 h-3 w-1/2 rounded bg-gray-200"></div>
-							<div className="flex space-x-2">
-								<div className="h-6 w-16 rounded bg-gray-200"></div>
-								<div className="h-6 w-20 rounded bg-gray-200"></div>
+							<div className="mb-2 h-4 w-3/4 rounded bg-gray-200 dark:bg-gray-700"></div>
+							<div className="mb-4 h-3 w-1/2 rounded bg-gray-200 dark:bg-gray-700"></div>
+							<div className="flex gap-2">
+								<div className="h-6 w-16 rounded bg-gray-200 dark:bg-gray-700"></div>
+								<div className="h-6 w-20 rounded bg-gray-200 dark:bg-gray-700"></div>
 							</div>
 						</CardContent>
 					</Card>
@@ -113,7 +113,7 @@ export default function PostsList() {
 	if (posts.length === 0) {
 		return (
 			<div className="py-12 text-center">
-				<div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-100">
+				<div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
 					<Edit className="h-12 w-12 text-gray-400" />
 				</div>
 				<h3 className="mb-2 text-lg font-medium text-gray-900">暂无文章</h3>
@@ -172,13 +172,13 @@ export default function PostsList() {
 						<div className="text-sm text-gray-500">
 							{post.publishedAt
 								? formatDistanceToNow(new Date(post.publishedAt), {
-										addSuffix: true,
-										locale: zhCN
-									})
+									addSuffix: true,
+									locale: zhCN
+								})
 								: formatDistanceToNow(new Date(post.createdAt), {
-										addSuffix: true,
-										locale: zhCN
-									})}
+									addSuffix: true,
+									locale: zhCN
+								})}
 						</div>
 
 						{post.tags && post.tags.length > 0 && (

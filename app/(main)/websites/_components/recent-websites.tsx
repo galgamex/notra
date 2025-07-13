@@ -1,29 +1,10 @@
-import { Clock } from 'lucide-react';
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 import type { RecentWebsite } from '@/types/website';
-
-async function getRecentWebsites(): Promise<RecentWebsite[]> {
-	try {
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/website/recent?limit=6`,
-			{
-				cache: 'no-store'
-			}
-		);
-
-		if (!response.ok) {
-			throw new Error('Failed to fetch recent websites');
-		}
-
-		return response.json();
-	} catch (error) {
-		console.error('获取最新网站失败:', error);
-
-		return [];
-	}
-}
 
 function formatDate(date: string | Date) {
 	const d = new Date(date);
@@ -42,74 +23,87 @@ function formatDate(date: string | Date) {
 	}
 }
 
-export async function RecentWebsites() {
-	const websites = await getRecentWebsites();
+export function RecentWebsites() {
+	const [websites, setWebsites] = useState<RecentWebsite[]>([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchRecentWebsites = async () => {
+			try {
+				const response = await fetch('/api/website/recent?limit=6');
+
+				if (!response.ok) {
+					throw new Error('Failed to fetch recent websites');
+				}
+
+				const data = await response.json();
+				setWebsites(data || []);
+			} catch (error) {
+				console.error('获取最新网站失败:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchRecentWebsites();
+	}, []);
+
+	if (loading) {
+		return <div className="py-8 text-center text-gray-500 dark:text-gray-400">加载中...</div>;
+	}
 
 	if (websites.length === 0) {
-		return <div className="py-8 text-center text-gray-500">暂无最新网站</div>;
+		return <div className="py-8 text-center text-gray-500 dark:text-gray-400">暂无最新网站</div>;
 	}
 
 	return (
-		<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+		<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
 			{websites.map((website) => (
-				<Link
+				<div
 					key={website.id}
-					className="group block rounded-lg border border-gray-200 bg-white p-4 transition-all duration-200 hover:border-gray-300 hover:shadow-md"
-					href={website.url}
-					rel="noopener noreferrer"
-					target="_blank"
+					className={`group rounded-lg border transition-all duration-200 hover:shadow-md ${website.isFeatured
+						? 'border-blue-500 bg-blue-50/50 hover:border-blue-600 dark:border-blue-600 dark:bg-blue-900/20 dark:hover:border-blue-500'
+						: 'border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-card dark:hover:border-gray-600'
+						}`}
 				>
-					<div className="flex items-start gap-3">
-						{website.logo ? (
-						<div className="relative h-12 w-12 flex-shrink-0">
-							<Image
-								alt={website.name}
-								className="rounded-lg object-cover"
-								src={website.logo}
-								fill
-								sizes="48px"
-							/>
-						</div>
-					) : (
-						<div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gray-200">
-							<span className="font-medium text-gray-500">
-								{website.name.charAt(0).toUpperCase()}
-							</span>
-						</div>
-					)}
+					<Link className="block" href={`/websites/${website.id}`}>
+						<div className="p-4">
+							{/* 两列布局：左列logo，右列名称和描述 */}
+							<div className="flex gap-3">
+								{/* 左列：Logo */}
+								{website.logo ? (
+									<div className="relative h-12 w-12 flex-shrink-0">
+										<Image
+											fill
+											alt={website.name}
+											className="rounded-lg object-cover"
+											sizes="48px"
+											src={website.logo}
+										/>
+									</div>
+								) : (
+									<div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700">
+										<span className="font-medium text-gray-500 dark:text-gray-400">
+											{website.name.charAt(0).toUpperCase()}
+										</span>
+									</div>
+								)}
 
-						<div className="min-w-0 flex-1">
-							<h3 className="mb-1 truncate font-medium text-gray-900 transition-colors group-hover:text-blue-600">
-								{website.name}
-							</h3>
-
-							{website.description && (
-								<p className="mb-2 line-clamp-2 text-sm text-gray-600">
-									{website.description}
-								</p>
-							)}
-
-							<div className="flex items-center justify-between">
-								<div
-									className="rounded-full px-2 py-1 text-xs"
-									style={{
-										backgroundColor: website.category.color
-											? `${website.category.color}20`
-											: '#f3f4f6',
-										color: website.category.color || '#6b7280'
-									}}
-								>
-									{website.category.name}
-								</div>
-
-								<div className="flex items-center gap-1 text-xs text-gray-500">
-									<Clock className="h-3 w-3" />
-									<span>{formatDate(website.createdAt)}</span>
+								{/* 右列：网站名称和描述 */}
+								<div className="min-w-0 flex-1">
+									<h3 className="mb-1 font-medium text-gray-900 transition-colors group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400 truncate">
+										{website.name}
+									</h3>
+									{website.description && (
+										<p className="line-clamp-1 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+											{website.description}
+										</p>
+									)}
 								</div>
 							</div>
 						</div>
-					</div>
-				</Link>
+					</Link>
+				</div>
 			))}
 		</div>
 	);

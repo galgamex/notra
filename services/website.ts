@@ -17,7 +17,7 @@ import type {
 	WebsiteStats
 } from '@/types/website';
 
-export class WebsiteService {
+class WebsiteService {
 	// ==================== 网站管理 ====================
 
 	// 创建网站
@@ -61,10 +61,11 @@ export class WebsiteService {
 					}
 				},
 				_count: {
-					select: {
-						clicks: true
+						select: {
+							clicks: true,
+							likes: true
+						}
 					}
-				}
 			}
 		});
 
@@ -113,7 +114,8 @@ export class WebsiteService {
 				},
 				_count: {
 					select: {
-						clicks: true
+						clicks: true,
+						likes: true
 					}
 				}
 			}
@@ -158,7 +160,8 @@ export class WebsiteService {
 				},
 				_count: {
 					select: {
-						clicks: true
+						clicks: true,
+						likes: true
 					}
 				}
 			}
@@ -179,6 +182,7 @@ export class WebsiteService {
 			submitterId,
 			isRecommend,
 			isFeatured,
+			isNSFW,
 			sortBy = 'createdAt',
 			sortOrder = 'desc'
 		} = query;
@@ -223,6 +227,10 @@ export class WebsiteService {
 			where.isFeatured = isFeatured;
 		}
 
+		if (typeof isNSFW === 'boolean') {
+			where.isNSFW = isNSFW;
+		}
+
 		const orderBy: Record<string, string> = {};
 
 		orderBy[sortBy] = sortOrder;
@@ -258,7 +266,8 @@ export class WebsiteService {
 					},
 					_count: {
 						select: {
-							clicks: true
+							clicks: true,
+							likes: true
 						}
 					}
 				}
@@ -316,7 +325,8 @@ export class WebsiteService {
 				},
 				_count: {
 					select: {
-						clicks: true
+						clicks: true,
+						likes: true
 					}
 				}
 			}
@@ -886,11 +896,17 @@ export class WebsiteService {
 	}
 
 	// 获取热门网站
-	static async getPopularWebsites(limit: number = 10) {
+	static async getPopularWebsites(limit: number = 10, includeNSFW: boolean = false) {
+		const where: { status: WebsiteStatus; isNSFW?: boolean } = {
+			status: WebsiteStatus.APPROVED
+		};
+
+		if (!includeNSFW) {
+			where.isNSFW = false;
+		}
+
 		const websites = await prisma.website.findMany({
-			where: {
-				status: WebsiteStatus.APPROVED
-			},
+			where,
 			take: limit,
 			orderBy: {
 				clickCount: 'desc'
@@ -914,11 +930,17 @@ export class WebsiteService {
 	}
 
 	// 获取最新网站
-	static async getRecentWebsites(limit: number = 10) {
+	static async getRecentWebsites(limit: number = 10, includeNSFW: boolean = false) {
+		const where: { status: WebsiteStatus; isNSFW?: boolean } = {
+			status: WebsiteStatus.APPROVED
+		};
+
+		if (!includeNSFW) {
+			where.isNSFW = false;
+		}
+
 		const websites = await prisma.website.findMany({
-			where: {
-				status: WebsiteStatus.APPROVED
-			},
+			where,
 			take: limit,
 			orderBy: {
 				createdAt: 'desc'
@@ -943,15 +965,21 @@ export class WebsiteService {
 	}
 
 	// 搜索网站建议
-	static async searchSuggestions(query: string, limit: number = 5) {
+	static async searchSuggestions(query: string, limit: number = 5, includeNSFW: boolean = false) {
+		const where: { status: WebsiteStatus; isNSFW?: boolean; OR: Array<{ name?: { contains: string; mode: 'insensitive' }; description?: { contains: string; mode: 'insensitive' } }> } = {
+			status: WebsiteStatus.APPROVED,
+			OR: [
+				{ name: { contains: query, mode: 'insensitive' } },
+				{ description: { contains: query, mode: 'insensitive' } }
+			]
+		};
+
+		if (!includeNSFW) {
+			where.isNSFW = false;
+		}
+
 		const websites = await prisma.website.findMany({
-			where: {
-				status: WebsiteStatus.APPROVED,
-				OR: [
-					{ name: { contains: query, mode: 'insensitive' } },
-					{ description: { contains: query, mode: 'insensitive' } }
-				]
-			},
+			where,
 			take: limit,
 			select: {
 				id: true,
@@ -971,3 +999,5 @@ export class WebsiteService {
 		return websites;
 	}
 }
+
+export default WebsiteService;

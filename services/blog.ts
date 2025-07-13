@@ -2,16 +2,16 @@ import { PostStatus } from '@prisma/client';
 
 import prisma from '@/lib/prisma';
 import type {
-	CreatePostFormValues,
-	UpdatePostFormValues,
-	CreateCategoryFormValues,
-	UpdateCategoryFormValues,
-	CreateTagFormValues,
-	UpdateTagFormValues,
-	CreateCommentFormValues,
-	BlogListQuery,
-	BlogStats,
-	CommentWithDetails
+  CreatePostFormValues,
+  UpdatePostFormValues,
+  CreateCategoryFormValues,
+  UpdateCategoryFormValues,
+  CreateTagFormValues,
+  UpdateTagFormValues,
+  CreateCommentFormValues,
+  BlogListQuery,
+  BlogStats,
+  CommentWithDetails
 } from '@/types/blog';
 
 export class BlogService {

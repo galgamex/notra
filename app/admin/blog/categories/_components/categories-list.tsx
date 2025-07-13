@@ -6,15 +6,15 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -80,9 +80,9 @@ export default function CategoriesList() {
 					<Card key={i}>
 						<CardContent className="p-6">
 							<div className="animate-pulse">
-								<div className="mb-2 h-4 w-1/4 rounded bg-gray-200"></div>
-								<div className="mb-4 h-3 w-3/4 rounded bg-gray-200"></div>
-								<div className="h-3 w-1/2 rounded bg-gray-200"></div>
+								<div className="mb-2 h-4 w-1/4 rounded bg-gray-200 dark:bg-gray-700"></div>
+					<div className="mb-4 h-3 w-3/4 rounded bg-gray-200 dark:bg-gray-700"></div>
+					<div className="h-3 w-1/2 rounded bg-gray-200 dark:bg-gray-700"></div>
 							</div>
 						</CardContent>
 					</Card>
@@ -125,7 +125,7 @@ export default function CategoriesList() {
 
 						<div className="text-sm text-muted-foreground">
 							别名:{' '}
-							<code className="rounded bg-gray-100 px-1">{category.slug}</code>
+							<code className="rounded bg-gray-100 px-1 dark:bg-gray-700">{category.slug}</code>
 						</div>
 
 						{category.description && (

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { WebsiteService } from '@/services/website';
+import WebsiteService from '@/services/website';
 
 export async function GET(
 	request: NextRequest,
-	{ params }: { params: { slug: string } }
+	{ params }: { params: Promise<{ slug: string }> }
 ) {
 	try {
-		const { slug } = params;
+		const { slug } = await params;
 
 		if (!slug) {
 			return NextResponse.json({ error: '分类标识不能为空' }, { status: 400 });

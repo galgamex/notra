@@ -16,20 +16,20 @@ export function BlogPostCard({ post, variant = 'default' }: BlogPostCardProps) {
 
 	return (
 		<div
-			className={`overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg ${isCompact ? 'h-64' : 'h-80'}`}
+			className={`overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg dark:bg-card ${isCompact ? 'h-64' : 'h-80'}`}
 		>
 			<Link href={`/blog/${post.slug}`}>
 				<div className="group relative">
 					{/* 特色图片 */}
 					<div
-						className={`relative ${isCompact ? 'h-32' : 'h-48'} overflow-hidden bg-gray-200`}
+						className={`relative ${isCompact ? 'h-32' : 'h-48'} overflow-hidden bg-gray-200 dark:bg-gray-700`}
 					>
 						{post.coverImage ? (
 							<Image
+								fill
 								alt={post.title}
 								className="object-cover transition-transform duration-300 group-hover:scale-105"
 								src={post.coverImage}
-								fill
 							/>
 						) : (
 							<div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">
@@ -72,7 +72,7 @@ export function BlogPostCard({ post, variant = 'default' }: BlogPostCardProps) {
 								{post.tags.slice(0, isCompact ? 2 : 3).map(({ tag }) => (
 									<span
 										key={tag.id}
-										className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-600 transition-colors hover:bg-gray-200"
+										className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-600 transition-colors hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
 										style={{
 											backgroundColor: tag.color ? `${tag.color}20` : undefined,
 											color: tag.color || undefined
@@ -82,7 +82,7 @@ export function BlogPostCard({ post, variant = 'default' }: BlogPostCardProps) {
 									</span>
 								))}
 								{post.tags.length > (isCompact ? 2 : 3) && (
-									<span className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-600">
+									<span className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
 										+{post.tags.length - (isCompact ? 2 : 3)}
 									</span>
 								)}

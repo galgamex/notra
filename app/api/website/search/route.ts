@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { WebsiteService } from '@/services/website';
+import WebsiteService from '@/services/website';
 
 export async function GET(request: NextRequest) {
 	try {
@@ -15,11 +15,16 @@ export async function GET(request: NextRequest) {
 			);
 		}
 
-		const suggestions = await WebsiteService.searchSuggestions(query, limit);
+		// 检查用户的NSFW偏好设置
+		const nsfwCookie = await request.cookies.get('nsfw_enabled');
+		const nsfwEnabled = nsfwCookie?.value === 'true';
 
-		return NextResponse.json(suggestions);
+		const websites = await WebsiteService.searchSuggestions(query, limit, nsfwEnabled);
+
+		return NextResponse.json(websites);
 	} catch (error) {
-		console.error('获取搜索建议失败:', error);
+
+		console.error('Failed to search websites:', error);
 
 		return NextResponse.json({ error: '获取搜索建议失败' }, { status: 500 });
 	}

@@ -19,6 +19,7 @@ import {
 	DEFAULT_ACCOUNT_AVATAR_DARK
 } from '@/constants/default';
 import { useIsDark } from '@/hooks/use-is-dark';
+import { useMounted } from '@/hooks/use-mounted';
 import { useTranslations } from '@/i18n';
 
 import ThemeRadioGroup from './theme-radio-group';
@@ -27,6 +28,7 @@ export default function NavbarAuth() {
 	const { data: session, status } = useSession();
 	const t = useTranslations('components_navbar_auth');
 	const isDark = useIsDark();
+	const mounted = useMounted();
 	const router = useRouter();
 
 	const handleSettings = () => {
@@ -80,7 +82,7 @@ export default function NavbarAuth() {
 							sizes="32px"
 							src={
 								user?.avatar ||
-								(isDark ? DEFAULT_ACCOUNT_AVATAR_DARK : DEFAULT_ACCOUNT_AVATAR)
+								(mounted ? (isDark ? DEFAULT_ACCOUNT_AVATAR_DARK : DEFAULT_ACCOUNT_AVATAR) : DEFAULT_ACCOUNT_AVATAR)
 							}
 						/>
 					</div>

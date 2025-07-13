@@ -5,9 +5,10 @@ import { BlogService } from '@/services/blog';
 
 export async function DELETE(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
+		const { id } = await params;
 		const session = await auth();
 
 		if (!session?.user?.id) {
@@ -23,14 +24,14 @@ export async function DELETE(
 		}
 
 		// 检查标签是否存在
-		const tag = await BlogService.getTagById(params.id);
+		const tag = await BlogService.getTagById(id);
 
 		if (!tag) {
 			return NextResponse.json({ error: '标签不存在' }, { status: 404 });
 		}
 
 		// 检查标签下是否有文章
-		const postsCount = await BlogService.getPostsCountByTag(params.id);
+		const postsCount = await BlogService.getPostsCountByTag(id);
 
 		if (postsCount > 0) {
 			return NextResponse.json(
@@ -39,7 +40,7 @@ export async function DELETE(
 			);
 		}
 
-		await BlogService.deleteTag(params.id);
+		await BlogService.deleteTag(id);
 
 		return NextResponse.json({ message: '标签删除成功' });
 	} catch (error) {
@@ -51,9 +52,10 @@ export async function DELETE(
 
 export async function PUT(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
+		const { id } = await params;
 		const session = await auth();
 
 		if (!session?.user?.id) {
@@ -78,7 +80,7 @@ export async function PUT(
 			);
 		}
 
-		const tag = await BlogService.updateTag({ id: params.id, ...data });
+		const tag = await BlogService.updateTag({ id: id, ...data });
 
 		return NextResponse.json(tag);
 	} catch (error) {
@@ -90,10 +92,11 @@ export async function PUT(
 
 export async function GET(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
-		const tag = await BlogService.getTagById(params.id);
+		const { id } = await params;
+		const tag = await BlogService.getTagById(id);
 
 		if (!tag) {
 			return NextResponse.json({ error: '标签不存在' }, { status: 404 });

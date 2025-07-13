@@ -18,6 +18,7 @@ import {
 	DEFAULT_ACCOUNT_AVATAR_DARK
 } from '@/constants/default';
 import { useIsDark } from '@/hooks/use-is-dark';
+import { useMounted } from '@/hooks/use-mounted';
 import { useTranslations } from '@/i18n';
 
 import ThemeRadioGroup from './theme-radio-group';
@@ -25,6 +26,7 @@ import ThemeRadioGroup from './theme-radio-group';
 export default function AccountAvatar() {
 	const t = useTranslations('app_dashboard_account_avatar');
 	const isDark = useIsDark();
+	const mounted = useMounted();
 	const router = useRouter();
 
 	const handleSettings = () => {
@@ -42,7 +44,7 @@ export default function AccountAvatar() {
 					<Image
 						alt="Account Avatar"
 						height={24}
-						src={isDark ? DEFAULT_ACCOUNT_AVATAR_DARK : DEFAULT_ACCOUNT_AVATAR}
+						src={mounted ? (isDark ? DEFAULT_ACCOUNT_AVATAR_DARK : DEFAULT_ACCOUNT_AVATAR) : DEFAULT_ACCOUNT_AVATAR}
 						width={24}
 					/>
 				</div>

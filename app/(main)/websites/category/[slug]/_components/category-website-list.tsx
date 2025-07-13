@@ -2,6 +2,7 @@
 
 import { ExternalLink, Star, TrendingUp, Grid, List } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -82,8 +83,14 @@ export function CategoryWebsiteList({ categoryId }: CategoryWebsiteListProps) {
 		fetchWebsites();
 	}, [fetchWebsites]);
 
-	// 处理点击网站
-	const handleWebsiteClick = async (websiteId: string, url: string) => {
+	// 处理访问网站（外部链接）
+	const handleVisitWebsite = async (
+		websiteId: string,
+		url: string,
+		event: React.MouseEvent
+	) => {
+		event.stopPropagation(); // 阻止事件冒泡
+
 		try {
 			// 记录点击
 			await fetch('/api/website/clicks', {
@@ -104,41 +111,17 @@ export function CategoryWebsiteList({ categoryId }: CategoryWebsiteListProps) {
 		window.open(url, '_blank', 'noopener,noreferrer');
 	};
 
-	if (loading && websites.length === 0) {
-		return (
-			<div className="space-y-6">
-				{/* 工具栏骨架 */}
-				<div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-					<div className="h-6 w-32 animate-pulse rounded bg-gray-200"></div>
-					<div className="flex gap-2">
-						<div className="h-10 w-24 animate-pulse rounded bg-gray-200"></div>
-						<div className="h-10 w-32 animate-pulse rounded bg-gray-200"></div>
-						<div className="h-10 w-20 animate-pulse rounded bg-gray-200"></div>
-					</div>
-				</div>
-
-				{/* 网站卡片骨架 */}
-				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{Array.from({ length: 6 }).map((_, i) => (
-						<div
-							key={i}
-							className="h-48 animate-pulse rounded-lg bg-gray-200"
-						></div>
-					))}
-				</div>
-			</div>
-		);
-	}
+	// 移除加载占位动画，直接显示内容
 
 	return (
 		<div className="space-y-6">
 			{/* 工具栏 */}
-			<div className="rounded-lg border border-gray-200 bg-white p-4">
+			<div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-card">
 				<div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
 					{/* 统计信息和筛选 */}
 					<div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
 						<div className="text-sm text-gray-600">
-							共找到 <span className="font-medium text-gray-900">{total}</span>{' '}
+							共找到 <span className="font-medium text-gray-900 dark:text-gray-100">{total}</span>{' '}
 							个网站
 						</div>
 
@@ -181,7 +164,7 @@ export function CategoryWebsiteList({ categoryId }: CategoryWebsiteListProps) {
 					{/* 排序和视图切换 */}
 					<div className="flex items-center gap-2">
 						{/* 视图切换 */}
-						<div className="flex rounded-md border border-gray-200">
+						<div className="flex rounded-md border border-gray-200 dark:border-gray-700">
 							<Button
 								className="rounded-r-none"
 								size="sm"
@@ -230,11 +213,11 @@ export function CategoryWebsiteList({ categoryId }: CategoryWebsiteListProps) {
 			{/* 网站列表 */}
 			{websites.length === 0 ? (
 				<div className="py-16 text-center">
-					<div className="mb-4 text-gray-400">
+					<div className="mb-4 text-gray-400 dark:text-gray-600">
 						<ExternalLink className="mx-auto h-16 w-16" />
 					</div>
-					<h3 className="mb-2 text-lg font-medium text-gray-900">暂无网站</h3>
-					<p className="text-gray-500">
+					<h3 className="mb-2 text-lg font-medium text-gray-900 dark:text-gray-100">暂无网站</h3>
+					<p className="text-gray-500 dark:text-gray-400">
 						{filterType === 'all'
 							? '该分类下暂无网站'
 							: filterType === 'featured'
@@ -246,7 +229,7 @@ export function CategoryWebsiteList({ categoryId }: CategoryWebsiteListProps) {
 				<div
 					className={
 						viewMode === 'grid'
-							? 'grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'
+							? 'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'
 							: 'space-y-4'
 					}
 				>
@@ -255,182 +238,203 @@ export function CategoryWebsiteList({ categoryId }: CategoryWebsiteListProps) {
 							// 网格视图
 							<div
 								key={website.id}
-								className="group cursor-pointer overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 hover:border-blue-200 hover:shadow-xl"
-								onClick={() => handleWebsiteClick(website.id, website.url)}
+								className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 hover:border-blue-200 hover:shadow-xl dark:border-gray-700 dark:bg-card dark:hover:border-blue-600"
 							>
-								<div className="p-6">
-									<div className="mb-4 flex items-start gap-4">
-										{website.logo ? (
-											<div className="relative h-16 w-16 flex-shrink-0">
-												<Image
-													alt={website.name}
-													className="rounded-xl object-cover shadow-sm"
-													src={website.logo}
-													fill
-													sizes="64px"
-												/>
-											</div>
-										) : (
-											<div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-sm">
-												<span className="text-lg font-bold text-white">
-													{website.name.charAt(0).toUpperCase()}
-												</span>
-											</div>
-										)}
-
-										<div className="min-w-0 flex-1">
-											<div className="mb-2 flex items-start justify-between">
-												<h3 className="truncate text-lg font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
-													{website.name}
-												</h3>
-												{website.isRecommend && (
-													<Star
-														className="ml-2 h-5 w-5 flex-shrink-0 text-yellow-500"
-														fill="currentColor"
-													/>
+								<Link className="block" href={`/websites/${website.id}`}>
+									<div className="p-6">
+										<div className="flex items-start gap-4">
+											{/* Logo */}
+											<div className="flex-shrink-0">
+												{website.logo ? (
+													<div className="relative h-16 w-16">
+														<Image
+															fill
+															alt={website.name}
+															className="rounded-xl object-cover shadow-sm"
+															sizes="64px"
+															src={website.logo}
+														/>
+													</div>
+												) : (
+													<div className="flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-sm">
+														<span className="text-lg font-bold text-white">
+															{website.name.charAt(0).toUpperCase()}
+														</span>
+													</div>
 												)}
 											</div>
 
-											<div className="mb-2 flex gap-2">
-												{website.isFeatured && (
-													<Badge
-														className="bg-blue-100 text-blue-800 hover:bg-blue-100"
-														variant="secondary"
-													>
-														精选
-													</Badge>
+											{/* Content */}
+											<div className="min-w-0 flex-1">
+												<div className="mb-2 flex items-start justify-between">
+													<h3 className="truncate text-lg font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400">
+														{website.name}
+													</h3>
+													{website.isRecommend && (
+														<Star
+															className="ml-2 h-5 w-5 flex-shrink-0 text-yellow-500"
+															fill="currentColor"
+														/>
+													)}
+												</div>
+
+												{website.description && (
+													<p className="line-clamp-1 text-sm text-gray-600 dark:text-gray-400">
+														{website.description}
+													</p>
 												)}
-												{website.isRecommend && (
-													<Badge
-														className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
-														variant="secondary"
-													>
-														推荐
-													</Badge>
+
+												<div className="mt-2 flex gap-2">
+													{website.isFeatured && (
+														<Badge
+															className="bg-blue-100 text-blue-800 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-900"
+															variant="secondary"
+														>
+															精选
+														</Badge>
+													)}
+													{website.isRecommend && (
+														<Badge
+															className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-200 dark:hover:bg-yellow-900"
+															variant="secondary"
+														>
+															推荐
+														</Badge>
+													)}
+												</div>
+
+												<div className="mt-2 flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+													<div className="flex items-center gap-1">
+														<TrendingUp className="h-4 w-4" />
+														<span>{website.clickCount.toLocaleString()}</span>
+													</div>
+												</div>
+
+												{website.tags.length > 0 && (
+													<div className="mt-2 flex gap-1">
+														{website.tags.slice(0, 2).map((tagRelation) => (
+															<Badge
+																key={tagRelation.tag.id}
+																className="text-xs"
+																variant="outline"
+															>
+																{tagRelation.tag.name}
+															</Badge>
+														))}
+														{website.tags.length > 2 && (
+															<span className="text-xs text-gray-400 dark:text-gray-500">
+																+{website.tags.length - 2}
+															</span>
+														)}
+													</div>
 												)}
 											</div>
 										</div>
 									</div>
+								</Link>
 
-									{website.description && (
-										<p className="mb-4 line-clamp-3 text-sm leading-relaxed text-gray-600">
-											{website.description}
-										</p>
-									)}
-
-									<div className="flex items-center justify-between text-sm">
-										<div className="flex items-center gap-4 text-gray-500">
-											<div className="flex items-center gap-1">
-												<TrendingUp className="h-4 w-4" />
-												<span>{website.clickCount.toLocaleString()}</span>
-											</div>
-											<div className="flex items-center gap-1">
-												<ExternalLink className="h-4 w-4" />
-												<span>访问</span>
-											</div>
-										</div>
-
-										{website.tags.length > 0 && (
-											<div className="flex gap-1">
-												{website.tags.slice(0, 2).map((tagRelation) => (
-													<Badge
-														key={tagRelation.tag.id}
-														className="text-xs"
-														variant="outline"
-													>
-														{tagRelation.tag.name}
-													</Badge>
-												))}
-												{website.tags.length > 2 && (
-													<span className="text-xs text-gray-400">
-														+{website.tags.length - 2}
-													</span>
-												)}
-											</div>
-										)}
-									</div>
+								{/* 访问按钮 */}
+								<div className="px-6 pb-6">
+									<Button
+										className="w-full"
+										size="sm"
+										variant="outline"
+										onClick={(e) => handleVisitWebsite(website.id, website.url, e)}
+									>
+										<ExternalLink className="mr-2 h-4 w-4" />
+										访问网站
+									</Button>
 								</div>
 							</div>
 						) : (
 							// 列表视图
 							<div
 								key={website.id}
-								className="group cursor-pointer rounded-lg border border-gray-200 bg-white transition-all duration-200 hover:border-blue-200 hover:shadow-md"
-								onClick={() => handleWebsiteClick(website.id, website.url)}
+								className="group rounded-lg border border-gray-200 bg-white transition-all duration-200 hover:border-blue-200 hover:shadow-md dark:border-gray-700 dark:bg-card dark:hover:border-blue-600"
 							>
-								<div className="p-4">
-									<div className="flex items-center gap-4">
-										{website.logo ? (
-											<div className="relative h-12 w-12 flex-shrink-0">
-												<Image
-													alt={website.name}
-													className="rounded-lg object-cover"
-													src={website.logo}
-													fill
-													sizes="48px"
-												/>
-											</div>
-										) : (
-											<div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-												<span className="font-medium text-white">
-													{website.name.charAt(0).toUpperCase()}
-												</span>
-											</div>
-										)}
-
-										<div className="min-w-0 flex-1">
-											<div className="mb-1 flex items-center gap-2">
-												<h3 className="truncate font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
-													{website.name}
-												</h3>
-												{website.isRecommend && (
-													<Star
-														className="h-4 w-4 text-yellow-500"
-														fill="currentColor"
+								<Link className="block" href={`/websites/${website.id}`}>
+									<div className="p-4">
+										<div className="flex items-center gap-4">
+											{website.logo ? (
+												<div className="relative h-12 w-12 flex-shrink-0">
+													<Image
+														fill
+														alt={website.name}
+														className="rounded-lg object-cover"
+														sizes="48px"
+														src={website.logo}
 													/>
-												)}
-												{website.isFeatured && (
-													<Badge
-														className="bg-blue-100 text-blue-800 hover:bg-blue-100"
-														variant="secondary"
-													>
-														精选
-													</Badge>
-												)}
-											</div>
-
-											{website.description && (
-												<p className="mb-2 line-clamp-1 text-sm text-gray-600">
-													{website.description}
-												</p>
-											)}
-
-											<div className="flex items-center gap-4 text-xs text-gray-500">
-												<div className="flex items-center gap-1">
-													<TrendingUp className="h-3 w-3" />
-													<span>
-														{website.clickCount.toLocaleString()} 次访问
+												</div>
+											) : (
+												<div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
+													<span className="font-medium text-white">
+														{website.name.charAt(0).toUpperCase()}
 													</span>
 												</div>
-												{website.tags.length > 0 && (
-													<div className="flex gap-1">
-														{website.tags.slice(0, 3).map((tagRelation) => (
-															<span
-																key={tagRelation.tag.id}
-																className="rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-600"
-															>
-																{tagRelation.tag.name}
-															</span>
-														))}
-													</div>
+											)}
+
+											<div className="min-w-0 flex-1">
+												<div className="mb-1 flex items-center gap-2">
+													<h3 className="truncate font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400">
+														{website.name}
+													</h3>
+													{website.isRecommend && (
+														<Star
+															className="h-4 w-4 text-yellow-500"
+															fill="currentColor"
+														/>
+													)}
+													{website.isFeatured && (
+														<Badge
+															className="bg-blue-100 text-blue-800 hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-900"
+															variant="secondary"
+														>
+															精选
+														</Badge>
+													)}
+												</div>
+
+												{website.description && (
+													<p className="mb-2 line-clamp-1 text-sm text-gray-600 dark:text-gray-400">
+														{website.description}
+													</p>
 												)}
+
+												<div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+													<div className="flex items-center gap-1">
+														<TrendingUp className="h-3 w-3" />
+														<span>
+															{website.clickCount.toLocaleString()} 次访问
+														</span>
+													</div>
+													{website.tags.length > 0 && (
+														<div className="flex gap-1">
+															{website.tags.slice(0, 3).map((tagRelation) => (
+																<span
+																	key={tagRelation.tag.id}
+																	className="rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300"
+																>
+																	{tagRelation.tag.name}
+																</span>
+															))}
+														</div>
+													)}
+												</div>
 											</div>
 										</div>
-
-										<div className="flex-shrink-0">
-											<ExternalLink className="h-5 w-5 text-gray-400 transition-colors group-hover:text-blue-500" />
-										</div>
 									</div>
+								</Link>
+
+								{/* 访问按钮 */}
+								<div className="px-4 pb-4">
+									<Button
+										size="sm"
+										variant="outline"
+										onClick={(e) => handleVisitWebsite(website.id, website.url, e)}
+									>
+										<ExternalLink className="mr-2 h-4 w-4" />
+										访问
+									</Button>
 								</div>
 							</div>
 						)

@@ -2,14 +2,15 @@ import { WebsiteStatus } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/app/(auth)/auth';
-import { WebsiteService } from '@/services/website';
+import WebsiteService from '@/services/website';
 import type { WebsiteReviewFormValues } from '@/types/website';
 
 export async function POST(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
+		const { id } = await params;
 		const session = await auth();
 
 		if (!session?.user?.id || session.user.role !== 'ADMIN') {
@@ -27,14 +28,14 @@ export async function POST(
 		}
 
 		// 检查网站是否存在
-		const existingWebsite = await WebsiteService.getWebsiteById(params.id);
+		const existingWebsite = await WebsiteService.getWebsiteById(id);
 
 		if (!existingWebsite) {
 			return NextResponse.json({ error: '网站不存在' }, { status: 404 });
 		}
 
 		const reviewData: WebsiteReviewFormValues = {
-			id: params.id,
+			id: id,
 			status,
 			reviewNote
 		};

@@ -10,7 +10,8 @@ interface RouteParams {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
 	try {
-		const post = await BlogService.getPostBySlug(params.slug);
+		const { slug } = await params;
+		const post = await BlogService.getPostBySlug(slug);
 
 		if (!post) {
 			return NextResponse.json({ error: '文章不存在' }, { status: 404 });

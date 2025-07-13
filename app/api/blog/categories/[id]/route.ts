@@ -5,9 +5,10 @@ import { BlogService } from '@/services/blog';
 
 export async function DELETE(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
+		const { id } = await params;
 		const session = await auth();
 
 		if (!session?.user?.id) {
@@ -23,14 +24,14 @@ export async function DELETE(
 		}
 
 		// 检查分类是否存在
-		const category = await BlogService.getCategoryById(params.id);
+		const category = await BlogService.getCategoryById(id);
 
 		if (!category) {
 			return NextResponse.json({ error: '分类不存在' }, { status: 404 });
 		}
 
 		// 检查分类下是否有文章
-		const postsCount = await BlogService.getPostsCountByCategory(params.id);
+		const postsCount = await BlogService.getPostsCountByCategory(id);
 
 		if (postsCount > 0) {
 			return NextResponse.json(
@@ -39,7 +40,7 @@ export async function DELETE(
 			);
 		}
 
-		await BlogService.deleteCategory(params.id);
+		await BlogService.deleteCategory(id);
 
 		return NextResponse.json({ message: '分类删除成功' });
 	} catch (error) {
@@ -51,9 +52,10 @@ export async function DELETE(
 
 export async function PUT(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
+		const { id } = await params;
 		const session = await auth();
 
 		if (!session?.user?.id) {
@@ -79,7 +81,7 @@ export async function PUT(
 		}
 
 		const category = await BlogService.updateCategory({
-			id: params.id,
+			id: id,
 			...data
 		});
 
@@ -93,10 +95,11 @@ export async function PUT(
 
 export async function GET(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
-		const category = await BlogService.getCategoryById(params.id);
+		const { id } = await params;
+		const category = await BlogService.getCategoryById(id);
 
 		if (!category) {
 			return NextResponse.json({ error: '分类不存在' }, { status: 404 });

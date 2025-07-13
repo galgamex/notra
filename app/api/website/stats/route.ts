@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 
 import { auth } from '@/app/(auth)/auth';
-import { WebsiteService } from '@/services/website';
+import CacheService from '@/services/cache';
+import WebsiteService from '@/services/website';
 
 export async function GET() {
 	try {
@@ -11,7 +12,19 @@ export async function GET() {
 			return NextResponse.json({ error: '权限不足' }, { status: 403 });
 		}
 
-		const stats = await WebsiteService.getStats();
+		// 尝试从缓存获取统计数据
+		let stats = await CacheService.getWebsiteStats();
+
+		if (!stats) {
+			// 缓存未命中，从数据库获取
+			console.log('缓存未命中，从数据库获取网站统计数据');
+			stats = await WebsiteService.getStats();
+
+			// 缓存结果（30分钟）
+			await CacheService.cacheWebsiteStats(stats, 30 * 60);
+		} else {
+			console.log('从缓存获取网站统计数据');
+		}
 
 		return NextResponse.json(stats);
 	} catch (error) {

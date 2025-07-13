@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/app/(auth)/auth';
-import { WebsiteService } from '@/services/website';
+import WebsiteService from '@/services/website';
 import type {
-	CreateWebsiteTagFormValues,
-	WebsiteTagListQuery
+    CreateWebsiteTagFormValues,
+    WebsiteTagListQuery
 } from '@/types/website';
 
 export async function GET(request: NextRequest) {
@@ -15,7 +15,9 @@ export async function GET(request: NextRequest) {
 			page: parseInt(searchParams.get('page') || '1'),
 			limit: parseInt(searchParams.get('limit') || '10'),
 			search: searchParams.get('search') || undefined,
-			sortBy: (searchParams.get('sortBy') as 'createdAt' | 'updatedAt' | 'name') || 'createdAt',
+			sortBy:
+				(searchParams.get('sortBy') as 'createdAt' | 'updatedAt' | 'name') ||
+				'createdAt',
 			sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
 		};
 

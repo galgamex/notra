@@ -12,18 +12,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import {
-	CreatePostFormValues,
-	CategoryWithDetails,
-	TagWithDetails,
-	PostWithDetails
+  CreatePostFormValues,
+  CategoryWithDetails,
+  TagWithDetails,
+  PostWithDetails
 } from '@/types/blog';
 
 import Editor from './editor';

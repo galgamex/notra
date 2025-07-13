@@ -5,21 +5,22 @@ import { BlogService } from '@/services/blog';
 import type { UpdatePostFormValues } from '@/types/blog';
 
 interface RouteParams {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
 	try {
-		const post = await BlogService.getPostById(params.id);
+		const { id } = await params;
+		const post = await BlogService.getPostById(id);
 
 		if (!post) {
 			return NextResponse.json({ error: '文章不存在' }, { status: 404 });
 		}
 
 		// 增加浏览次数
-		await BlogService.incrementViewCount(params.id);
+		await BlogService.incrementViewCount(id);
 
 		return NextResponse.json(post);
 	} catch (error) {
@@ -31,6 +32,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 export async function PUT(request: NextRequest, { params }: RouteParams) {
 	try {
+		const { id } = await params;
 		const session = await auth();
 
 		if (!session?.user?.id) {
@@ -38,7 +40,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 		}
 
 		// 检查文章是否存在
-		const existingPost = await BlogService.getPostById(params.id);
+		const existingPost = await BlogService.getPostById(id);
 
 		if (!existingPost) {
 			return NextResponse.json({ error: '文章不存在' }, { status: 404 });
@@ -77,6 +79,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
 	try {
+		const { id } = await params;
 		const session = await auth();
 
 		if (!session?.user?.id) {
@@ -84,7 +87,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 		}
 
 		// 检查文章是否存在
-		const existingPost = await BlogService.getPostById(params.id);
+		const existingPost = await BlogService.getPostById(id);
 
 		if (!existingPost) {
 			return NextResponse.json({ error: '文章不存在' }, { status: 404 });
@@ -101,7 +104,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 			);
 		}
 
-		await BlogService.deletePost(params.id);
+		await BlogService.deletePost(id);
 
 		return NextResponse.json({ success: true });
 	} catch (error) {

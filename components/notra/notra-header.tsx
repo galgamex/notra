@@ -44,7 +44,7 @@ export default function NotraHeader({ siteSettings }: NotraHeaderProps) {
 	};
 
 	return (
-		<header className="z-30 w-full border-b border-gray-200 bg-white">
+		<header className="z-30 w-full border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-background">
 			<div className="h-14 w-full px-4 md:px-8">
 				<div className="flex h-full  items-center justify-between font-semibold">
 					<div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ export default function NotraHeader({ siteSettings }: NotraHeaderProps) {
 									title={siteSettings?.title ?? DEFAULT_SITE_TITLE}
 								/>
 							</div>
-							<span className="font-semibold">
+							<span className="font-semibold text-gray-900 dark:text-gray-100">
 								{siteSettings?.title ?? DEFAULT_SITE_TITLE}
 							</span>
 						</Link>

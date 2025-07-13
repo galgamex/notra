@@ -1,6 +1,5 @@
 import { ArrowLeft, Plus } from 'lucide-react';
 import Link from 'next/link';
-import { Suspense } from 'react';
 
 import { WebsiteSubmitForm } from './_components/website-submit-form';
 
@@ -8,7 +7,7 @@ export default function SubmitWebsitePage() {
 	return (
 		<div className="mx-auto  py-6">
 			{/* 返回按钮 */}
-			<div className="mb-6 flex items-center gap-4">
+			<div className="mb-6 flex items-center gap-4 md:hidden">
 				<Link
 					className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900"
 					href="/websites"
@@ -41,21 +40,8 @@ export default function SubmitWebsitePage() {
 			</div>
 
 			{/* 提交表单 */}
-			<div className="rounded-lg border border-gray-200 bg-white p-6">
-				<Suspense
-					fallback={
-						<div className="space-y-6">
-							{Array.from({ length: 5 }).map((_, i) => (
-								<div key={i} className="space-y-2">
-									<div className="h-4 w-20 animate-pulse rounded bg-gray-200"></div>
-									<div className="h-10 animate-pulse rounded bg-gray-200"></div>
-								</div>
-							))}
-						</div>
-					}
-				>
-					<WebsiteSubmitForm />
-				</Suspense>
+			<div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-card">
+				<WebsiteSubmitForm />
 			</div>
 		</div>
 	);

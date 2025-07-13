@@ -2,7 +2,8 @@ import { WebsiteStatus } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/app/(auth)/auth';
-import { WebsiteService } from '@/services/website';
+import CacheService from '@/services/cache';
+import WebsiteService from '@/services/website';
 import type {
 	CreateWebsiteFormValues,
 	WebsiteListQuery
@@ -11,6 +12,10 @@ import type {
 export async function GET(request: NextRequest) {
 	try {
 		const { searchParams } = new URL(request.url);
+
+		// 检查用户的NSFW偏好设置
+		const nsfwCookie = await request.cookies.get('nsfw_enabled');
+		const nsfwEnabled = nsfwCookie?.value === 'true';
 
 		const query: WebsiteListQuery = {
 			page: parseInt(searchParams.get('page') || '1'),
@@ -32,14 +37,23 @@ export async function GET(request: NextRequest) {
 					: searchParams.get('isFeatured') === 'false'
 						? false
 						: undefined,
-			sortBy: (searchParams.get('sortBy') as 'createdAt' | 'updatedAt' | 'clickCount' | 'sortOrder' | 'name') || 'createdAt',
+			isNSFW: nsfwEnabled ? undefined : false, // 如果未启用NSFW，则过滤掉NSFW内容
+			sortBy:
+				(searchParams.get('sortBy') as
+					| 'createdAt'
+					| 'updatedAt'
+					| 'clickCount'
+					| 'sortOrder'
+					| 'name') || 'createdAt',
 			sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
 		};
 
+		// 直接从数据库获取数据，确保数据准确性
 		const result = await WebsiteService.getWebsites(query);
 
 		return NextResponse.json(result);
 	} catch (error) {
+
 		console.error('获取网站列表失败:', error);
 
 		return NextResponse.json({ error: '获取网站列表失败' }, { status: 500 });
@@ -76,8 +90,13 @@ export async function POST(request: NextRequest) {
 
 		const website = await WebsiteService.createWebsite(data, session.user.id);
 
+		// 清除相关缓存
+		await CacheService.clearWebsiteListCache();
+		await CacheService.clearWebsiteStatsCache();
+
 		return NextResponse.json(website, { status: 201 });
 	} catch (error) {
+
 		console.error('创建网站失败:', error);
 
 		return NextResponse.json({ error: '创建网站失败' }, { status: 500 });

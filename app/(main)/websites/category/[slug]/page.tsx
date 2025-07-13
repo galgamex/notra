@@ -1,17 +1,56 @@
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-
+import { Metadata } from 'next';
 import type { WebsiteCategoryWithDetails } from '@/types/website';
 
 import { CategoryWebsiteList } from './_components/category-website-list';
 import { SubCategorySection } from './_components/sub-category-section';
 
 interface CategoryPageProps {
-	params: {
+	params: Promise<{
 		slug: string;
-	};
+	}>;
+}
+
+// 生成动态metadata
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+	try {
+		const { slug } = await params;
+		const category = await getCategoryBySlug(slug);
+
+		if (!category) {
+			return {
+				title: '分类未找到',
+				description: '您访问的分类不存在或已被删除。'
+			};
+		}
+
+		const title = `${category.name} - 网站分类`;
+		const description = category.description || `${category.name}分类下的优质网站推荐，发现更多实用工具和资源。`;
+
+		return {
+			title,
+			description,
+			keywords: `${category.name},网站分类,网站导航,${category.name}工具,${category.name}资源`,
+			openGraph: {
+				title,
+				description,
+				type: 'website',
+			},
+			twitter: {
+				card: 'summary_large_image',
+				title,
+				description,
+			},
+		};
+	} catch (error) {
+		console.error('生成metadata失败:', error);
+		return {
+			title: '网站分类',
+			description: '浏览网站分类，发现优质网站资源。'
+		};
+	}
 }
 
 async function getCategoryBySlug(
@@ -65,7 +104,8 @@ async function getSubCategories(
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-	const category = await getCategoryBySlug(params.slug);
+	const { slug } = await params;
+	const category = await getCategoryBySlug(slug);
 
 	if (!category) {
 		notFound();
@@ -79,9 +119,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 	return (
 		<div className="space-y-8 py-6">
 			{/* 返回按钮 */}
-			<div className="mb-6 flex items-center gap-4">
+			<div className="mb-6 flex items-center gap-4 md:hidden">
 				<Link
-					className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900"
+					className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
 					href="/websites"
 				>
 					<ArrowLeft className="h-4 w-4" />
@@ -100,46 +140,17 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 								className="scroll-mt-20"
 								id={`category-${subCategory.slug}`}
 							>
-								<Suspense
-									fallback={
-										<div className="space-y-4">
-											<div className="h-8 w-48 animate-pulse rounded bg-gray-200"></div>
-											<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-												{Array.from({ length: 20 }).map((_, i) => (
-													<div
-														key={i}
-														className="h-32 animate-pulse rounded-lg bg-gray-200"
-													></div>
-												))}
-											</div>
-										</div>
-									}
-								>
-									<SubCategorySection
-										category={subCategory}
-										gridCols={5}
-										maxItems={20}
-									/>
-								</Suspense>
+								<SubCategorySection
+									category={subCategory}
+									gridCols={5}
+									maxItems={20}
+								/>
 							</div>
 						))}
 					</div>
 				) : (
 					/* 二级分类或无子分类的一级分类：展示当前分类的网站 */
-					<Suspense
-						fallback={
-							<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-								{Array.from({ length: 6 }).map((_, i) => (
-									<div
-										key={i}
-										className="h-48 animate-pulse rounded-lg bg-gray-200"
-									></div>
-								))}
-							</div>
-						}
-					>
-						<CategoryWebsiteList categoryId={category.id} />
-					</Suspense>
+					<CategoryWebsiteList categoryId={category.id} />
 				)}
 			</div>
 		</div>

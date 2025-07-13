@@ -36,7 +36,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 	const tags = await BlogService.getTags();
 
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<div className="min-h-screen bg-gray-50 dark:bg-background">
 			<div className=" mx-auto px-4 py-8">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
 					{/* 侧边栏 */}
@@ -53,7 +53,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 											className={`block rounded-md px-3 py-2 text-sm transition-colors ${
 												!awaitedSearchParams.category
 													? 'bg-blue-100 text-blue-700'
-													: 'text-gray-600 hover:bg-gray-100'
+													: 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700'
 											}`}
 											href="/blog"
 										>
@@ -65,7 +65,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 												className={`block rounded-md px-3 py-2 text-sm transition-colors ${
 													awaitedSearchParams.category === category.id
 														? 'bg-blue-100 text-blue-700'
-														: 'text-gray-600 hover:bg-gray-100'
+														: 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700'
 												}`}
 												href={`/blog?category=${category.id}`}
 											>
@@ -91,7 +91,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 										{tags.slice(0, 20).map((tag) => (
 											<Link key={tag.id} href={`/blog?tag=${tag.id}`}>
 												<Badge
-													className="cursor-pointer transition-colors hover:bg-gray-100"
+													className="cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
 													style={{
 														borderColor: tag.color || undefined,
 														color:
@@ -159,7 +159,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 									<div className="flex justify-center space-x-2">
 										{page > 1 && (
 											<Link
-												className="rounded-md border border-gray-300 bg-white px-4 py-2 transition-colors hover:bg-gray-50"
+												className="rounded-md border border-gray-300 bg-white px-4 py-2 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-card dark:hover:bg-gray-700"
 												href={`/blog?page=${page - 1}${awaitedSearchParams.category ? `&category=${awaitedSearchParams.category}` : ''}${awaitedSearchParams.tag ? `&tag=${awaitedSearchParams.tag}` : ''}${awaitedSearchParams.search ? `&search=${awaitedSearchParams.search}` : ''}`}
 											>
 												上一页
@@ -172,7 +172,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
 										{page < totalPages && (
 											<Link
-												className="rounded-md border border-gray-300 bg-white px-4 py-2 transition-colors hover:bg-gray-50"
+												className="rounded-md border border-gray-300 bg-white px-4 py-2 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-card dark:hover:bg-gray-700"
 												href={`/blog?page=${page + 1}${awaitedSearchParams.category ? `&category=${awaitedSearchParams.category}` : ''}${awaitedSearchParams.tag ? `&tag=${awaitedSearchParams.tag}` : ''}${awaitedSearchParams.search ? `&search=${awaitedSearchParams.search}` : ''}`}
 											>
 												下一页

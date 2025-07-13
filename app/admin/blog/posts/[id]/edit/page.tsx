@@ -9,12 +9,14 @@ import NotraSidebarContent from '@/components/notra/notra-sidebar-content';
 import PostForm from '../../_components/post-form';
 
 interface EditPostPageProps {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
-export default function EditPostPage({ params }: EditPostPageProps) {
+export default async function EditPostPage({ params }: EditPostPageProps) {
+	const { id } = await params;
+
 	return (
 		<>
 			<NotraSidebar>
@@ -36,7 +38,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
 					rightActions={<AccountAvatar />}
 				/>
 				<div className="p-6">
-					<PostForm mode="edit" postId={params.id} />
+					<PostForm mode="edit" postId={id} />
 				</div>
 			</NotraInset>
 		</>

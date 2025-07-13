@@ -76,6 +76,8 @@ export function WebsiteSearch() {
 						size="sm"
 						variant="ghost"
 						onClick={clearSearch}
+						aria-label="清除搜索"
+						title="清除搜索"
 					>
 						<X className="h-4 w-4" />
 					</Button>
@@ -84,66 +86,63 @@ export function WebsiteSearch() {
 
 			{/* 搜索建议 */}
 			{showSuggestions && (
-				<div className="absolute top-full right-0 left-0 z-50 mt-2 max-h-96 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+				<div className="absolute top-full right-0 left-0 z-50 mt-2 max-h-96 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-card">
 					{isLoading ? (
-						<div className="p-4 text-center text-gray-500">
+						<div className="p-4 text-center text-gray-500 dark:text-gray-400">
 							<div className="mx-auto mb-2 h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"></div>
 							搜索中...
 						</div>
 					) : suggestions.length > 0 ? (
 						<div className="py-2">
 							{suggestions.map((website) => (
-								<Link
-									key={website.id}
-									className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-gray-50"
-									href={website.url}
-									rel="noopener noreferrer"
-									target="_blank"
-									onClick={handleSuggestionClick}
-								>
+							<Link
+								key={website.id}
+								className={`block px-4 py-3 transition-colors ${
+									website.isFeatured
+										? 'bg-blue-50/50 hover:bg-blue-100/50 dark:bg-blue-900/20 dark:hover:bg-blue-900/30'
+										: 'hover:bg-gray-50 dark:hover:bg-gray-700'
+								}`}
+								href={`/websites/${website.id}`}
+								onClick={handleSuggestionClick}
+							>
+								{/* 两列布局：左列logo，右列名称和描述 */}
+								<div className="flex gap-3">
+									{/* 左列：Logo */}
 									{website.logo ? (
-										<div className="relative h-8 w-8">
+										<div className="relative h-10 w-10 flex-shrink-0">
 											<Image
+												fill
 												alt={website.name}
 												className="rounded-lg object-cover"
+												sizes="40px"
 												src={website.logo}
-												fill
-												sizes="32px"
 											/>
 										</div>
 									) : (
-										<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-200">
-											<span className="text-sm font-medium text-gray-500">
+										<div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700">
+											<span className="text-sm font-medium text-gray-500 dark:text-gray-400">
 												{website.name.charAt(0).toUpperCase()}
 											</span>
 										</div>
 									)}
+
+									{/* 右列：网站名称和描述 */}
 									<div className="min-w-0 flex-1">
-										<div className="truncate font-medium text-gray-900">
+										<h4 className="mb-1 font-medium text-gray-900 dark:text-gray-100 truncate">
 											{website.name}
-										</div>
+										</h4>
 										{website.description && (
-											<div className="truncate text-sm text-gray-500">
+											<p className="line-clamp-1 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
 												{website.description}
-											</div>
+											</p>
 										)}
 									</div>
-									<div
-										className="rounded px-2 py-1 text-xs font-medium"
-										style={{
-											backgroundColor: website.category.color
-												? `${website.category.color}20`
-												: '#f3f4f6',
-											color: website.category.color || '#6b7280'
-										}}
-									>
-										{website.category.name}
-									</div>
-								</Link>
-							))}
+								</div>
+							</Link>
+						))}
 						</div>
 					) : query.trim() && !isLoading ? (
-						<div className="p-4 text-center text-gray-500">未找到相关网站</div>
+						<div className="p-4 text-center text-gray-500 dark:text-gray-400">未找到相关网站</div>
 					) : null}
 				</div>
 			)}

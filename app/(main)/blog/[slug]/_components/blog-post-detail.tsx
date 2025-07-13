@@ -48,7 +48,7 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
 			{/* 文章头部 */}
 			<header className="mb-12 pt-8">
 				{/* 标题 */}
-				<h1 className="mb-6 text-4xl leading-tight font-bold text-gray-900 md:text-5xl">
+				<h1 className="mb-6 text-4xl leading-tight font-bold text-gray-900 md:text-5xl dark:text-gray-100">
 					{post.title}
 				</h1>
 
@@ -68,12 +68,12 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
 
 			{/* 特色图片 */}
 			{post.coverImage && (
-				<div className="mb-12 relative h-80">
+				<div className="relative mb-12 h-80">
 					<Image
+						fill
 						alt={post.title}
 						className="object-cover"
 						src={post.coverImage}
-						fill
 					/>
 				</div>
 			)}
@@ -82,7 +82,7 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
 			<main className="mb-12">
 				<div
 					dangerouslySetInnerHTML={{ __html: renderContent(post.content) }}
-					className="prose prose-lg prose-gray-700 max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed"
+					className="prose prose-lg prose-gray-700 dark:prose-invert prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed max-w-none"
 				/>
 			</main>
 
@@ -95,7 +95,7 @@ export default function BlogPostDetail({ post }: BlogPostDetailProps) {
 				{post.tags.map(({ tag }) => (
 					<span
 						key={tag.id}
-						className="cursor-pointer text-gray-600 transition-colors hover:text-gray-900"
+						className="cursor-pointer text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
 					>
 						#{tag.name}
 					</span>

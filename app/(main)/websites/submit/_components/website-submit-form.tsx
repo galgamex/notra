@@ -269,10 +269,9 @@ export function WebsiteSubmitForm() {
 											key={tag.id}
 											className={`
                         flex cursor-pointer items-center gap-2 rounded-lg border p-2 transition-colors
-                        ${
-													isSelected
-														? 'border-blue-300 bg-blue-50 text-blue-700'
-														: 'border-gray-200 bg-white hover:bg-gray-50'
+                        ${isSelected
+													? 'border-blue-300 bg-blue-50 text-blue-700'
+													: 'border-gray-200 bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-card dark:hover:bg-gray-700'
 												}
                       `}
 										>

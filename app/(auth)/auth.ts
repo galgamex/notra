@@ -20,22 +20,11 @@ export const {
 				password: {}
 			},
 			async authorize({ username, password }) {
-				const user = (await UserService.getUser()).data;
+				const userResult = await UserService.getUserByUsername(username as string);
+				const user = userResult.data;
 
 				if (!user) {
-					const result = await UserService.createUser(
-						username as string,
-						password as string
-					);
-
-					if (result.success) {
-						return result.data;
-					}
-
-					return null;
-				}
-
-				if (user.username !== username) {
+					// 如果用户不存在，不自动创建，返回 null
 					return null;
 				}
 
@@ -63,11 +52,13 @@ export const {
 		async session({ session, token }) {
 			if (session.user) {
 				session.user.id = token.id as string;
+
 				const user = session.user as {
 					role?: string;
 					username?: string;
 					avatar?: string;
 				};
+
 				user.role = token.role as string;
 				user.username = token.username as string;
 				user.avatar = token.avatar as string;

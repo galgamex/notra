@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink, Star, TrendingUp, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
@@ -37,7 +37,7 @@ export function WebsiteList() {
 	const [selectedCategory, setSelectedCategory] = useState<string>('all');
 	const [sortBy, setSortBy] = useState<string>('createdAt');
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-	const limit = 12;
+	const limit = 24;
 
 	// 获取网站列表
 	const fetchWebsites = useCallback(async () => {
@@ -96,63 +96,17 @@ export function WebsiteList() {
 		fetchWebsites();
 	}, [fetchWebsites]);
 
-	// 处理访问网站
-	const handleVisitWebsite = async (
-		websiteId: string,
-		url: string,
-		event: React.MouseEvent
-	) => {
-		event.stopPropagation(); // 阻止事件冒泡
 
-		try {
-			// 记录点击
-			await fetch('/api/website/clicks', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					websiteId,
-					referer: window.location.href
-				})
-			});
-		} catch (error) {
-			console.error('记录点击失败:', error);
-		}
 
-		// 打开网站
-		window.open(url, '_blank', 'noopener,noreferrer');
-	};
-
-	if (loading && websites.length === 0) {
-		return (
-			<div className="space-y-4">
-				{/* 筛选器骨架 */}
-				<div className="mb-6 flex gap-4">
-					<div className="h-10 w-48 animate-pulse rounded bg-gray-200"></div>
-					<div className="h-10 w-32 animate-pulse rounded bg-gray-200"></div>
-				</div>
-
-				{/* 网站卡片骨架 */}
-				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{Array.from({ length: 6 }).map((_, i) => (
-						<div
-							key={i}
-							className="h-48 animate-pulse rounded-lg bg-gray-200"
-						></div>
-					))}
-				</div>
-			</div>
-		);
-	}
+	// 移除加载占位动画，直接显示内容
 
 	return (
 		<div className="space-y-6">
 			{/* 筛选和排序 */}
 			<div className="flex flex-wrap items-center gap-4">
 				<div className="flex items-center gap-2">
-					<Filter className="h-4 w-4 text-gray-500" />
-					<span className="text-sm text-gray-600">筛选:</span>
+					<Filter className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+					<span className="text-sm text-gray-600 dark:text-gray-400">筛选:</span>
 				</div>
 
 				<Select value={selectedCategory} onValueChange={setSelectedCategory}>
@@ -193,111 +147,56 @@ export function WebsiteList() {
 
 			{/* 网站列表 */}
 			{websites.length === 0 ? (
-				<div className="py-12 text-center text-gray-500">
+				<div className="py-12 text-center text-gray-500 dark:text-gray-400">
 					{selectedCategory ? '该分类下暂无网站' : '暂无网站'}
 				</div>
 			) : (
-				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
 					{websites.map((website) => (
 						<div
 							key={website.id}
-							className="group rounded-lg border border-gray-200 bg-white transition-all duration-200 hover:border-gray-300 hover:shadow-lg"
+							className={`group rounded-lg border transition-all duration-200 hover:shadow-lg ${website.isFeatured
+								? 'border-blue-500 bg-blue-50/50 hover:border-blue-600 dark:border-blue-600 dark:bg-blue-900/20 dark:hover:border-blue-500'
+								: 'border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-card dark:hover:border-gray-600'
+								}`}
 						>
-							<Link className="block p-6 pb-4" href={`/websites/${website.id}`}>
-								<div className="mb-4 flex items-start gap-4">
-									{website.logo ? (
-										<div className="relative h-16 w-16 flex-shrink-0">
-											<Image
-												alt={website.name}
-												className="rounded-lg object-cover"
-												src={website.logo}
-												fill
-												sizes="64px"
-											/>
-										</div>
-									) : (
-										<div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-gray-200">
-											<span className="text-lg font-medium text-gray-500">
-												{website.name.charAt(0).toUpperCase()}
-											</span>
-										</div>
-									)}
+							<Link className="block" href={`/websites/${website.id}`}>
+								<div className="p-4">
+									{/* 两列布局：左列logo，右列名称和描述 */}
+									<div className="flex gap-3">
+										{/* 左列：Logo */}
+										{website.logo ? (
+											<div className="relative h-12 w-12 flex-shrink-0">
+												<Image
+													fill
+													alt={website.name}
+													className="rounded-lg object-cover"
+													sizes="48px"
+													src={website.logo}
+												/>
+											</div>
+										) : (
+											<div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700">
+												<span className="font-medium text-gray-500 dark:text-gray-400">
+													{website.name.charAt(0).toUpperCase()}
+												</span>
+											</div>
+										)}
 
-									<div className="min-w-0 flex-1">
-										<div className="mb-2 flex items-start justify-between">
-											<h3 className="truncate font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
+										{/* 右列：网站名称和描述 */}
+										<div className="min-w-0 flex-1">
+											<h3 className="mb-1 font-medium text-gray-900 transition-colors group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400 truncate">
 												{website.name}
 											</h3>
-											{website.isRecommend && (
-												<Star
-													className="ml-2 h-4 w-4 flex-shrink-0 text-yellow-500"
-													fill="currentColor"
-												/>
+											{website.description && (
+												<p className="line-clamp-1 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+													{website.description}
+												</p>
 											)}
 										</div>
-
-										<div
-											className="mb-2 inline-block rounded-full px-2 py-1 text-xs font-medium"
-											style={{
-												backgroundColor: website.category.color
-													? `${website.category.color}20`
-													: '#f3f4f6',
-												color: website.category.color || '#6b7280'
-											}}
-										>
-											{website.category.name}
-										</div>
 									</div>
-								</div>
-
-								{website.description && (
-									<p className="mb-4 line-clamp-2 text-sm text-gray-600">
-										{website.description}
-									</p>
-								)}
-
-								<div className="flex items-center justify-between text-sm text-gray-500">
-									<div className="flex items-center gap-4">
-										<div className="flex items-center gap-1">
-											<TrendingUp className="h-4 w-4" />
-											<span>{website.clickCount.toLocaleString()}</span>
-										</div>
-									</div>
-
-									{website.tags.length > 0 && (
-										<div className="flex gap-1">
-											{website.tags.slice(0, 2).map((tagRelation) => (
-												<span
-													key={tagRelation.tag.id}
-													className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-600"
-												>
-													{tagRelation.tag.name}
-												</span>
-											))}
-											{website.tags.length > 2 && (
-												<span className="text-xs text-gray-400">
-													+{website.tags.length - 2}
-												</span>
-											)}
-										</div>
-									)}
 								</div>
 							</Link>
-
-							{/* 访问按钮 */}
-							<div className="px-6 pb-6">
-								<Button
-									className="w-full"
-									size="sm"
-									variant="outline"
-									onClick={(e) =>
-										handleVisitWebsite(website.id, website.url, e)
-									}
-								>
-									<ExternalLink className="mr-2 h-4 w-4" />
-									访问网站
-								</Button>
-							</div>
 						</div>
 					))}
 				</div>

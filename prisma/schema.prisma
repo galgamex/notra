@@ -35,6 +35,7 @@ model User {
   submittedWebsites Website[] @relation("WebsiteSubmitter")
   reviewedWebsites  Website[] @relation("WebsiteReviewer")
   websiteClicks     WebsiteClick[] @relation("WebsiteClicks")
+  websiteLikes      WebsiteLike[] @relation("WebsiteLikes")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -239,9 +240,11 @@ model Website {
   screenshot  String?       // 网站截图
   status      WebsiteStatus @default(PENDING)
   clickCount  Int           @default(0) @map("click_count") // 点击次数
+  likeCount   Int           @default(0) @map("like_count") // 点赞次数
   sortOrder   Int           @default(0) @map("sort_order") // 排序权重
   isRecommend Boolean       @default(false) @map("is_recommend") // 是否推荐
   isFeatured  Boolean       @default(false) @map("is_featured") // 是否精选
+  isNSFW      Boolean       @default(false) @map("is_nsfw") // 是否为NSFW内容
   
   // 分类关联
   categoryId  String        @map("category_id")
@@ -263,6 +266,9 @@ model Website {
   
   // 点击记录关联
   clicks      WebsiteClick[]
+  
+  // 点赞记录关联
+  likes       WebsiteLike[]
   
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
@@ -318,4 +324,26 @@ model WebsiteClick {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("website_clicks")
+}
+
+// 网站点赞记录
+model WebsiteLike {
+  id        String   @id @default(cuid())
+  websiteId String   @map("website_id")
+  website   Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  
+  // 点赞用户信息
+  userId    String?  @map("user_id")
+  user      User?    @relation("WebsiteLikes", fields: [userId], references: [id], onDelete: SetNull)
+  
+  // 访客信息（未登录用户）
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // 确保同一用户或IP只能对同一网站点赞一次
+  @@unique([websiteId, userId])
+  @@unique([websiteId, ipAddress])
+  @@map("website_likes")
 }

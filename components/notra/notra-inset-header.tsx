@@ -7,12 +7,14 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { DEFAULT_SITE_LOGO, DEFAULT_SITE_LOGO_DARK } from '@/constants/default';
 import { useIsDark } from '@/hooks/use-is-dark';
+import { useMounted } from '@/hooks/use-mounted';
 import { cn } from '@/lib/utils';
 
 import { useNotraSidebar } from './notra-sidebar';
 
 function LogoComponent() {
 	const isDark = useIsDark();
+	const mounted = useMounted();
 
 	return (
 		<Link className="hidden items-center gap-2 md:flex" href="/admin">
@@ -20,7 +22,7 @@ function LogoComponent() {
 				alt="Logo"
 				className="h-8 w-auto"
 				height={32}
-				src={isDark ? DEFAULT_SITE_LOGO_DARK : DEFAULT_SITE_LOGO}
+				src={mounted ? (isDark ? DEFAULT_SITE_LOGO_DARK : DEFAULT_SITE_LOGO) : DEFAULT_SITE_LOGO}
 				width={32}
 			/>
 		</Link>

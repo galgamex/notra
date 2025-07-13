@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/app/(auth)/auth';
-import { WebsiteService } from '@/services/website';
+import WebsiteService from '@/services/website';
 import type {
-	CreateWebsiteCategoryFormValues,
-	WebsiteCategoryListQuery
+    CreateWebsiteCategoryFormValues,
+    WebsiteCategoryListQuery
 } from '@/types/website';
 
 export async function GET(request: NextRequest) {
@@ -21,7 +21,12 @@ export async function GET(request: NextRequest) {
 					: searchParams.get('isVisible') === 'false'
 						? false
 						: undefined,
-			sortBy: (searchParams.get('sortBy') as 'createdAt' | 'updatedAt' | 'sortOrder' | 'name') || 'sortOrder',
+			sortBy:
+				(searchParams.get('sortBy') as
+					| 'createdAt'
+					| 'updatedAt'
+					| 'sortOrder'
+					| 'name') || 'sortOrder',
 			sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'asc',
 			level: searchParams.get('level')
 				? parseInt(searchParams.get('level')!)

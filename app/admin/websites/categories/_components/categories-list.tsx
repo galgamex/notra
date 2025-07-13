@@ -1,13 +1,13 @@
 'use client';
 
 import {
-	MoreHorizontal,
-	Edit,
-	Trash2,
-	Globe,
-	ChevronDown,
-	ChevronRight,
-	Plus
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Globe,
+  ChevronDown,
+  ChevronRight,
+  Plus
 } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
@@ -15,20 +15,20 @@ import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
 import type { WebsiteCategoryWithDetails } from '@/types/website';
 
@@ -123,8 +123,10 @@ export default function CategoriesList() {
 						>
 							{hasChildren && (
 								<button
-									className="flex-shrink-0 rounded p-1 hover:bg-gray-100"
+									className="flex-shrink-0 rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700"
 									onClick={() => toggleCategory(category.id)}
+									aria-label={isExpanded ? `折叠${category.name}分类` : `展开${category.name}分类`}
+									title={isExpanded ? `折叠${category.name}分类` : `展开${category.name}分类`}
 								>
 									{isExpanded ? (
 										<ChevronDown className="h-4 w-4" />
@@ -168,14 +170,20 @@ export default function CategoriesList() {
 					<TableCell className="text-right">
 						<div className="flex items-center justify-end gap-2">
 							{level === 0 && (
-								<Button asChild size="sm" variant="ghost">
-									<Link
-										href={`/admin/websites/categories/new?parentId=${category.id}`}
-									>
-										<Plus className="h-4 w-4" />
-									</Link>
-								</Button>
-							)}
+							<Button 
+								asChild 
+								size="sm" 
+								variant="ghost"
+								aria-label={`添加${category.name}的子分类`}
+								title={`添加${category.name}的子分类`}
+							>
+								<Link
+									href={`/admin/websites/categories/new?parentId=${category.id}`}
+								>
+									<Plus className="h-4 w-4" />
+								</Link>
+							</Button>
+						)}
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button className="h-8 w-8 p-0" variant="ghost">
@@ -254,7 +262,11 @@ export default function CategoriesList() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{categoryTree.map((category) => renderCategory(category))}
+					{categoryTree.map((category) => (
+						<React.Fragment key={category.id}>
+							{renderCategory(category)}
+						</React.Fragment>
+					))}
 				</TableBody>
 			</Table>
 			{categoryTree.length === 0 && (

@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, X } from 'lucide-react';
+import { Loader2, X, ExternalLink, Eye, EyeOff, Globe } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,6 +10,10 @@ import { z } from 'zod';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+	Card,
+	CardContent
+} from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
 	Form,
@@ -35,7 +39,7 @@ import type {
 	CreateWebsiteFormValues
 } from '@/types/website';
 
-const websiteFormSchema: z.ZodType<CreateWebsiteFormValues> = z.object({
+const websiteFormSchema = z.object({
 	name: z
 		.string()
 		.min(1, '网站名称不能为空')
@@ -49,6 +53,7 @@ const websiteFormSchema: z.ZodType<CreateWebsiteFormValues> = z.object({
 	tagIds: z.array(z.string()),
 	isRecommend: z.boolean().optional(),
 	isFeatured: z.boolean().optional(),
+	isNSFW: z.boolean().optional(),
 	sortOrder: z.number().optional()
 });
 
@@ -60,6 +65,13 @@ export default function WebsiteForm() {
 	const [tags, setTags] = useState<WebsiteTagWithDetails[]>([]);
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isAutoFetching, setIsAutoFetching] = useState(false);
+	const [showPreview, setShowPreview] = useState(false);
+	const [previewImages, setPreviewImages] = useState({
+		logo: '',
+		favicon: '',
+		screenshot: ''
+	});
 
 	const form = useForm<CreateWebsiteFormValues>({
 		resolver: zodResolver(websiteFormSchema),
@@ -74,6 +86,7 @@ export default function WebsiteForm() {
 			tagIds: [],
 			isRecommend: false,
 			isFeatured: false,
+			isNSFW: false,
 			sortOrder: 0
 		}
 	});
@@ -129,6 +142,63 @@ export default function WebsiteForm() {
 		form.setValue('tagIds', newSelectedTags);
 	};
 
+	// 自动获取网站信息
+	const autoFetchWebsiteInfo = async (url: string) => {
+		if (!url || !url.startsWith('http')) {
+			return;
+		}
+
+		setIsAutoFetching(true);
+
+		try {
+			const response = await fetch('/api/website/fetch-info', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ url })
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+
+				// 自动填充表单字段
+				if (data.title && !form.getValues('name')) {
+					form.setValue('name', data.title);
+				}
+
+				if (data.description && !form.getValues('description')) {
+					form.setValue('description', data.description);
+				}
+
+				if (data.favicon && !form.getValues('favicon')) {
+					form.setValue('favicon', data.favicon);
+					setPreviewImages(prev => ({ ...prev, favicon: data.favicon }));
+				}
+
+				if (data.logo && !form.getValues('logo')) {
+					form.setValue('logo', data.logo);
+					setPreviewImages(prev => ({ ...prev, logo: data.logo }));
+				}
+
+				toast.success('网站信息获取成功');
+			} else {
+				toast.error('获取网站信息失败');
+			}
+		} catch (error) {
+			console.error('Failed to fetch website info:', error);
+			toast.error('获取网站信息失败');
+		} finally {
+			setIsAutoFetching(false);
+		}
+	};
+
+	// 更新图片预览
+	const updateImagePreview = (field: 'logo' | 'favicon' | 'screenshot', url: string) => {
+
+		setPreviewImages(prev => ({ ...prev, [field]: url }));
+	};
+
 	const onSubmit = async (values: CreateWebsiteFormValues) => {
 		setIsSubmitting(true);
 
@@ -153,9 +223,11 @@ export default function WebsiteForm() {
 				toast.error(error.error || '添加网站失败');
 			}
 		} catch (error) {
+
 			console.error('Failed to create website:', error);
 			toast.error('添加网站失败');
 		} finally {
+
 			setIsSubmitting(false);
 		}
 	};
@@ -184,9 +256,49 @@ export default function WebsiteForm() {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>网站链接 *</FormLabel>
-								<FormControl>
-									<Input placeholder="https://example.com" {...field} />
-								</FormControl>
+								<div className="flex space-x-2">
+									<FormControl>
+										<Input
+											placeholder="https://example.com"
+											{...field}
+											onBlur={(e) => {
+												field.onBlur();
+
+												if (e.target.value && e.target.value.startsWith('http')) {
+													autoFetchWebsiteInfo(e.target.value);
+												}
+											}}
+										/>
+									</FormControl>
+									<Button
+										disabled={!field.value || isAutoFetching}
+										size="icon"
+										title="自动获取网站信息"
+										type="button"
+										variant="outline"
+										onClick={() => autoFetchWebsiteInfo(field.value)}
+									>
+										{isAutoFetching ? (
+											<Loader2 className="h-4 w-4 animate-spin" />
+										) : (
+											<Globe className="h-4 w-4" />
+										)}
+									</Button>
+									{field.value && field.value.startsWith('http') && (
+										<Button
+											size="icon"
+											title="预览网站"
+											type="button"
+											variant="outline"
+											onClick={() => window.open(field.value, '_blank')}
+										>
+											<ExternalLink className="h-4 w-4" />
+										</Button>
+									)}
+								</div>
+								<FormDescription>
+									输入完整的网站URL，系统将自动获取网站信息
+								</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -212,60 +324,126 @@ export default function WebsiteForm() {
 					)}
 				/>
 
-				<div className="grid gap-6 md:grid-cols-3">
-					<FormField
-						control={form.control}
-						name="logo"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Logo链接</FormLabel>
-								<FormControl>
-									<Input
-										placeholder="https://example.com/logo.png"
-										{...field}
-									/>
-								</FormControl>
-								<FormDescription>网站Logo图片链接</FormDescription>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+				<div className="space-y-6">
+					<div className="flex items-center justify-between">
+						<FormLabel className="text-base font-semibold">图片资源</FormLabel>
+						<Button
+							size="sm"
+							type="button"
+							variant="outline"
+							onClick={() => setShowPreview(!showPreview)}
+						>
+							{showPreview ? (
+								<><EyeOff className="mr-2 h-4 w-4" />隐藏预览</>
+							) : (
+								<><Eye className="mr-2 h-4 w-4" />显示预览</>
+							)}
+						</Button>
+					</div>
 
-					<FormField
-						control={form.control}
-						name="favicon"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Favicon链接</FormLabel>
-								<FormControl>
-									<Input
-										placeholder="https://example.com/favicon.ico"
-										{...field}
-									/>
-								</FormControl>
-								<FormDescription>网站图标链接</FormDescription>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+					<div className="grid gap-6 md:grid-cols-3">
+						<FormField
+							control={form.control}
+							name="logo"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Logo链接</FormLabel>
+									<FormControl>
+										<Input
+											placeholder="https://example.com/logo.png"
+											{...field}
+											onChange={(e) => {
+												field.onChange(e);
+												updateImagePreview('logo', e.target.value);
+											}}
+										/>
+									</FormControl>
+									<FormDescription>网站Logo图片链接</FormDescription>
+									{showPreview && previewImages.logo && (
+										<Card className="mt-2">
+											<CardContent className="p-3">
+												<img
+													alt="Logo预览"
+													className="h-16 max-w-full object-contain"
+													src={previewImages.logo}
+													onError={() => updateImagePreview('logo', '')}
+												/>
+											</CardContent>
+										</Card>
+									)}
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name="screenshot"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>截图链接</FormLabel>
-								<FormControl>
-									<Input
-										placeholder="https://example.com/screenshot.png"
-										{...field}
-									/>
-								</FormControl>
-								<FormDescription>网站截图链接</FormDescription>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name="favicon"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Favicon链接</FormLabel>
+									<FormControl>
+										<Input
+											placeholder="https://example.com/favicon.ico"
+											{...field}
+											onChange={(e) => {
+												field.onChange(e);
+												updateImagePreview('favicon', e.target.value);
+											}}
+										/>
+									</FormControl>
+									<FormDescription>网站图标链接</FormDescription>
+									{showPreview && previewImages.favicon && (
+										<Card className="mt-2">
+											<CardContent className="p-3">
+												<img
+													alt="Favicon预览"
+													className="h-8 w-8 object-contain"
+													src={previewImages.favicon}
+													onError={() => updateImagePreview('favicon', '')}
+												/>
+											</CardContent>
+										</Card>
+									)}
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="screenshot"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>截图链接</FormLabel>
+									<FormControl>
+										<Input
+											placeholder="https://example.com/screenshot.png"
+											{...field}
+											onChange={(e) => {
+												field.onChange(e);
+												updateImagePreview('screenshot', e.target.value);
+											}}
+										/>
+									</FormControl>
+									<FormDescription>网站截图链接</FormDescription>
+									{showPreview && previewImages.screenshot && (
+										<Card className="mt-2">
+											<CardContent className="p-3">
+												<img
+													alt="截图预览"
+													className="h-32 max-w-full object-contain"
+													src={previewImages.screenshot}
+													onError={() => updateImagePreview('screenshot', '')}
+												/>
+											</CardContent>
+										</Card>
+									)}
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</div>
 				</div>
 
 				<div className="grid gap-6 md:grid-cols-2">
@@ -411,6 +589,27 @@ export default function WebsiteForm() {
 										<FormLabel>精选网站</FormLabel>
 										<FormDescription>
 											标记为精选网站，会获得更高的展示优先级
+										</FormDescription>
+									</div>
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="isNSFW"
+							render={({ field }) => (
+								<FormItem className="flex flex-row items-start space-y-0 space-x-3">
+									<FormControl>
+										<Checkbox
+											checked={field.value}
+											onCheckedChange={field.onChange}
+										/>
+									</FormControl>
+									<div className="space-y-1 leading-none">
+										<FormLabel className="text-amber-600">NSFW内容</FormLabel>
+										<FormDescription>
+											标记为NSFW（Not Safe For Work）内容，仅对启用此选项的用户显示
 										</FormDescription>
 									</div>
 								</FormItem>

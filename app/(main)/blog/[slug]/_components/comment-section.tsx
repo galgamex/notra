@@ -39,30 +39,30 @@ function CommentItem({ comment, onReply, level = 0 }: CommentItemProps) {
 				</Avatar>
 
 				<div className="flex-1">
-					<div className="bg-gray-50 p-4">
-						<div className="mb-2 flex items-center justify-between">
-							<span className="text-sm font-medium text-gray-900">
+					<div className="bg-gray-50 p-4 dark:bg-gray-800">
+				<div className="mb-2 flex items-center justify-between">
+					<span className="text-sm font-medium text-gray-900 dark:text-gray-100">
 								{comment.author.name || comment.author.username}
 							</span>
-							<span className="text-xs text-gray-500">
-								{formatDistanceToNow(new Date(comment.createdAt), {
-									addSuffix: true,
-									locale: zhCN
-								})}
-							</span>
-						</div>
-						<p className="text-sm leading-relaxed text-gray-700">
+							<span className="text-xs text-gray-500 dark:text-gray-400">
+						{formatDistanceToNow(new Date(comment.createdAt), {
+							addSuffix: true,
+							locale: zhCN
+						})}
+					</span>
+				</div>
+				<p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
 							{comment.content}
 						</p>
 					</div>
 
 					{canReply && (
 						<Button
-							className="mt-2 text-xs text-gray-500 hover:text-gray-700"
-							size="sm"
-							variant="ghost"
-							onClick={() => onReply(comment.id)}
-						>
+				className="mt-2 text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+				size="sm"
+				variant="ghost"
+				onClick={() => onReply(comment.id)}
+			>
 							<Reply className="mr-1 h-3 w-3" />
 							回复
 						</Button>
@@ -199,8 +199,8 @@ export default function CommentSection({
 				{/* 评论输入框 */}
 				<div className="mb-6">
 					{replyTo && (
-						<div className="mb-2 text-sm text-gray-600">
-							正在回复评论
+				<div className="mb-2 text-sm text-gray-600 dark:text-gray-400">
+					正在回复评论
 							<Button
 								className="ml-2 text-xs"
 								size="sm"
@@ -231,9 +231,9 @@ export default function CommentSection({
 				{/* 评论列表 */}
 				<div>
 					{commentList.length === 0 ? (
-						<div className="py-8 text-center text-gray-500">
-							<MessageCircle className="mx-auto mb-4 h-12 w-12 text-gray-300" />
-							<p>暂无评论，来发表第一条评论吧！</p>
+				<div className="py-8 text-center text-gray-500 dark:text-gray-400">
+					<MessageCircle className="mx-auto mb-4 h-12 w-12 text-gray-300 dark:text-gray-600" />
+					<p>暂无评论，来发表第一条评论吧！</p>
 						</div>
 					) : (
 						<div>

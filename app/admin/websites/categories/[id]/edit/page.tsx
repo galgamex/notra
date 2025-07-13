@@ -11,7 +11,7 @@ import {
 	CardHeader,
 	CardTitle
 } from '@/components/ui/card';
-import { WebsiteService } from '@/services/website';
+import WebsiteService from '@/services/website';
 
 import CategoryForm from '../../_components/category-form';
 
@@ -21,18 +21,19 @@ export const metadata: Metadata = {
 };
 
 interface EditCategoryPageProps {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export default async function EditCategoryPage({
 	params
 }: EditCategoryPageProps) {
-	let category;
+	const { id } = await params;
+	let category = null;
 
 	try {
-		category = await WebsiteService.getCategoryById(params.id);
+		category = await WebsiteService.getCategoryById(id);
 	} catch (error) {
 		console.error('获取分类失败:', error);
 		notFound();
@@ -63,7 +64,7 @@ export default async function EditCategoryPage({
 					<CardDescription>修改分类的基本信息</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<CategoryForm categoryId={params.id} initialData={category} />
+					<CategoryForm categoryId={id} initialData={category} />
 				</CardContent>
 			</Card>
 		</div>

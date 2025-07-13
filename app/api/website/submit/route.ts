@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/app/(auth)/auth';
-import { WebsiteService } from '@/services/website';
+import WebsiteService from '@/services/website';
 import type { WebsiteSubmissionFormValues } from '@/types/website';
 
 export async function POST(request: NextRequest) {

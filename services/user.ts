@@ -23,6 +23,21 @@ export default class UserService {
 		}
 	}
 
+	static async getUserByUsername(username: string) {
+		try {
+			const user = await prisma.user.findUnique({
+				where: { username }
+			});
+
+			return ServiceResult.success(user);
+		} catch (error) {
+			logger('UserService.getUserByUsername', error);
+			const t = getTranslations('services_user');
+
+			return ServiceResult.fail(t('get_user_error'));
+		}
+	}
+
 	static async createUser(username: string, password: string, email?: string) {
 		const salt = genSaltSync(10);
 		const hashedPassword = hashSync(password, salt);
